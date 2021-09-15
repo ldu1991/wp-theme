@@ -1,0 +1,29 @@
+// Vendor
+@import "./../node_modules/swiper/swiper";
+
+// Bootstrap
+@import "bootstrap";
+
+// Variables
+@import "variables";
+@import "extend";
+
+// Utilities
+@import "reboot";
+@import "init";
+@import "spacing";
+//@import "spacing-rtl";
+@import "fonts";
+@import "colors";
+@import "font-options";
+@import "other-options";
+@import "header";
+@import "general";
+@import "footer";
+
+
+// Blocks
+@import "blocks/testimonial";
+
+// Elements
+@import "elements/testim";

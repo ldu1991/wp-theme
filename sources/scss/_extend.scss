@@ -1,0 +1,32 @@
+@import "variables";
+
+%h {
+    clear: both;
+    margin: 0 0 15px;
+    padding: 20px 0 0;
+    line-height: 1.25;
+    font-weight: 700;
+    
+    &:first-child {
+        padding-top: 0;
+    }
+}
+
+%h1 {
+    font-size: rem(48);
+}
+%h2 {
+    font-size: rem(38);
+}
+%h3 {
+    font-size: rem(32);
+}
+%h4 {
+    font-size: rem(28);
+}
+%h5 {
+    font-size: rem(24);
+}
+%h6 {
+    font-size: rem(20);
+}

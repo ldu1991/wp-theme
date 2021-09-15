@@ -1,0 +1,53 @@
+@import "variables";
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		@each $prop, $abbrev in (margin: m, padding: p) {
+			@each $size in $custom-spacers {
+
+				@if ($size >= 0) {
+					.#{$abbrev}#{$infix}-#{$size}  { #{$prop}: 				sizes($size); }
+					.#{$abbrev}t#{$infix}-#{$size},
+					.#{$abbrev}y#{$infix}-#{$size} { #{$prop}-top:    sizes($size); }
+					.#{$abbrev}r#{$infix}-#{$size},
+					.#{$abbrev}x#{$infix}-#{$size} { #{$prop}-left:  	sizes($size); }
+					.#{$abbrev}b#{$infix}-#{$size},
+					.#{$abbrev}y#{$infix}-#{$size} { #{$prop}-bottom: sizes($size); }
+					.#{$abbrev}l#{$infix}-#{$size},
+					.#{$abbrev}x#{$infix}-#{$size} { #{$prop}-right:  sizes($size); }
+				}
+
+			}
+		}
+
+		@each $prop, $abbrev in (margin: m) {
+			@each $size in $custom-spacers {
+
+				@if ($size < 0) {
+					.#{$abbrev}t#{$infix}-n#{$size * -1},
+					.#{$abbrev}y#{$infix}-n#{$size * -1} { #{$prop}-top:    sizes($size); }
+					.#{$abbrev}r#{$infix}-n#{$size * -1},
+					.#{$abbrev}x#{$infix}-n#{$size * -1} { #{$prop}-left:  	sizes($size); }
+					.#{$abbrev}b#{$infix}-n#{$size * -1},
+					.#{$abbrev}y#{$infix}-n#{$size * -1} { #{$prop}-bottom: sizes($size); }
+					.#{$abbrev}l#{$infix}-n#{$size * -1},
+					.#{$abbrev}x#{$infix}-n#{$size * -1} { #{$prop}-right:  sizes($size); }
+				}
+
+			}
+		}
+
+		// Some special margin utils
+		.m#{$infix}-auto  { margin: 			 auto !important; }
+		.mt#{$infix}-auto,
+		.my#{$infix}-auto { margin-top:    auto !important; }
+		.mr#{$infix}-auto,
+		.mx#{$infix}-auto { margin-right:  auto !important; }
+		.mb#{$infix}-auto,
+		.my#{$infix}-auto { margin-bottom: auto !important; }
+		.ml#{$infix}-auto,
+		.mx#{$infix}-auto { margin-left:   auto !important; }
+	}
+}

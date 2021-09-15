@@ -1,0 +1,96 @@
+@import "variables";
+
+//
+// Font size
+//
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		@for $i from $font-size-from through $font-size-to {
+			.f-size#{$infix}-#{$i} {font-size: rem($i)}
+		}
+
+		@each $fs in $font-size-array {
+			.f-size#{$infix}-#{$fs} {font-size: rem($fs)}
+		}
+
+	}
+}
+
+//
+// Line height
+//
+@if $line-height {
+	@each $breakpoint in map-keys($grid-breakpoints) {
+		@include media-breakpoint-up($breakpoint) {
+			$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+			@for $i from $line-height-from through $line-height-to {
+				.l-height#{$infix}-c#{$i} {line-height: rem($i)}
+			}
+
+			@each $lh in $line-height-array {
+				.l-height#{$infix}-c#{$lh} {line-height: rem($lh)}
+			}
+
+		}
+	}
+}
+
+// Line height multiplier
+@for $i from 1 through 16 {
+	$line: (($i * 0.1) + 0.5) - 0.1;
+	$val: $line * 100;
+
+	.l-height-#{$val} {
+		line-height: $line;
+	}
+}
+
+//
+// Font weight
+//
+@for $i from 1 through 9 {
+	.f-weight-#{$i * 100} {font-weight: $i * 100;}
+}
+
+//
+// Font style
+//
+.f-style {
+	&-italic {
+		font-style: italic;
+	}
+	&-normal {
+		font-style: normal;
+	}
+}
+
+//
+// Decoration
+//
+.t-decoration {
+	&-underline {
+		text-decoration: underline;
+	}
+	&-overline {
+		text-decoration: overline;
+	}
+	&-line-through {
+		text-decoration: line-through;
+	}
+}
+
+//
+// Letter spacing
+//
+@each $ls in $letter-spacing {
+	.letter-spacing-#{$ls} {
+		letter-spacing: ($ls * 0.001) * 1rem;
+	}
+
+	.letter-spacing-n#{$ls} {
+		letter-spacing: ($ls * 0.001) * -1rem;
+	}
+}

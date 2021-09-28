@@ -23,7 +23,7 @@ function set_styles_scripts_block_editor() {
  * @param $post
  * @return array
  */
-function beyond_block_category($categories, $post)
+function beyond_block_category($categories, $post): array
 {
     return array_merge(
         $categories,
@@ -42,7 +42,7 @@ function beyond_block_category($categories, $post)
  *
  * @return array
  */
-function beyond_data_list_files()
+function beyond_data_list_files(): array
 {
     $files = array(
         'testimonial'
@@ -85,7 +85,7 @@ function beyond_register_acf_block_types()
                 'keywords'          => explode(', ', $block_data['keywords']),
                 'render_template'   => $block_data['file_uri'],
                 'supports'      => array(
-                    'align'     => !empty($block_data['align']) ? true : false,
+                    'align'     => !empty($block_data['align']),
                     'mode'      => true,
                     'multiple'  => true,
                     'jsx'       => true

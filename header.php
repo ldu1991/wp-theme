@@ -18,6 +18,10 @@ if (!defined('ABSPATH')) {
 <body <?php body_class(); ?>>
 
 
+<?php
+$field = get_field('fr', 'option');
+beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'fr', 'option')
+?>
 <header>
 
   <div class="logo">
@@ -31,3 +35,5 @@ if (!defined('ABSPATH')) {
   <?php get_search_form(); ?>
 
 </header>
+
+<div class="rtttttttttt">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, ad aliquid architecto cumque enim et ex, in labore laborum minus molestiae nihil nisi odit officiis quod repellendus sed sequi ut!</div>

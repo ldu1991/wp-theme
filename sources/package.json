@@ -42,7 +42,7 @@
   "dependencies": {
     "@fancyapps/fancybox": "latest",
     "animate.css": "latest",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^4.6.1",
     "bootstrap-v4-rtl": "latest",
     "jquery-breakpoints": "latest",
     "lazysizes": "latest",

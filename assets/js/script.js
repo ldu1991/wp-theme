@@ -17,67 +17,45 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var $ = jQuery;
-
+/**
+ * is jQuery
+ * @param obj
+ * @returns {*}
+ */
 function isjQuery(obj) {
   return obj instanceof jQuery ? obj[0] : obj;
 }
 
-var sw = _toConsumableArray(document.querySelectorAll('.by-testimonial')),
-    type_block = 'testimonials-block-acf';
+var vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', "".concat(vh, "px"));
 
-var initializeBlock = function initializeBlock(block) {
+(function ($) {})(jQuery); // ------------ Hero Module ------------ //
+
+
+var initializeBlockHeroModule = function initializeBlockHeroModule(block) {
   block = isjQuery(block);
-  var swc = block.querySelector('.swiper'),
-      swiperTestim;
-  swiperTestim = new _swiperBundle.default(swc, {
-    slidesPerView: 4,
-    spaceBetween: 10,
-    speed: 900,
-    loop: true,
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      type: 'fraction',
-      el: '.swiper-pagination',
-      clickable: true,
-      renderBullet: function renderBullet(index, className) {
-        return '<span class="' + className + '">' + (index + 1) + '</span>';
-      }
-    }
-  });
 };
 
-if (typeof window.acf === 'undefined') {
-  sw.forEach(function (el) {
-    initializeBlock(el);
-  });
+if (window.acf) {
+  window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule);
 } else {
-  window.acf.addAction('render_block_preview/type=' + type_block, initializeBlock);
-} // Default scripts
+  _toConsumableArray(document.querySelectorAll('.lp-hero-module')).forEach(initializeBlockHeroModule);
+} // ---------- End Hero Module ---------- //
+// ------------ Deleting placeholder focus ------------ //
 
 
-function defaultInit() {
-  /* ------------ Deleting placeholder focus ------------ */
-  var input_placeholder = _toConsumableArray(document.querySelectorAll('input, textarea'));
+_toConsumableArray(document.querySelectorAll('input, textarea')).forEach(function (el) {
+  if (el.getAttribute('placeholder') !== null) {
+    el.addEventListener('focus', function (elem) {
+      elem.target.setAttribute('data-placeholder', elem.target.getAttribute('placeholder'));
+      elem.target.setAttribute('placeholder', '');
+    });
+    el.addEventListener('blur', function (elem) {
+      elem.target.setAttribute('placeholder', elem.target.getAttribute('data-placeholder'));
+    });
+  }
+}); // ---------- End Deleting placeholder focus ---------- //
 
-  input_placeholder.forEach(function (el) {
-    if (el.getAttribute('placeholder') !== null) {
-      el.addEventListener('focus', function (elem) {
-        elem.target.setAttribute('data-placeholder', elem.target.getAttribute('placeholder'));
-        elem.target.setAttribute('placeholder', '');
-      });
-      el.addEventListener('blur', function (elem) {
-        elem.target.setAttribute('placeholder', elem.target.getAttribute('data-placeholder'));
-      });
-    }
-  });
-  /* ---------- End Deleting placeholder focus ---------- */
-}
-
-defaultInit();
 /*
 let updateCategory = wp.blocks.updateCategory,
     _wp$components = wp.components,

@@ -1,73 +1,52 @@
 import Swiper from 'swiper/swiper-bundle';
 
-const $ = jQuery
-
+/**
+ * is jQuery
+ * @param obj
+ * @returns {*}
+ */
 function isjQuery(obj) {
     return (obj instanceof jQuery) ? obj[0] : obj
 }
 
-let sw = [...document.querySelectorAll('.by-testimonial')],
-    type_block = 'testimonials-block-acf'
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-let initializeBlock = (block) => {
+(function ($) {
+
+})(jQuery)
+
+
+
+// ------------ Hero Module ------------ //
+let initializeBlockHeroModule = (block) => {
     block = isjQuery(block)
 
-    let swc = block.querySelector('.swiper'),
-        swiperTestim
-
-    swiperTestim = new Swiper(swc, {
-        slidesPerView: 4,
-        spaceBetween: 10,
-        speed: 900,
-        loop: true,
-        autoplay: {
-            delay: 2000,
-            disableOnInteraction: false
-        },
-        pagination: {
-            type: 'fraction',
-            el: '.swiper-pagination',
-            clickable: true,
-            renderBullet: function (index, className) {
-                return '<span class="' + className + '">' + (index + 1) + '</span>';
-            }
-        }
-    })
 }
 
-if (typeof window.acf === 'undefined') {
-    sw.forEach(el => {
-        initializeBlock(el)
-    })
+if (window.acf) {
+    window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule)
 } else {
-    window.acf.addAction('render_block_preview/type=' + type_block, initializeBlock)
+    [...document.querySelectorAll('.lp-hero-module')].forEach(initializeBlockHeroModule)
 }
+// ---------- End Hero Module ---------- //
 
 
 
+// ------------ Deleting placeholder focus ------------ //
+[...document.querySelectorAll('input, textarea')].forEach(el => {
+    if (el.getAttribute('placeholder') !== null) {
+        el.addEventListener('focus', (elem) => {
+            elem.target.setAttribute('data-placeholder', elem.target.getAttribute('placeholder'))
+            elem.target.setAttribute('placeholder', '')
+        })
 
-// Default scripts
-function defaultInit() {
-    /* ------------ Deleting placeholder focus ------------ */
-    let input_placeholder = [...document.querySelectorAll('input, textarea')]
-    input_placeholder.forEach(el => {
-        if(el.getAttribute('placeholder') !== null) {
-            el.addEventListener('focus', (elem) => {
-                elem.target.setAttribute('data-placeholder', elem.target.getAttribute('placeholder'))
-                elem.target.setAttribute('placeholder', '')
-            })
-
-            el.addEventListener('blur', (elem) => {
-                elem.target.setAttribute('placeholder', elem.target.getAttribute('data-placeholder'))
-            })
-        }
-    })
-    /* ---------- End Deleting placeholder focus ---------- */
-
-
-
-}
-defaultInit()
+        el.addEventListener('blur', (elem) => {
+            elem.target.setAttribute('placeholder', elem.target.getAttribute('data-placeholder'))
+        })
+    }
+})
+// ---------- End Deleting placeholder focus ---------- //
 
 /*
 let updateCategory = wp.blocks.updateCategory,

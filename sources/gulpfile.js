@@ -42,7 +42,6 @@ gulp.task('scss', require('./gulpfile_css')(gulp, plugins, false, sass));
 gulp.task('scss:release', require('./gulpfile_css')(gulp, plugins, true, sass));
 gulp.task('js', require('./gulpfile_js')(gulp, plugins, false));
 gulp.task('js:release', require('./gulpfile_js')(gulp, plugins, true));
-//gulp.task('vendor', require('./gulpfile_vendor')(gulp, plugins));
 
 gulp.task('browser-sync', function () {
     browserSync.init({

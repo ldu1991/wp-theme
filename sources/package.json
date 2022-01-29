@@ -40,6 +40,10 @@
     "vinyl-source-stream": "latest"
   },
   "dependencies": {
+    "@barba/core": "latest",
+    "@barba/css": "latest",
+    "@barba/prefetch": "latest",
+    "@barba/router": "latest",
     "@fancyapps/fancybox": "latest",
     "animate.css": "latest",
     "bootstrap": "^4.6.1",
@@ -48,7 +52,10 @@
     "lazysizes": "latest",
     "remodal": "latest",
     "selectboxit": "latest",
+    "sharer.js": "latest",
+    "smooth-scrollbar": "latest",
     "swiper": "latest",
-    "wow.js": "latest"
+    "wow.js": "latest",
+    "gsap": "latest"
   }
 }

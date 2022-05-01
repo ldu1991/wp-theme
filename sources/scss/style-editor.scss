@@ -107,8 +107,32 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 0;
 }
 
+h1.block-editor-block-list__block {
+    padding: 20px 30px 0 !important;
+}
+
+.edit-post-visual-editor__post-title-wrapper {
+    margin-top: 0;
+}
+
 .components-panel__header.edit-post-sidebar__panel-tabs ul {
     margin-bottom: 0;
+}
+
+.acf-link .button {
+    font-weight: normal !important;
+}
+
+.acf-icon {
+    font-weight: normal !important;
+    text-decoration: none !important;
+}
+
+.acf-block-fields {
+    a {
+        font-weight: normal;
+        text-decoration: none;
+    }
 }
 
 @import "style";

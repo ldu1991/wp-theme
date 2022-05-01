@@ -5,7 +5,6 @@
  * Slug:
  * Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, velit.
  * Keywords: testimonials, fancybox, remodal, swiper
- * Dependency: swiper
  * Align: true
  *
  * @param   array $block The block settings and attributes.
@@ -32,6 +31,9 @@ if (!empty($block['className'])) {
 if (!empty($block['align'])) {
     $className[] = 'align-' . $block['align'];
 }
+if (!empty($is_preview)) {
+    $className[] = $block_name . '_preview';
+}
 
 $clor = get_field('clor');
 ?>
@@ -40,28 +42,7 @@ $clor = get_field('clor');
      class="<?php echo esc_attr(implode(' ', $className)) ?>"
      style="background-color: <?php echo $clor ?>">
 
-    <!-- Swiper -->
-    <div class="container">
-        <div class="swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">Slide 1</div>
-                <div class="swiper-slide">Slide 2</div>
-                <div class="swiper-slide">Slide 3</div>
-                <div class="swiper-slide">Slide 4</div>
-                <div class="swiper-slide">Slide 5</div>
-                <div class="swiper-slide">Slide 6</div>
-                <div class="swiper-slide">Slide 7</div>
-                <div class="swiper-slide">Slide 8</div>
-                <div class="swiper-slide">Slide 9</div>
-                <div class="swiper-slide">Slide 10</div>
-            </div>
-            <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
-        </div>
-    </div>
 
-    <input type="text" placeholder="text test">
-    <textarea name="" id="" cols="30" rows="10"></textarea>
 </div>
 
 <?php get_template_part('template-parts/elements/testim'); ?>

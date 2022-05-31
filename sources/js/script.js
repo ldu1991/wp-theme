@@ -6,15 +6,6 @@ import {isEven, isjQuery, Coordinates} from "./app/functions";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Gutenberg
- * is jQuery
- * @param obj
- * @returns {*}
- */
-function isjQuery(obj) {
-    return (obj instanceof jQuery) ? obj[0] : obj
-}
 
 (function ($) {
 

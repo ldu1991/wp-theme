@@ -26,7 +26,7 @@ function set_styles_scripts()
     wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array());
 
     /* *** SCRIPTS *** */
-    wp_enqueue_script(B_PREFIX . '-script', B_TEMP_URL . '/assets/js/script.js', array('jquery'), B_VERSION, true);
+    wp_enqueue_script(B_PREFIX . '-script', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get('Version'), true);
 }
 
 
@@ -69,7 +69,7 @@ function add_theme_supports()
     );
     add_editor_style($editor_styles);
 
-    add_theme_support( 'wp-block-styles' );
+    add_theme_support('wp-block-styles');
 }
 
 

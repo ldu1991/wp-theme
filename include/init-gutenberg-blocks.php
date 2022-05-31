@@ -14,7 +14,7 @@ add_action('acf/init', 'beyond_register_acf_block_types');
 add_filter('block_categories', 'beyond_block_category', 10, 2);
 
 function set_styles_scripts_block_editor() {
-    wp_enqueue_script(B_PREFIX . '-script-block-editor', B_TEMP_URL . '/assets/js/script.js', array('jquery'), B_VERSION, true);
+    wp_enqueue_script(B_PREFIX . '-script-block-editor', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get( 'Version' ), true);
 }
 
 

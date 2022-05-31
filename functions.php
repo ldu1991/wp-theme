@@ -6,15 +6,6 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * The theme version.
- *
- * @static
- * @access public
- * @var string
- */
-$version = '1.0.0';
-
-/**
  * Project prefix
  */
 $prefix = 'beyond';
@@ -23,7 +14,6 @@ $prefix = 'beyond';
  * Define constants.
  */
 if (!defined('B_PREFIX')) define('B_PREFIX', $prefix);
-if (!defined('B_VERSION')) define('B_VERSION', $version);
 if (!defined('B_TEMP_PATH')) define('B_TEMP_PATH', get_template_directory());
 if (!defined('B_TEMP_URL')) define('B_TEMP_URL', get_template_directory_uri());
 if (!defined('B_STYLE_PATH')) define('B_STYLE_PATH', get_stylesheet_directory());

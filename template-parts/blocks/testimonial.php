@@ -32,7 +32,7 @@ if (!empty($block['align'])) {
     $className[] = 'align-' . $block['align'];
 }
 if (!empty($is_preview)) {
-    $className[] = $block_name . '_preview';
+    $className[] = $block_name . '_is-preview';
 }
 
 $clor = get_field('clor');

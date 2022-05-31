@@ -5,11 +5,11 @@ const browserSync   = require('browser-sync').create(),
     plugins         = require('gulp-load-plugins')(),
     sass            = require('gulp-sass')(require('sass'))
 
-plugins.merge = require('merge-stream')
-plugins.browserify = require('browserify')
-plugins.babelify = require('babelify')
-plugins.buffer = require('vinyl-buffer')
-plugins.source = require("vinyl-source-stream")
+plugins.merge       = require('merge-stream')
+plugins.browserify  = require('browserify')
+plugins.babelify    = require('babelify')
+plugins.buffer      = require('vinyl-buffer')
+plugins.source      = require("vinyl-source-stream")
 
 gulp.task('pl', function () {
     console.log(plugins);

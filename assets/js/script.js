@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Coordinates = exports.isEven = exports.isjQuery = void 0;
+exports.isjQuery = exports.isEven = exports.Coordinates = void 0;
 
 /**
  * is jQuery

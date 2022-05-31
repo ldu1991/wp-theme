@@ -16,7 +16,7 @@ module.exports = function (gulp, plugins, mobileSettings) {
     return function () {
         return plugins.browserify({ entries: src.main})
             .transform(plugins.babelify.configure({
-                presets : ["@babel/preset-env"]
+                presets : ["@babel/preset-env", "@babel/preset-react"]
             }))
             .bundle()
             .pipe(plugins.source('script.js'))

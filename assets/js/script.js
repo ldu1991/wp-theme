@@ -4,23 +4,103 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Coordinates = exports.isEven = exports.isjQuery = void 0;
+
+/**
+ * is jQuery
+ * @param obj
+ * @returns {*}
+ */
+var isjQuery = function isjQuery(obj) {
+  return obj instanceof jQuery ? obj[0] : obj;
+};
+/**
+ * is Even
+ * @param num
+ * @returns {boolean}
+ */
+
+
+exports.isjQuery = isjQuery;
+
+var isEven = function isEven(num) {
+  return num % 2 === 0;
+};
+/**
+ * Coordinates element
+ * @param element
+ * @returns {{}}
+ * @constructor
+ */
+
+
+exports.isEven = isEven;
+
+var Coordinates = function Coordinates(element) {
+  if (typeof element === 'undefined' || element === null) {
+    return;
+  }
+
+  function isVisible(element) {
+    var style = window.getComputedStyle(element);
+    return style.display !== 'none';
+  }
+
+  function getCoordinates(element, visible) {
+    var rect = {},
+        box,
+        v;
+    box = element.getBoundingClientRect();
+    v = visible || false;
+
+    if (v) {
+      if (element.hasAttribute('data-style-attribute-coordinates')) {
+        element.style.cssText = element.dataset.styleAttributeCoordinates;
+        element.removeAttribute('data-style-attribute-coordinates');
+      } else {
+        element.removeAttribute('style');
+      }
+    }
+
+    rect.element = element;
+    rect.top = box.top;
+    rect.right = document.documentElement.clientWidth - box.right;
+    rect.bottom = document.documentElement.clientHeight - box.bottom;
+    rect.left = box.left;
+    rect.width = box.width;
+    rect.height = box.height;
+    return rect;
+  }
+
+  if (!isVisible(element)) {
+    if (element.hasAttribute('style')) {
+      element.dataset.styleAttributeCoordinates = element.getAttribute('style');
+      element.style.cssText = 'display: block; opacity: 0;' + element.getAttribute('style');
+      return getCoordinates(element, true);
+    } else {
+      element.style.cssText = 'display: block; opacity: 0;';
+      return getCoordinates(element, true);
+    }
+  } else {
+    return getCoordinates(element);
+  }
+};
+
+exports.Coordinates = Coordinates;
+
+},{}],2:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = void 0;
 
 var _gsap = require("gsap/dist/gsap");
 
 var _ScrollTrigger = require("gsap/dist/ScrollTrigger");
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+var _functions = require("./functions");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29,16 +109,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
-/**
- *
- * @param obj
- * @returns {*}
- */
-
-
-var isjQuery = function isjQuery(obj) {
-  return obj instanceof jQuery ? obj[0] : obj;
-};
 
 var Gutenberg = /*#__PURE__*/function () {
   function Gutenberg() {
@@ -47,14 +117,14 @@ var Gutenberg = /*#__PURE__*/function () {
     if (window.acf) {
       window.acf.addAction('render_block_preview/type=testimonials-block-acf', this.initializeBlockHeroModule);
     } else {
-      _toConsumableArray(document.querySelectorAll('.by-testimonial')).forEach(this.initializeBlockHeroModule);
+      document.querySelectorAll('.by-testimonial').forEach(this.initializeBlockHeroModule);
     }
   }
 
   _createClass(Gutenberg, [{
     key: "initializeBlockHeroModule",
     value: function initializeBlockHeroModule(block) {
-      block = isjQuery(block);
+      block = (0, _functions.isjQuery)(block);
       console.log(block);
     }
   }]);
@@ -62,11 +132,11 @@ var Gutenberg = /*#__PURE__*/function () {
   return Gutenberg;
 }();
 
-var _default = Gutenberg = new Gutenberg();
+var _default = new Gutenberg();
 
 exports.default = _default;
 
-},{"gsap/dist/ScrollTrigger":3,"gsap/dist/gsap":4}],2:[function(require,module,exports){
+},{"./functions":1,"gsap/dist/ScrollTrigger":4,"gsap/dist/gsap":5}],3:[function(require,module,exports){
 "use strict";
 
 require("./app/gutenberg");
@@ -76,6 +146,8 @@ var _swiperBundle = _interopRequireDefault(require("swiper/swiper-bundle"));
 var _gsap = require("gsap/dist/gsap");
 
 var _ScrollTrigger = require("gsap/dist/ScrollTrigger");
+
+var _functions = require("./app/functions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -93,10 +165,40 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
-var vh = window.innerHeight * 0.01;
-document.documentElement.style.setProperty('--vh', "".concat(vh, "px"));
+(function ($) {
+  /**
+   * jQuery
+   * Gutenberg block
+   * Hero Module
+   * @param $block
+   */
+  var initializeBlockHeroModule = function initializeBlockHeroModule($block) {};
 
-(function ($) {})(jQuery); // ------------ Deleting placeholder focus ------------ //
+  if (window.acf) {
+    window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule);
+  } else {
+    $('.hero-module').each(function () {
+      initializeBlockHeroModule($(this));
+    });
+  }
+})(jQuery);
+/**
+ * JavaScript ES6
+ * Gutenberg block
+ * Hero Module
+ * @param block
+ */
+
+
+var initializeBlockHeroModule = function initializeBlockHeroModule(block) {
+  block = (0, _functions.isjQuery)(block);
+};
+
+if (window.acf) {
+  window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule);
+} else {
+  _toConsumableArray(document.querySelectorAll('.hero-module')).forEach(initializeBlockHeroModule);
+} // ------------ Deleting placeholder focus ------------ //
 
 
 _toConsumableArray(document.querySelectorAll('input, textarea')).forEach(function (el) {
@@ -137,7 +239,7 @@ if (updateCategory) {
 }
 */
 
-},{"./app/gutenberg":1,"gsap/dist/ScrollTrigger":3,"gsap/dist/gsap":4,"swiper/swiper-bundle":5}],3:[function(require,module,exports){
+},{"./app/functions":1,"./app/gutenberg":2,"gsap/dist/ScrollTrigger":4,"gsap/dist/gsap":5,"swiper/swiper-bundle":6}],4:[function(require,module,exports){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -1999,7 +2101,7 @@ if (updateCategory) {
 
 })));
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -7009,7 +7111,7 @@ if (updateCategory) {
 
 })));
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * Swiper 7.0.5
  * Most modern mobile touch slider and framework with hardware accelerated transitions
@@ -17045,4 +17147,4 @@ if (updateCategory) {
 })));
 
 
-},{}]},{},[2]);
+},{}]},{},[3]);

@@ -48,6 +48,7 @@
     "animate.css": "latest",
     "bootstrap": "^4.6.1",
     "bootstrap-v4-rtl": "latest",
+    "gsap": "latest",
     "jquery-breakpoints": "latest",
     "lazysizes": "latest",
     "remodal": "latest",
@@ -55,7 +56,6 @@
     "sharer.js": "latest",
     "smooth-scrollbar": "latest",
     "swiper": "latest",
-    "wow.js": "latest",
-    "gsap": "latest"
+    "wow.js": "latest"
   }
 }

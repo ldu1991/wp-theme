@@ -110,15 +110,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
+var renderBlockACF = function renderBlockACF(selectors, type, initFn) {
+  if (window.acf) {
+    window.acf.addAction('render_block_preview/type=' + type, initFn);
+  } else {
+    document.querySelectorAll(selectors).forEach(initFn);
+  }
+};
+
 var Gutenberg = /*#__PURE__*/function () {
   function Gutenberg() {
     _classCallCheck(this, Gutenberg);
 
-    if (window.acf) {
-      window.acf.addAction('render_block_preview/type=testimonials-block-acf', this.initializeBlockHeroModule);
-    } else {
-      document.querySelectorAll('.by-testimonial').forEach(this.initializeBlockHeroModule);
-    }
+    renderBlockACF('.by-testimonial', 'testimonials-block-acf', this.initializeBlockHeroModule);
   }
 
   _createClass(Gutenberg, [{
@@ -165,40 +169,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
-(function ($) {
-  /**
-   * jQuery
-   * Gutenberg block
-   * Hero Module
-   * @param $block
-   */
-  var initializeBlockHeroModule = function initializeBlockHeroModule($block) {};
-
-  if (window.acf) {
-    window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule);
-  } else {
-    $('.hero-module').each(function () {
-      initializeBlockHeroModule($(this));
-    });
-  }
-})(jQuery);
-/**
- * JavaScript ES6
- * Gutenberg block
- * Hero Module
- * @param block
- */
-
-
-var initializeBlockHeroModule = function initializeBlockHeroModule(block) {
-  block = (0, _functions.isjQuery)(block);
-};
-
-if (window.acf) {
-  window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule);
-} else {
-  _toConsumableArray(document.querySelectorAll('.hero-module')).forEach(initializeBlockHeroModule);
-} // ------------ Deleting placeholder focus ------------ //
+(function ($) {})(jQuery); // ------------ Deleting placeholder focus ------------ //
 
 
 _toConsumableArray(document.querySelectorAll('input, textarea')).forEach(function (el) {

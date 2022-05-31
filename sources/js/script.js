@@ -9,43 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 (function ($) {
 
-    /**
-     * jQuery
-     * Gutenberg block
-     * Hero Module
-     * @param $block
-     */
-    let initializeBlockHeroModule = ($block) => {
-
-    }
-
-    if (window.acf) {
-        window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule)
-    } else {
-        $('.hero-module').each(function () {
-            initializeBlockHeroModule($(this))
-        })
-    }
-
 })(jQuery);
-
-
-/**
- * JavaScript ES6
- * Gutenberg block
- * Hero Module
- * @param block
- */
-let initializeBlockHeroModule = (block) => {
-    block = isjQuery(block)
-
-}
-
-if (window.acf) {
-    window.acf.addAction('render_block_preview/type=hero-module', initializeBlockHeroModule)
-} else {
-    [...document.querySelectorAll('.hero-module')].forEach(initializeBlockHeroModule)
-}
 
 
 // ------------ Deleting placeholder focus ------------ //

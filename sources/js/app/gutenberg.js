@@ -4,14 +4,17 @@ import {isjQuery} from "./functions";
 
 gsap.registerPlugin(ScrollTrigger);
 
+let renderBlockACF = (selectors, type, initFn) => {
+    if (window.acf) {
+        window.acf.addAction('render_block_preview/type=' + type, initFn)
+    } else {
+        document.querySelectorAll(selectors).forEach(initFn)
+    }
+}
 
 class Gutenberg {
     constructor() {
-        if (window.acf) {
-            window.acf.addAction('render_block_preview/type=testimonials-block-acf', this.initializeBlockHeroModule)
-        } else {
-            document.querySelectorAll('.by-testimonial').forEach(this.initializeBlockHeroModule)
-        }
+        renderBlockACF('.by-testimonial', 'testimonials-block-acf', this.initializeBlockHeroModule)
     }
 
     initializeBlockHeroModule(block) {

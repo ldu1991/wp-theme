@@ -16,6 +16,9 @@ add_action('acf/init', 'theme_acf_init');
 //add_filter('use_block_editor_for_post', '__return_false', 5);
 add_filter('big_image_size_threshold', '__return_false');
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
+//add_filter('wpcf7_autop_or_not', '__return_false');
+//add_filter('wpcf7_load_css', '__return_false');
+
 
 /**
  * Connection styles/scripts
@@ -61,22 +64,18 @@ function add_theme_supports()
         'header_menu' => __('Menu', 'ld'),
     ));
 
+    // Add image sizes.
+    add_image_size('thumbnail-once', 200, 200, true);
+
     // Editor styles.
     add_theme_support('editor-styles');
 
-    $editor_styles = array(
+    add_editor_style(array(
         'assets/css/style-editor.css'
-    );
-    add_editor_style($editor_styles);
+    ));
 
     add_theme_support('wp-block-styles');
 }
-
-
-/**
- * Add image sizes.
- */
-//add_image_size('thumbnail-once', 200, 200, true);
 
 
 /**

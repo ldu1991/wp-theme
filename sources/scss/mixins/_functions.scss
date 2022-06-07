@@ -55,12 +55,8 @@ $browser-context: 16;
 	@return $string;
 }
 
-@function get-vw($target) {
-	@if (unitless($target)) {
-		$target: $target * 1px;
-	}
-	$vw-context: (1920 * 0.01) * 1px;
-	@return math.div($target, $vw-context) * 1vw;
+@function vw($target, $screenWidth: 1920) {
+	@return math.div($target * 100, $screenWidth) * 1vw;
 }
 
 @function proportions($one-value, $two-value, $new-value) {

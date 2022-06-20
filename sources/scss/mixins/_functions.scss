@@ -59,11 +59,6 @@ $browser-context: 16;
 	@return math.div($target * 100, $screenWidth) * 1vw;
 }
 
-@function proportions($one-value, $two-value, $new-value) {
-	$percent-original-one-value: math.div($one-value, 100);
-	$percent-original-proportions: math.div($two-value, $percent-original-one-value);
-	$percent-new-value: math.div($new-value, 100);
-	$new: round($percent-original-proportions * $percent-new-value);
-	
-	@return $new;
+@function aspect-ratio($one-value, $two-value, $new-value) {
+	@return round(math.div($two-value, math.div($one-value, 100)) * math.div($new-value, 100));
 }

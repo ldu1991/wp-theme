@@ -68,3 +68,56 @@ export const Coordinates = element => {
         return getCoordinates(element);
     }
 }
+
+/**
+ * Video Adaptive Resize
+ * @param elements
+ */
+export const videoResize = elements => {
+    document.querySelectorAll(elements).forEach(el => {
+        el.setAttribute('style', 'position: absolute;top: 0;left: 0;width: 100%;height: 100%;overflow: hidden;')
+
+        let fnResize = () => {
+            let video = el.querySelector('video')
+
+            // Get a native video size
+            let videoHeight = video.videoHeight;
+            let videoWidth = video.videoWidth;
+
+            // Get a wrapper size
+            let wrapperHeight = el.offsetHeight;
+            let wrapperWidth = el.offsetWidth;
+
+            if (wrapperWidth / videoWidth > wrapperHeight / videoHeight) {
+                video.setAttribute('style', 'width:' + (wrapperWidth + 3) + 'px;height:auto;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);')
+            } else {
+                video.setAttribute('style', 'width:auto;height:' + (wrapperHeight + 3) + 'px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);')
+            }
+        }
+
+        fnResize();
+        window.addEventListener('resize', fnResize);
+    })
+}
+
+/**
+ * Media Query
+ * @param mediaQueryString
+ * @param callback
+ * @returns {boolean}
+ */
+export const mediaQuery = (mediaQueryString, callback) => {
+    if(callback !== undefined) {
+        let handleMatchMedia = mq => {
+            callback(mq)
+        }
+
+        let mq = window.matchMedia(mediaQueryString)
+
+        handleMatchMedia(mq);
+
+        mq.addEventListener('change', handleMatchMedia);
+    } else {
+        return window.matchMedia(mediaQueryString).matches
+    }
+}

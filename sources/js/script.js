@@ -2,7 +2,7 @@ import './app/gutenberg';
 import Swiper from 'swiper/swiper-bundle';
 import {gsap} from "./app/gsap/gsap";
 import {ScrollTrigger} from "./app/gsap/ScrollTrigger";
-import {isEven, isjQuery, Coordinates} from "./app/functions";
+import {isEven, isjQuery, Coordinates, videoResize, mediaQuery} from "./app/functions";
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isjQuery = exports.isEven = exports.Coordinates = void 0;
+exports.videoResize = exports.mediaQuery = exports.isjQuery = exports.isEven = exports.Coordinates = void 0;
 
 /**
  * is jQuery
@@ -85,8 +85,63 @@ var Coordinates = function Coordinates(element) {
     return getCoordinates(element);
   }
 };
+/**
+ * Video Adaptive Resize
+ * @param elements
+ */
+
 
 exports.Coordinates = Coordinates;
+
+var videoResize = function videoResize(elements) {
+  document.querySelectorAll(elements).forEach(function (el) {
+    el.setAttribute('style', 'position: absolute;top: 0;left: 0;width: 100%;height: 100%;overflow: hidden;');
+
+    var fnResize = function fnResize() {
+      var video = el.querySelector('video'); // Get a native video size
+
+      var videoHeight = video.videoHeight;
+      var videoWidth = video.videoWidth; // Get a wrapper size
+
+      var wrapperHeight = el.offsetHeight;
+      var wrapperWidth = el.offsetWidth;
+
+      if (wrapperWidth / videoWidth > wrapperHeight / videoHeight) {
+        video.setAttribute('style', 'width:' + (wrapperWidth + 3) + 'px;height:auto;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);');
+      } else {
+        video.setAttribute('style', 'width:auto;height:' + (wrapperHeight + 3) + 'px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);');
+      }
+    };
+
+    fnResize();
+    window.addEventListener('resize', fnResize);
+  });
+};
+/**
+ * Media Query
+ * @param mediaQueryString
+ * @param callback
+ * @returns {boolean}
+ */
+
+
+exports.videoResize = videoResize;
+
+var mediaQuery = function mediaQuery(mediaQueryString, callback) {
+  if (callback !== undefined) {
+    var handleMatchMedia = function handleMatchMedia(mq) {
+      callback(mq);
+    };
+
+    var mq = window.matchMedia(mediaQueryString);
+    handleMatchMedia(mq);
+    mq.addEventListener('change', handleMatchMedia);
+  } else {
+    return window.matchMedia(mediaQueryString).matches;
+  }
+};
+
+exports.mediaQuery = mediaQuery;
 
 },{}],2:[function(require,module,exports){
 "use strict";

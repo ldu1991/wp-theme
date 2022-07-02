@@ -42,13 +42,13 @@ export const Coordinates = element => {
             }
         }
 
-        rect.element    = element;
-        rect.top        = box.top;
-        rect.right      = document.documentElement.clientWidth - box.right;
-        rect.bottom     = document.documentElement.clientHeight - box.bottom;
-        rect.left       = box.left;
-        rect.width      = box.width;
-        rect.height     = box.height;
+        rect.element = element;
+        rect.top = box.top;
+        rect.right = document.documentElement.clientWidth - box.right;
+        rect.bottom = document.documentElement.clientHeight - box.bottom;
+        rect.left = box.left;
+        rect.width = box.width;
+        rect.height = box.height;
 
         return rect;
     }
@@ -101,23 +101,62 @@ export const videoResize = elements => {
 }
 
 /**
- * Media Query
- * @param mediaQueryString
+ * Breakpoints
+ * @param mediaQuery
  * @param callback
+ * @param options
  * @returns {boolean}
+ * @constructor
  */
-export const mediaQuery = (mediaQueryString, callback) => {
-    if(callback !== undefined) {
-        let handleMatchMedia = mq => {
-            callback(mq)
+export const Breakpoints = (mediaQuery, callback, options) => {
+    let defaults = {
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200,
+        xxl: 1400
+    }
+
+    let defaultsOptions = Object.assign({}, defaults, options);
+
+    let option = {}
+    for (let property in defaultsOptions) {
+        option[property + ':min'] = defaultsOptions[property]
+        option[property + ':max'] = defaultsOptions[property] - 1
+    }
+
+
+    let mediaQueryArr = mediaQuery.split(',')
+    let mediaQueryString = ''
+
+    if(mediaQueryArr.length) {
+        let i = 1;
+        mediaQueryArr.forEach(el => {
+            if(el.trim().indexOf(':min') !== -1) {
+                mediaQueryString += '(min-width: ' + option[el.trim()] + 'px)'
+
+                if(i < mediaQueryArr.length) mediaQueryString += ' and '
+            } else if(el.trim().indexOf(':max') !== -1) {
+                mediaQueryString += '(max-width: ' + option[el.trim()] + 'px)'
+
+                if(i < mediaQueryArr.length) mediaQueryString += ' and '
+            }
+
+            i++;
+        })
+
+        if (callback !== undefined) {
+            let handleMatchMedia = mq => {
+                callback(mq)
+            }
+
+            let mq = window.matchMedia(mediaQueryString)
+
+            handleMatchMedia(mq);
+
+            mq.addEventListener('change', handleMatchMedia);
+        } else {
+            return window.matchMedia(mediaQueryString).matches
         }
-
-        let mq = window.matchMedia(mediaQueryString)
-
-        handleMatchMedia(mq);
-
-        mq.addEventListener('change', handleMatchMedia);
-    } else {
-        return window.matchMedia(mediaQueryString).matches
     }
 }

@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.videoResize = exports.mediaQuery = exports.isjQuery = exports.isEven = exports.Coordinates = void 0;
+exports.videoResize = exports.isjQuery = exports.isEven = exports.Coordinates = exports.Breakpoints = void 0;
 
 /**
  * is jQuery
@@ -118,30 +118,65 @@ var videoResize = function videoResize(elements) {
   });
 };
 /**
- * Media Query
- * @param mediaQueryString
+ * Breakpoints
+ * @param mediaQuery
  * @param callback
+ * @param options
  * @returns {boolean}
+ * @constructor
  */
 
 
 exports.videoResize = videoResize;
 
-var mediaQuery = function mediaQuery(mediaQueryString, callback) {
-  if (callback !== undefined) {
-    var handleMatchMedia = function handleMatchMedia(mq) {
-      callback(mq);
-    };
+var Breakpoints = function Breakpoints(mediaQuery, callback, options) {
+  var defaults = {
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200,
+    xxl: 1400
+  };
+  var defaultsOptions = Object.assign({}, defaults, options);
+  var option = {};
 
-    var mq = window.matchMedia(mediaQueryString);
-    handleMatchMedia(mq);
-    mq.addEventListener('change', handleMatchMedia);
-  } else {
-    return window.matchMedia(mediaQueryString).matches;
+  for (var property in defaultsOptions) {
+    option[property + ':min'] = defaultsOptions[property];
+    option[property + ':max'] = defaultsOptions[property] - 1;
+  }
+
+  var mediaQueryArr = mediaQuery.split(',');
+  var mediaQueryString = '';
+
+  if (mediaQueryArr.length) {
+    var i = 1;
+    mediaQueryArr.forEach(function (el) {
+      if (el.trim().indexOf(':min') !== -1) {
+        mediaQueryString += '(min-width: ' + option[el.trim()] + 'px)';
+        if (i < mediaQueryArr.length) mediaQueryString += ' and ';
+      } else if (el.trim().indexOf(':max') !== -1) {
+        mediaQueryString += '(max-width: ' + option[el.trim()] + 'px)';
+        if (i < mediaQueryArr.length) mediaQueryString += ' and ';
+      }
+
+      i++;
+    });
+
+    if (callback !== undefined) {
+      var handleMatchMedia = function handleMatchMedia(mq) {
+        callback(mq);
+      };
+
+      var mq = window.matchMedia(mediaQueryString);
+      handleMatchMedia(mq);
+      mq.addEventListener('change', handleMatchMedia);
+    } else {
+      return window.matchMedia(mediaQueryString).matches;
+    }
   }
 };
 
-exports.mediaQuery = mediaQuery;
+exports.Breakpoints = Breakpoints;
 
 },{}],2:[function(require,module,exports){
 "use strict";

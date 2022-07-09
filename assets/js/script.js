@@ -88,28 +88,36 @@ var Coordinates = function Coordinates(element) {
 /**
  * Video Adaptive Resize
  * @param elements
+ * @param className
  */
 
 
 exports.Coordinates = Coordinates;
 
-var videoResize = function videoResize(elements) {
+var videoResize = function videoResize(elements, className) {
+  function wrapperVideo(parent, className) {
+    var wrapper = document.createElement('div');
+    if (className !== undefined) wrapper.classList = className;
+    wrapper.setAttribute('style', 'position: absolute;top: 0;left: 0;width: 100%;height: 100%;overflow: hidden;');
+    parent.parentNode.insertBefore(wrapper, parent);
+    wrapper.appendChild(parent);
+  }
+
   document.querySelectorAll(elements).forEach(function (el) {
-    el.setAttribute('style', 'position: absolute;top: 0;left: 0;width: 100%;height: 100%;overflow: hidden;');
+    wrapperVideo(el, className);
 
     var fnResize = function fnResize() {
-      var video = el.querySelector('video'); // Get a native video size
+      // Get a native video size
+      var videoHeight = el.videoHeight;
+      var videoWidth = el.videoWidth; // Get a wrapper size
 
-      var videoHeight = video.videoHeight;
-      var videoWidth = video.videoWidth; // Get a wrapper size
-
-      var wrapperHeight = el.offsetHeight;
-      var wrapperWidth = el.offsetWidth;
+      var wrapperHeight = el.parentNode.offsetHeight;
+      var wrapperWidth = el.parentNode.offsetWidth;
 
       if (wrapperWidth / videoWidth > wrapperHeight / videoHeight) {
-        video.setAttribute('style', 'width:' + (wrapperWidth + 3) + 'px;height:auto;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);');
+        el.setAttribute('style', 'width:' + (wrapperWidth + 3) + 'px;height:auto;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);');
       } else {
-        video.setAttribute('style', 'width:auto;height:' + (wrapperHeight + 3) + 'px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);');
+        el.setAttribute('style', 'width:auto;height:' + (wrapperHeight + 3) + 'px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);');
       }
     };
 
@@ -119,60 +127,69 @@ var videoResize = function videoResize(elements) {
 };
 /**
  * Breakpoints
- * @param mediaQuery
- * @param callback
+ * @param media
  * @param options
- * @returns {boolean}
  * @constructor
  */
 
 
 exports.videoResize = videoResize;
 
-var Breakpoints = function Breakpoints(mediaQuery, callback, options) {
-  var defaults = {
-    sm: 576,
-    md: 768,
-    lg: 992,
-    xl: 1200,
-    xxl: 1400
+var Breakpoints = function Breakpoints(media, options) {
+  var defaultsOptions = {
+    grid: {
+      sm: 576,
+      md: 768,
+      lg: 992,
+      xl: 1200,
+      xxl: 1400
+    },
+    listenerResize: false
   };
-  var defaultsOptions = Object.assign({}, defaults, options);
-  var option = {};
+  var originals = Object.assign({}, defaultsOptions, options);
+  var grid = {};
 
-  for (var property in defaultsOptions) {
-    option[property + ':min'] = defaultsOptions[property];
-    option[property + ':max'] = defaultsOptions[property] - 1;
+  for (var property in originals.grid) {
+    grid[property + ':min'] = originals.grid[property];
+    grid[property + ':max'] = originals.grid[property] - 1;
   }
 
-  var mediaQueryArr = mediaQuery.split(',');
   var mediaQueryString = '';
 
-  if (mediaQueryArr.length) {
-    var i = 1;
-    mediaQueryArr.forEach(function (el) {
-      if (el.trim().indexOf(':min') !== -1) {
-        mediaQueryString += '(min-width: ' + option[el.trim()] + 'px)';
-        if (i < mediaQueryArr.length) mediaQueryString += ' and ';
-      } else if (el.trim().indexOf(':max') !== -1) {
-        mediaQueryString += '(max-width: ' + option[el.trim()] + 'px)';
-        if (i < mediaQueryArr.length) mediaQueryString += ' and ';
-      }
+  if (media.indexOf(':min') === -1 && media.indexOf(':max') === -1) {
+    mediaQueryString = media;
+  } else {
+    var mediaQueryArr = media.split(',');
 
-      i++;
-    });
+    if (mediaQueryArr.length) {
+      var i = 1;
+      mediaQueryArr.forEach(function (el) {
+        if (el.trim().indexOf(':min') !== -1) {
+          mediaQueryString += '(min-width: ' + grid[el.trim()] + 'px)';
+          if (i < mediaQueryArr.length) mediaQueryString += ' and ';
+        } else if (el.trim().indexOf(':max') !== -1) {
+          mediaQueryString += '(max-width: ' + grid[el.trim()] + 'px)';
+          if (i < mediaQueryArr.length) mediaQueryString += ' and ';
+        }
 
-    if (callback !== undefined) {
-      var handleMatchMedia = function handleMatchMedia(mq) {
-        callback(mq);
-      };
-
-      var mq = window.matchMedia(mediaQueryString);
-      handleMatchMedia(mq);
-      mq.addEventListener('change', handleMatchMedia);
-    } else {
-      return window.matchMedia(mediaQueryString).matches;
+        i++;
+      });
     }
+  }
+
+  var handleMatchMedia = function handleMatchMedia(mediaQuery) {
+    originals.on(mediaQuery);
+  };
+
+  var mq = window.matchMedia(mediaQueryString);
+  handleMatchMedia(mq);
+
+  if (originals.listenerResize) {
+    window.addEventListener('resize', function () {
+      handleMatchMedia(mq);
+    });
+  } else {
+    mq.addEventListener('change', handleMatchMedia);
   }
 };
 

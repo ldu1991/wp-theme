@@ -72,26 +72,34 @@ export const Coordinates = element => {
 /**
  * Video Adaptive Resize
  * @param elements
+ * @param className
  */
-export const videoResize = elements => {
+export const videoResize = (elements, className) => {
+    function wrapperVideo(parent, className) {
+        const wrapper = document.createElement('div');
+        if(className !== undefined) wrapper.classList = className;
+        wrapper.setAttribute('style', 'position: absolute;top: 0;left: 0;width: 100%;height: 100%;overflow: hidden;')
+
+        parent.parentNode.insertBefore(wrapper, parent);
+        wrapper.appendChild(parent);
+    }
+
     document.querySelectorAll(elements).forEach(el => {
-        el.setAttribute('style', 'position: absolute;top: 0;left: 0;width: 100%;height: 100%;overflow: hidden;')
+        wrapperVideo(el, className)
 
         let fnResize = () => {
-            let video = el.querySelector('video')
-
             // Get a native video size
-            let videoHeight = video.videoHeight;
-            let videoWidth = video.videoWidth;
+            let videoHeight = el.videoHeight;
+            let videoWidth = el.videoWidth;
 
             // Get a wrapper size
-            let wrapperHeight = el.offsetHeight;
-            let wrapperWidth = el.offsetWidth;
+            let wrapperHeight = el.parentNode.offsetHeight;
+            let wrapperWidth = el.parentNode.offsetWidth;
 
             if (wrapperWidth / videoWidth > wrapperHeight / videoHeight) {
-                video.setAttribute('style', 'width:' + (wrapperWidth + 3) + 'px;height:auto;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);')
+                el.setAttribute('style', 'width:' + (wrapperWidth + 3) + 'px;height:auto;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);')
             } else {
-                video.setAttribute('style', 'width:auto;height:' + (wrapperHeight + 3) + 'px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);')
+                el.setAttribute('style', 'width:auto;height:' + (wrapperHeight + 3) + 'px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);')
             }
         }
 
@@ -102,61 +110,67 @@ export const videoResize = elements => {
 
 /**
  * Breakpoints
- * @param mediaQuery
- * @param callback
+ * @param media
  * @param options
- * @returns {boolean}
  * @constructor
  */
-export const Breakpoints = (mediaQuery, callback, options) => {
-    let defaults = {
-        sm: 576,
-        md: 768,
-        lg: 992,
-        xl: 1200,
-        xxl: 1400
+export const Breakpoints = (media, options) => {
+    let defaultsOptions = {
+        grid: {
+            sm: 576,
+            md: 768,
+            lg: 992,
+            xl: 1200,
+            xxl: 1400
+        },
+        listenerResize: false
     }
 
-    let defaultsOptions = Object.assign({}, defaults, options);
+    let originals = Object.assign({}, defaultsOptions, options);
 
-    let option = {}
-    for (let property in defaultsOptions) {
-        option[property + ':min'] = defaultsOptions[property]
-        option[property + ':max'] = defaultsOptions[property] - 1
+    let grid = {}
+    for (let property in originals.grid) {
+        grid[property + ':min'] = originals.grid[property]
+        grid[property + ':max'] = originals.grid[property] - 1
     }
 
-
-    let mediaQueryArr = mediaQuery.split(',')
     let mediaQueryString = ''
+    if (media.indexOf(':min') === -1 && media.indexOf(':max') === -1) {
+        mediaQueryString = media
+    } else {
+        let mediaQueryArr = media.split(',')
+        if (mediaQueryArr.length) {
+            let i = 1;
+            mediaQueryArr.forEach(el => {
+                if (el.trim().indexOf(':min') !== -1) {
+                    mediaQueryString += '(min-width: ' + grid[el.trim()] + 'px)'
 
-    if(mediaQueryArr.length) {
-        let i = 1;
-        mediaQueryArr.forEach(el => {
-            if(el.trim().indexOf(':min') !== -1) {
-                mediaQueryString += '(min-width: ' + option[el.trim()] + 'px)'
+                    if (i < mediaQueryArr.length) mediaQueryString += ' and '
+                } else if (el.trim().indexOf(':max') !== -1) {
+                    mediaQueryString += '(max-width: ' + grid[el.trim()] + 'px)'
 
-                if(i < mediaQueryArr.length) mediaQueryString += ' and '
-            } else if(el.trim().indexOf(':max') !== -1) {
-                mediaQueryString += '(max-width: ' + option[el.trim()] + 'px)'
+                    if (i < mediaQueryArr.length) mediaQueryString += ' and '
+                }
 
-                if(i < mediaQueryArr.length) mediaQueryString += ' and '
-            }
-
-            i++;
-        })
-
-        if (callback !== undefined) {
-            let handleMatchMedia = mq => {
-                callback(mq)
-            }
-
-            let mq = window.matchMedia(mediaQueryString)
-
-            handleMatchMedia(mq);
-
-            mq.addEventListener('change', handleMatchMedia);
-        } else {
-            return window.matchMedia(mediaQueryString).matches
+                i++;
+            })
         }
+    }
+
+
+    let handleMatchMedia = mediaQuery => {
+        originals.on(mediaQuery)
+    }
+
+    let mq = window.matchMedia(mediaQueryString)
+
+    handleMatchMedia(mq);
+
+    if (originals.listenerResize) {
+        window.addEventListener('resize', () => {
+            handleMatchMedia(mq)
+        })
+    } else {
+        mq.addEventListener('change', handleMatchMedia);
     }
 }

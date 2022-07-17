@@ -37,7 +37,7 @@ new AjaxFilter('#filter', {
 });
 
 // ------------ Deleting placeholder focus ------------ //
-[...document.querySelectorAll('input, textarea')].forEach(el => {
+document.querySelectorAll('input, textarea').forEach(el => {
     if (el.getAttribute('placeholder') !== null) {
         el.addEventListener('focus', (elem) => {
             elem.target.setAttribute('data-placeholder', elem.target.getAttribute('placeholder'))
@@ -48,7 +48,7 @@ new AjaxFilter('#filter', {
             elem.target.setAttribute('placeholder', elem.target.getAttribute('data-placeholder'))
         })
     }
-})
+});
 // ---------- End Deleting placeholder focus ---------- //
 
 /*

@@ -159,7 +159,11 @@ export const Breakpoints = (media, options) => {
 
 
     let handleMatchMedia = mediaQuery => {
-        originals.on(mediaQuery)
+        if(typeof originals.on === 'function') {
+            originals.on(mediaQuery)
+        } else {
+            console.error('"on" must be a function!')
+        }
     }
 
     let mq = window.matchMedia(mediaQueryString)

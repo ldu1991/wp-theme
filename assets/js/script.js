@@ -4,6 +4,257 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var AjaxFilter = /*#__PURE__*/function () {
+  /**
+   * Constructor
+   * @param elementForm
+   * @param options
+   */
+  function AjaxFilter(elementForm, options) {
+    _classCallCheck(this, AjaxFilter);
+
+    this.elementForm = elementForm;
+    this.options = Object.assign({}, {
+      ajaxTimeout: false,
+      delayBeforeSend: 600,
+      autoSubmit: true,
+      dataChange: function dataChange(dataFilter) {}
+    }, options);
+    this.query = null;
+    this.init();
+  }
+  /**
+   *
+   * @param formElement
+   * @returns {*[]}
+   */
+
+
+  _createClass(AjaxFilter, [{
+    key: "serializeArray",
+    value: function serializeArray(formElement) {
+      var formData = new FormData(formElement);
+      var pairs = [];
+
+      var _iterator = _createForOfIteratorHelper(formData),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var _step$value = _slicedToArray(_step.value, 2),
+              name = _step$value[0],
+              value = _step$value[1];
+
+          pairs.push({
+            name: name,
+            value: value
+          });
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return pairs;
+    }
+    /**
+     *
+     * @param params
+     * @param keys
+     * @param isArray
+     * @returns {string}
+     */
+
+  }, {
+    key: "getUrlString",
+    value: function getUrlString(params) {
+      var _this = this;
+
+      var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var isArray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var p = Object.keys(params).map(function (key) {
+        var val = params[key];
+
+        if ("[object Object]" === Object.prototype.toString.call(val) || Array.isArray(val)) {
+          if (Array.isArray(params)) {
+            keys.push("");
+          } else {
+            keys.push(key);
+          }
+
+          return _this.getUrlString(val, keys, Array.isArray(val));
+        } else {
+          var tKey = key;
+
+          if (keys.length > 0) {
+            var tKeys = isArray ? keys : [].concat(_toConsumableArray(keys), [key]);
+            tKey = tKeys.reduce(function (str, k) {
+              return "" === str ? k : "".concat(str, "[").concat(k, "]");
+            }, "");
+          }
+
+          if (isArray) {
+            return "".concat(tKey, "[]=").concat(val);
+          } else {
+            return "".concat(tKey, "=").concat(val);
+          }
+        }
+      }).join('&');
+      keys.pop();
+      return p;
+    }
+  }, {
+    key: "searchParams",
+    value: function searchParams() {
+      var params = new URLSearchParams(location.search),
+          query = {};
+
+      var _iterator2 = _createForOfIteratorHelper(params.entries()),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var pair = _step2.value;
+
+          if (pair[1].indexOf(',') !== -1) {
+            query[pair[0]] = pair[1].split(',');
+          } else {
+            query[pair[0]] = pair[1];
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      this.query = query;
+      this.sendForm();
+    }
+  }, {
+    key: "activateForm",
+    value: function activateForm(el) {
+      var isEmpty = function isEmpty(str) {
+        return !str || !/[^\s]+/.test(str);
+      };
+
+      var arrDataForm = this.serializeArray(el);
+
+      if (arrDataForm.length) {
+        var result = {};
+        arrDataForm.forEach(function (item) {
+          if (!isEmpty(item.value)) {
+            if (!result.hasOwnProperty(item.name)) {
+              result[item.name] = item.value;
+            } else {
+              result[item.name] += ',' + item.value;
+            }
+          }
+        });
+        var url = '?' + decodeURIComponent(this.getUrlString(result));
+        history.pushState({}, '', url);
+        this.searchParams();
+      } else {
+        this.resetForm();
+      }
+    }
+  }, {
+    key: "resetForm",
+    value: function resetForm() {
+      history.pushState({}, '', '.');
+      this.query = null;
+      this.sendForm();
+    }
+  }, {
+    key: "sendForm",
+    value: function sendForm() {
+      if (typeof this.options.dataChange === 'function') {
+        this.options.dataChange(this.query);
+      } else {
+        console.error('"dataChange" must be a function!');
+      }
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var _this2 = this;
+
+      document.querySelectorAll(this.elementForm).forEach(function (el) {
+        el.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          if (!_this2.options.autoSubmit) {
+            _this2.activateForm(el);
+          }
+        });
+
+        if (_this2.options.autoSubmit) {
+          el.querySelectorAll('select, input, textarea').forEach(function (input) {
+            input.addEventListener('change', function () {
+              if (_this2.options.ajaxTimeout) clearTimeout(_this2.options.ajaxTimeout);
+              _this2.options.ajaxTimeout = setTimeout(function () {
+                _this2.activateForm(el);
+              }, _this2.options.delayBeforeSend);
+            });
+          });
+        }
+      });
+      window.addEventListener('popstate', function () {
+        if (location.search !== '') {
+          _this2.searchParams();
+        } else {
+          _this2.resetForm();
+        }
+      });
+
+      if (location.search !== '') {
+        this.searchParams();
+      }
+    }
+  }]);
+
+  return AjaxFilter;
+}();
+
+exports.default = AjaxFilter;
+
+},{}],2:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.videoResize = exports.isjQuery = exports.isEven = exports.Coordinates = exports.Breakpoints = void 0;
 
 /**
@@ -178,7 +429,11 @@ var Breakpoints = function Breakpoints(media, options) {
   }
 
   var handleMatchMedia = function handleMatchMedia(mediaQuery) {
-    originals.on(mediaQuery);
+    if (typeof originals.on === 'function') {
+      originals.on(mediaQuery);
+    } else {
+      console.error('"on" must be a function!');
+    }
   };
 
   var mq = window.matchMedia(mediaQueryString);
@@ -195,7 +450,7 @@ var Breakpoints = function Breakpoints(media, options) {
 
 exports.Breakpoints = Breakpoints;
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3060,7 +3315,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
 });
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -8175,7 +8430,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
 });
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8227,7 +8482,7 @@ var _default = new Gutenberg();
 
 exports.default = _default;
 
-},{"./functions":1,"./gsap/ScrollTrigger":2,"./gsap/gsap":3}],5:[function(require,module,exports){
+},{"./functions":2,"./gsap/ScrollTrigger":3,"./gsap/gsap":4}],6:[function(require,module,exports){
 "use strict";
 
 require("./app/gutenberg");
@@ -8239,6 +8494,8 @@ var _gsap = require("./app/gsap/gsap");
 var _ScrollTrigger = require("./app/gsap/ScrollTrigger");
 
 var _functions = require("./app/functions");
+
+var _ajaxFilter = _interopRequireDefault(require("./app/ajaxFilter"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8256,8 +8513,29 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
-(function ($) {})(jQuery); // ------------ Deleting placeholder focus ------------ //
+(function ($) {})(jQuery);
 
+new _ajaxFilter.default('#filter', {
+  delayBeforeSend: 200,
+  dataChange: function dataChange(dataFilter) {
+    console.log(dataFilter);
+    /*jQuery.ajax({
+        url: wpcfajax.url,
+        data: {
+            action: 'ajax_filter',
+            query: dataFilter
+        },
+        type: 'POST',
+        beforeSend: function (xhr) {
+            jQuery('.but').text('Загрузка...');
+        },
+        success: function (data) {
+            jQuery('.but').text('');
+            jQuery('#response').html(data);
+        }
+    })*/
+  }
+}); // ------------ Deleting placeholder focus ------------ //
 
 _toConsumableArray(document.querySelectorAll('input, textarea')).forEach(function (el) {
   if (el.getAttribute('placeholder') !== null) {
@@ -8297,7 +8575,7 @@ if (updateCategory) {
 }
 */
 
-},{"./app/functions":1,"./app/gsap/ScrollTrigger":2,"./app/gsap/gsap":3,"./app/gutenberg":4,"swiper/swiper-bundle":6}],6:[function(require,module,exports){
+},{"./app/ajaxFilter":1,"./app/functions":2,"./app/gsap/ScrollTrigger":3,"./app/gsap/gsap":4,"./app/gutenberg":5,"swiper/swiper-bundle":7}],7:[function(require,module,exports){
 /**
  * Swiper 7.0.5
  * Most modern mobile touch slider and framework with hardware accelerated transitions
@@ -18333,4 +18611,4 @@ if (updateCategory) {
 })));
 
 
-},{}]},{},[5]);
+},{}]},{},[6]);

@@ -1,4 +1,4 @@
-export default class AjaxFilter {
+export default class SPFormData {
     /**
      * Constructor
      * @param elementForm
@@ -10,7 +10,7 @@ export default class AjaxFilter {
             ajaxTimeout: false,
             delayBeforeSend: 600,
             autoSubmit: true,
-            dataChange: dataFilter => {}
+            response: data => {}
         }, options)
         this.query = null
 
@@ -76,10 +76,12 @@ export default class AjaxFilter {
             query = {}
 
         for (let pair of params.entries()) {
-            if (pair[1].indexOf(',') !== -1) {
-                query[pair[0]] = pair[1].split(',')
-            } else {
-                query[pair[0]] = pair[1]
+            if(pair[1] !== '') {
+                if (pair[1].indexOf(',') !== -1) {
+                    query[pair[0]] = pair[1].split(',')
+                } else {
+                    query[pair[0]] = pair[1]
+                }
             }
         }
 
@@ -88,10 +90,6 @@ export default class AjaxFilter {
     }
 
     activateForm(el) {
-        let isEmpty = (str) => {
-            return !str || !/[^\s]+/.test(str);
-        }
-
         let arrDataForm = this.serializeArray(el)
 
         if(arrDataForm.length) {
@@ -123,34 +121,50 @@ export default class AjaxFilter {
     }
 
     sendForm() {
-        if (typeof this.options.dataChange === 'function') {
-            this.options.dataChange(this.query);
+        if (typeof this.options.response === 'function') {
+            this.options.response(this.query);
         } else {
-            console.error('"dataChange" must be a function!')
+            throw new Error('SPFormData#response must be passed a plain function');
         }
     }
 
     init() {
-        document.querySelectorAll(this.elementForm).forEach(el => {
-            el.addEventListener('submit', (e) => {
-                e.preventDefault()
+        let form = null;
 
-                if (!this.options.autoSubmit) {
-                    this.activateForm(el)
-                }
-            })
+        if (typeof (this.elementForm) === 'undefined' || this.elementForm === null) {
+            return
+        }
 
-            if (this.options.autoSubmit) {
-                el.querySelectorAll('select, input, textarea').forEach(input => {
-                    input.addEventListener('change', () => {
-                        if (this.options.ajaxTimeout) clearTimeout(this.options.ajaxTimeout);
-                        this.options.ajaxTimeout = setTimeout(() => {
-                            this.activateForm(el)
-                        }, this.options.delayBeforeSend)
-                    })
+        if (typeof (this.elementForm) !== 'object' && typeof (this.elementForm) === 'string') {
+            form = document.querySelector(this.elementForm)
+        } else {
+            form = this.elementForm
+        }
+
+        if(form !== null) {
+            if (form.tagName === 'FORM') {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault()
+
+                    if (!this.options.autoSubmit) {
+                        this.activateForm(form)
+                    }
                 })
+
+                if (this.options.autoSubmit) {
+                    form.querySelectorAll('select, input, textarea').forEach(element => {
+                        element.addEventListener('change', () => {
+                            if (this.options.ajaxTimeout) clearTimeout(this.options.ajaxTimeout);
+                            this.options.ajaxTimeout = setTimeout(() => {
+                                this.activateForm(form)
+                            }, this.options.delayBeforeSend)
+                        })
+                    })
+                }
+            } else {
+                throw new Error('SPFormData constructor must be passed a form element');
             }
-        })
+        }
 
         window.addEventListener('popstate', () => {
             if (location.search !== '') {
@@ -164,4 +178,8 @@ export default class AjaxFilter {
             this.searchParams()
         }
     }
+}
+
+let isEmpty = (str) => {
+    return !str || !/[^\s]+/.test(str);
 }

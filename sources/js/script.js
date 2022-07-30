@@ -3,7 +3,7 @@ import Swiper from 'swiper/swiper-bundle';
 import {gsap} from "./app/gsap/gsap";
 import {ScrollTrigger} from "./app/gsap/ScrollTrigger";
 import {isEven, isjQuery, Coordinates, videoResize, Breakpoints} from "./app/functions";
-import AjaxFilter from './app/ajaxFilter'
+import SPFormData from './app/searchParamsFormData'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,11 +13,11 @@ gsap.registerPlugin(ScrollTrigger);
 })(jQuery);
 
 
-
-new AjaxFilter('#filter', {
-    delayBeforeSend: 200,
-    dataChange: dataFilter => {
-        console.log(dataFilter)
+let filter = document.querySelector('#filter');
+new SPFormData('#filter', {
+    delayBeforeSend: 400,
+    response: data => {
+        console.log(data)
         /*jQuery.ajax({
             url: wpcfajax.url,
             data: {

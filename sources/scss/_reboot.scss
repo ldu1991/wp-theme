@@ -13,12 +13,7 @@
 }
 
 body {
-    @if $base-font-family == "" {
-        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    } @else {
-        font-family: $base-font-family;
-    }
-    
+    font-family: "#{$base-font-family}", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: rem($base-font-size);
     line-height: $base-line-height;
     font-weight: 400;

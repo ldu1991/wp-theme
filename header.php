@@ -36,22 +36,3 @@ beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'fr', 'option')
     <?php get_search_form(); ?>
 
 </header>
-
-<form id="filter">
-    <label>
-        <input type="radio" name="date" value="ASC"/> Date: Ascending
-    </label>
-    <br>
-    <label>
-        <input type="radio" name="date" value="DESC"/> Date: Descending
-    </label>
-    <br>
-
-
-    <label>1 <input type="checkbox" name="rooms" value="1"/></label>
-    <label>2 <input type="checkbox" name="rooms" value="2"/></label>
-    <label>3 <input type="checkbox" name="rooms" value="3"/></label>
-    <label>4 <input type="checkbox" name="rooms" value="4"/></label>
-
-    <input type="submit" value="submit">
-</form>

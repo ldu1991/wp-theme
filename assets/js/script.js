@@ -195,17 +195,47 @@ var Breakpoints = function Breakpoints(media, options) {
   } else {
     mq.addEventListener('change', handleMatchMedia);
   }
-};
+}; // ------------ Deleting placeholder focus ------------ //
+
 
 exports.Breakpoints = Breakpoints;
+
+function focusFnInput(target, event) {
+  if (target.getAttribute('placeholder') !== null) {
+    target.setAttribute('data-placeholder', target.getAttribute('placeholder'));
+    target.setAttribute('placeholder', '');
+  }
+}
+
+document.addEventListener('focus', function (event) {
+  for (var target = event.target; target && target !== this; target = target.parentNode) {
+    if (target.matches('input, textarea')) {
+      focusFnInput.call(this, target, event);
+      break;
+    }
+  }
+}, true);
+
+function blurFnInput(target, event) {
+  if (target.getAttribute('data-placeholder') !== null) {
+    target.setAttribute('placeholder', target.getAttribute('data-placeholder'));
+  }
+}
+
+document.addEventListener('blur', function (event) {
+  for (var target = event.target; target && target !== this; target = target.parentNode) {
+    if (target.matches('input, textarea')) {
+      blurFnInput.call(this, target, event);
+      break;
+    }
+  }
+}, true); // ---------- End Deleting placeholder focus ---------- //
 
 },{}],2:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 (function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : (global = global || self, factory(global.window = global.window || {}));
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : (global = global || self, factory(global.window = global.window || {}));
 })(void 0, function (exports) {
   'use strict';
 
@@ -977,7 +1007,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return typeof value === "number";
   },
       _isObject = function _isObject(value) {
-    return _typeof(value) === "object";
+    return typeof value === "object";
   },
       _callIfFunc = function _callIfFunc(value) {
     return _isFunction(value) && value();
@@ -3067,10 +3097,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 },{}],3:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 (function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : (global = global || self, factory(global.window = global.window || {}));
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : (global = global || self, factory(global.window = global.window || {}));
 })(void 0, function (exports) {
   'use strict';
 
@@ -3133,7 +3161,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return typeof value === "undefined";
   },
       _isObject = function _isObject(value) {
-    return _typeof(value) === "object";
+    return typeof value === "object";
   },
       _isNotFalse = function _isNotFalse(value) {
     return value !== false;
@@ -7966,12 +7994,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           continue;
         }
 
-        type = _typeof(endValue);
+        type = typeof endValue;
         specialProp = _specialProps[p];
 
         if (type === "function") {
           endValue = endValue.call(tween, index, target, targets);
-          type = _typeof(endValue);
+          type = typeof endValue;
         }
 
         if (type === "string" && ~endValue.indexOf("random(")) {
@@ -8197,7 +8225,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
@@ -8234,278 +8262,6 @@ exports.default = _default;
 },{"./functions":1,"./gsap/ScrollTrigger":2,"./gsap/gsap":3}],5:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var SPFormData = /*#__PURE__*/function () {
-  /**
-   * Constructor
-   * @param elementForm
-   * @param options
-   */
-  function SPFormData(elementForm, options) {
-    _classCallCheck(this, SPFormData);
-
-    this.elementForm = elementForm;
-    this.options = Object.assign({}, {
-      ajaxTimeout: false,
-      delayBeforeSend: 600,
-      autoSubmit: true,
-      response: function response(data) {}
-    }, options);
-    this.query = null;
-    this.init();
-  }
-  /**
-   *
-   * @param formElement
-   * @returns {*[]}
-   */
-
-
-  _createClass(SPFormData, [{
-    key: "serializeArray",
-    value: function serializeArray(formElement) {
-      var formData = new FormData(formElement);
-      var pairs = [];
-
-      var _iterator = _createForOfIteratorHelper(formData),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var _step$value = _slicedToArray(_step.value, 2),
-              name = _step$value[0],
-              value = _step$value[1];
-
-          pairs.push({
-            name: name,
-            value: value
-          });
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      return pairs;
-    }
-    /**
-     *
-     * @param params
-     * @param keys
-     * @param isArray
-     * @returns {string}
-     */
-
-  }, {
-    key: "getUrlString",
-    value: function getUrlString(params) {
-      var _this = this;
-
-      var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      var isArray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var p = Object.keys(params).map(function (key) {
-        var val = params[key];
-
-        if ("[object Object]" === Object.prototype.toString.call(val) || Array.isArray(val)) {
-          if (Array.isArray(params)) {
-            keys.push("");
-          } else {
-            keys.push(key);
-          }
-
-          return _this.getUrlString(val, keys, Array.isArray(val));
-        } else {
-          var tKey = key;
-
-          if (keys.length > 0) {
-            var tKeys = isArray ? keys : [].concat(_toConsumableArray(keys), [key]);
-            tKey = tKeys.reduce(function (str, k) {
-              return "" === str ? k : "".concat(str, "[").concat(k, "]");
-            }, "");
-          }
-
-          if (isArray) {
-            return "".concat(tKey, "[]=").concat(val);
-          } else {
-            return "".concat(tKey, "=").concat(val);
-          }
-        }
-      }).join('&');
-      keys.pop();
-      return p;
-    }
-  }, {
-    key: "searchParams",
-    value: function searchParams() {
-      var params = new URLSearchParams(location.search),
-          query = {};
-
-      var _iterator2 = _createForOfIteratorHelper(params.entries()),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var pair = _step2.value;
-
-          if (pair[1] !== '') {
-            if (pair[1].indexOf(',') !== -1) {
-              query[pair[0]] = pair[1].split(',');
-            } else {
-              query[pair[0]] = pair[1];
-            }
-          }
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-
-      this.query = query;
-      this.sendForm();
-    }
-  }, {
-    key: "activateForm",
-    value: function activateForm(el) {
-      var arrDataForm = this.serializeArray(el);
-
-      if (arrDataForm.length) {
-        var result = {};
-        arrDataForm.forEach(function (item) {
-          if (!isEmpty(item.value)) {
-            if (!result.hasOwnProperty(item.name)) {
-              result[item.name] = item.value;
-            } else {
-              result[item.name] += ',' + item.value;
-            }
-          }
-        });
-        var url = '?' + decodeURIComponent(this.getUrlString(result));
-        history.pushState({}, '', url);
-        this.searchParams();
-      } else {
-        this.resetForm();
-      }
-    }
-  }, {
-    key: "resetForm",
-    value: function resetForm() {
-      history.pushState({}, '', '.');
-      this.query = null;
-      this.sendForm();
-    }
-  }, {
-    key: "sendForm",
-    value: function sendForm() {
-      if (typeof this.options.response === 'function') {
-        this.options.response(this.query);
-      } else {
-        throw new Error('SPFormData#response must be passed a plain function');
-      }
-    }
-  }, {
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      var form = null;
-
-      if (typeof this.elementForm === 'undefined' || this.elementForm === null) {
-        return;
-      }
-
-      if (_typeof(this.elementForm) !== 'object' && typeof this.elementForm === 'string') {
-        form = document.querySelector(this.elementForm);
-      } else {
-        form = this.elementForm;
-      }
-
-      if (form !== null) {
-        if (form.tagName === 'FORM') {
-          form.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            if (!_this2.options.autoSubmit) {
-              _this2.activateForm(form);
-            }
-          });
-
-          if (this.options.autoSubmit) {
-            form.querySelectorAll('select, input, textarea').forEach(function (element) {
-              element.addEventListener('change', function () {
-                if (_this2.options.ajaxTimeout) clearTimeout(_this2.options.ajaxTimeout);
-                _this2.options.ajaxTimeout = setTimeout(function () {
-                  _this2.activateForm(form);
-                }, _this2.options.delayBeforeSend);
-              });
-            });
-          }
-        } else {
-          throw new Error('SPFormData constructor must be passed a form element');
-        }
-      }
-
-      window.addEventListener('popstate', function () {
-        if (location.search !== '') {
-          _this2.searchParams();
-        } else {
-          _this2.resetForm();
-        }
-      });
-
-      if (location.search !== '') {
-        this.searchParams();
-      }
-    }
-  }]);
-
-  return SPFormData;
-}();
-
-exports.default = SPFormData;
-
-var isEmpty = function isEmpty(str) {
-  return !str || !/[^\s]+/.test(str);
-};
-
-},{}],6:[function(require,module,exports){
-"use strict";
-
 require("./app/gutenberg");
 
 var _swiperBundle = _interopRequireDefault(require("swiper/swiper-bundle"));
@@ -8516,49 +8272,11 @@ var _ScrollTrigger = require("./app/gsap/ScrollTrigger");
 
 var _functions = require("./app/functions");
 
-var _searchParamsFormData = _interopRequireDefault(require("./app/searchParamsFormData"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
 (function ($) {})(jQuery);
-
-var filter = document.querySelector('#filter');
-new _searchParamsFormData.default('#filter', {
-  delayBeforeSend: 400,
-  response: function response(data) {
-    console.log(data);
-    /*jQuery.ajax({
-        url: wpcfajax.url,
-        data: {
-            action: 'ajax_filter',
-            query: dataFilter
-        },
-        type: 'POST',
-        beforeSend: function (xhr) {
-            jQuery('.but').text('Загрузка...');
-        },
-        success: function (data) {
-            jQuery('.but').text('');
-            jQuery('#response').html(data);
-        }
-    })*/
-  }
-}); // ------------ Deleting placeholder focus ------------ //
-
-document.querySelectorAll('input, textarea').forEach(function (el) {
-  if (el.getAttribute('placeholder') !== null) {
-    el.addEventListener('focus', function (elem) {
-      elem.target.setAttribute('data-placeholder', elem.target.getAttribute('placeholder'));
-      elem.target.setAttribute('placeholder', '');
-    });
-    el.addEventListener('blur', function (elem) {
-      elem.target.setAttribute('placeholder', elem.target.getAttribute('data-placeholder'));
-    });
-  }
-}); // ---------- End Deleting placeholder focus ---------- //
-
 /*
 let updateCategory = wp.blocks.updateCategory,
     _wp$components = wp.components,
@@ -8585,27 +8303,27 @@ if (updateCategory) {
 }
 */
 
-},{"./app/functions":1,"./app/gsap/ScrollTrigger":2,"./app/gsap/gsap":3,"./app/gutenberg":4,"./app/searchParamsFormData":5,"swiper/swiper-bundle":7}],7:[function(require,module,exports){
+},{"./app/functions":1,"./app/gsap/ScrollTrigger":2,"./app/gsap/gsap":3,"./app/gutenberg":4,"swiper/swiper-bundle":6}],6:[function(require,module,exports){
 /**
- * Swiper 7.0.5
+ * Swiper 8.3.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * https://swiperjs.com
  *
- * Copyright 2014-2021 Vladimir Kharlampidi
+ * Copyright 2014-2022 Vladimir Kharlampidi
  *
  * Released under the MIT License
  *
- * Released on: September 9, 2021
+ * Released on: July 26, 2022
  */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Swiper = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
     /**
-     * SSR Window 4.0.0
+     * SSR Window 4.0.2
      * Better handling for window object in SSR environment
      * https://github.com/nolimits4web/ssr-window
      *
@@ -8613,7 +8331,7 @@ if (updateCategory) {
      *
      * Licensed under MIT
      *
-     * Released on: August 25, 2021
+     * Released on: December 13, 2021
      */
 
     /* eslint-disable no-param-reassign */
@@ -8621,7 +8339,15 @@ if (updateCategory) {
       return obj !== null && typeof obj === 'object' && 'constructor' in obj && obj.constructor === Object;
     }
 
-    function extend$1(target = {}, src = {}) {
+    function extend$1(target, src) {
+      if (target === void 0) {
+        target = {};
+      }
+
+      if (src === void 0) {
+        src = {};
+      }
+
       Object.keys(src).forEach(key => {
         if (typeof target[key] === 'undefined') target[key] = src[key];else if (isObject$1(src[key]) && isObject$1(target[key]) && Object.keys(src[key]).length > 0) {
           extend$1(target[key], src[key]);
@@ -8784,15 +8510,15 @@ if (updateCategory) {
     }
 
     /**
-     * Dom7 4.0.0
+     * Dom7 4.0.4
      * Minimalistic JavaScript library for DOM manipulation, with a jQuery-compatible API
      * https://framework7.io/docs/dom7.html
      *
-     * Copyright 2021, Vladimir Kharlampidi
+     * Copyright 2022, Vladimir Kharlampidi
      *
      * Licensed under MIT
      *
-     * Released on: August 25, 2021
+     * Released on: January 11, 2022
      */
     /* eslint-disable no-proto */
 
@@ -8812,13 +8538,21 @@ if (updateCategory) {
 
     class Dom7 extends Array {
       constructor(items) {
-        super(...(items || []));
-        makeReactive(this);
+        if (typeof items === 'number') {
+          super(items);
+        } else {
+          super(...(items || []));
+          makeReactive(this);
+        }
       }
 
     }
 
-    function arrayFlat(arr = []) {
+    function arrayFlat(arr) {
+      if (arr === void 0) {
+        arr = [];
+      }
+
       const res = [];
       arr.forEach(el => {
         if (Array.isArray(el)) {
@@ -8905,7 +8639,11 @@ if (updateCategory) {
 
     $.fn = Dom7.prototype; // eslint-disable-next-line
 
-    function addClass(...classes) {
+    function addClass() {
+      for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
+        classes[_key] = arguments[_key];
+      }
+
       const classNames = arrayFlat(classes.map(c => c.split(' ')));
       this.forEach(el => {
         el.classList.add(...classNames);
@@ -8913,7 +8651,11 @@ if (updateCategory) {
       return this;
     }
 
-    function removeClass(...classes) {
+    function removeClass() {
+      for (var _len2 = arguments.length, classes = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        classes[_key2] = arguments[_key2];
+      }
+
       const classNames = arrayFlat(classes.map(c => c.split(' ')));
       this.forEach(el => {
         el.classList.remove(...classNames);
@@ -8921,7 +8663,11 @@ if (updateCategory) {
       return this;
     }
 
-    function toggleClass(...classes) {
+    function toggleClass() {
+      for (var _len3 = arguments.length, classes = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        classes[_key3] = arguments[_key3];
+      }
+
       const classNames = arrayFlat(classes.map(c => c.split(' ')));
       this.forEach(el => {
         classNames.forEach(className => {
@@ -8930,7 +8676,11 @@ if (updateCategory) {
       });
     }
 
-    function hasClass(...classes) {
+    function hasClass() {
+      for (var _len4 = arguments.length, classes = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        classes[_key4] = arguments[_key4];
+      }
+
       const classNames = arrayFlat(classes.map(c => c.split(' ')));
       return arrayFilter(this, el => {
         return classNames.filter(className => el.classList.contains(className)).length > 0;
@@ -8985,7 +8735,11 @@ if (updateCategory) {
       return this;
     }
 
-    function on(...args) {
+    function on() {
+      for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+        args[_key5] = arguments[_key5];
+      }
+
       let [eventType, targetSelector, listener, capture] = args;
 
       if (typeof args[1] === 'function') {
@@ -9058,7 +8812,11 @@ if (updateCategory) {
       return this;
     }
 
-    function off(...args) {
+    function off() {
+      for (var _len6 = arguments.length, args = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+        args[_key6] = arguments[_key6];
+      }
+
       let [eventType, targetSelector, listener, capture] = args;
 
       if (typeof args[1] === 'function') {
@@ -9104,8 +8862,13 @@ if (updateCategory) {
       return this;
     }
 
-    function trigger(...args) {
+    function trigger() {
       const window = getWindow();
+
+      for (var _len9 = arguments.length, args = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
+        args[_key9] = arguments[_key9];
+      }
+
       const events = args[0].split(' ');
       const eventData = args[1];
 
@@ -9345,12 +9108,12 @@ if (updateCategory) {
       return $([this[index]]);
     }
 
-    function append(...els) {
+    function append() {
       let newChild;
       const document = getDocument();
 
-      for (let k = 0; k < els.length; k += 1) {
-        newChild = els[k];
+      for (let k = 0; k < arguments.length; k += 1) {
+        newChild = k < 0 || arguments.length <= k ? undefined : arguments[k];
 
         for (let i = 0; i < this.length; i += 1) {
           if (typeof newChild === 'string') {
@@ -9618,7 +9381,11 @@ if (updateCategory) {
       });
     }
 
-    function nextTick(callback, delay = 0) {
+    function nextTick(callback, delay) {
+      if (delay === void 0) {
+        delay = 0;
+      }
+
       return setTimeout(callback, delay);
     }
 
@@ -9645,7 +9412,11 @@ if (updateCategory) {
       return style;
     }
 
-    function getTranslate(el, axis = 'x') {
+    function getTranslate(el, axis) {
+      if (axis === void 0) {
+        axis = 'x';
+      }
+
       const window = getWindow();
       let matrix;
       let curTransform;
@@ -9697,12 +9468,12 @@ if (updateCategory) {
       return node && (node.nodeType === 1 || node.nodeType === 11);
     }
 
-    function extend(...args) {
-      const to = Object(args[0]);
+    function extend() {
+      const to = Object(arguments.length <= 0 ? undefined : arguments[0]);
       const noExtend = ['__proto__', 'constructor', 'prototype'];
 
-      for (let i = 1; i < args.length; i += 1) {
-        const nextSource = args[i];
+      for (let i = 1; i < arguments.length; i += 1) {
+        const nextSource = i < 0 || arguments.length <= i ? undefined : arguments[i];
 
         if (nextSource !== undefined && nextSource !== null && !isNode(nextSource)) {
           const keysArray = Object.keys(Object(nextSource)).filter(key => noExtend.indexOf(key) < 0);
@@ -9741,11 +9512,12 @@ if (updateCategory) {
       el.style.setProperty(varName, varValue);
     }
 
-    function animateCSSModeScroll({
-      swiper,
-      targetPosition,
-      side
-    }) {
+    function animateCSSModeScroll(_ref) {
+      let {
+        swiper,
+        targetPosition,
+        side
+      } = _ref;
       const window = getWindow();
       const startPosition = -swiper.translate;
       let startTime = null;
@@ -9838,9 +9610,10 @@ if (updateCategory) {
 
     let deviceCached;
 
-    function calcDevice({
-      userAgent
-    } = {}) {
+    function calcDevice(_temp) {
+      let {
+        userAgent
+      } = _temp === void 0 ? {} : _temp;
       const support = getSupport();
       const window = getWindow();
       const platform = window.navigator.platform;
@@ -9882,7 +9655,11 @@ if (updateCategory) {
       return device;
     }
 
-    function getDevice(overrides = {}) {
+    function getDevice(overrides) {
+      if (overrides === void 0) {
+        overrides = {};
+      }
+
       if (!deviceCached) {
         deviceCached = calcDevice(overrides);
       }
@@ -9914,13 +9691,15 @@ if (updateCategory) {
       return browser;
     }
 
-    function Resize({
-      swiper,
-      on,
-      emit
-    }) {
+    function Resize(_ref) {
+      let {
+        swiper,
+        on,
+        emit
+      } = _ref;
       const window = getWindow();
       let observer = null;
+      let animationFrame = null;
 
       const resizeHandler = () => {
         if (!swiper || swiper.destroyed || !swiper.initialized) return;
@@ -9931,30 +9710,37 @@ if (updateCategory) {
       const createObserver = () => {
         if (!swiper || swiper.destroyed || !swiper.initialized) return;
         observer = new ResizeObserver(entries => {
-          const {
-            width,
-            height
-          } = swiper;
-          let newWidth = width;
-          let newHeight = height;
-          entries.forEach(({
-            contentBoxSize,
-            contentRect,
-            target
-          }) => {
-            if (target && target !== swiper.el) return;
-            newWidth = contentRect ? contentRect.width : (contentBoxSize[0] || contentBoxSize).inlineSize;
-            newHeight = contentRect ? contentRect.height : (contentBoxSize[0] || contentBoxSize).blockSize;
-          });
+          animationFrame = window.requestAnimationFrame(() => {
+            const {
+              width,
+              height
+            } = swiper;
+            let newWidth = width;
+            let newHeight = height;
+            entries.forEach(_ref2 => {
+              let {
+                contentBoxSize,
+                contentRect,
+                target
+              } = _ref2;
+              if (target && target !== swiper.el) return;
+              newWidth = contentRect ? contentRect.width : (contentBoxSize[0] || contentBoxSize).inlineSize;
+              newHeight = contentRect ? contentRect.height : (contentBoxSize[0] || contentBoxSize).blockSize;
+            });
 
-          if (newWidth !== width || newHeight !== height) {
-            resizeHandler();
-          }
+            if (newWidth !== width || newHeight !== height) {
+              resizeHandler();
+            }
+          });
         });
         observer.observe(swiper.el);
       };
 
       const removeObserver = () => {
+        if (animationFrame) {
+          window.cancelAnimationFrame(animationFrame);
+        }
+
         if (observer && observer.unobserve && swiper.el) {
           observer.unobserve(swiper.el);
           observer = null;
@@ -9982,16 +9768,21 @@ if (updateCategory) {
       });
     }
 
-    function Observer({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Observer(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       const observers = [];
       const window = getWindow();
 
-      const attach = (target, options = {}) => {
+      const attach = function (target, options) {
+        if (options === void 0) {
+          options = {};
+        }
+
         const ObserverFunc = window.MutationObserver || window.WebkitMutationObserver;
         const observer = new ObserverFunc(mutations => {
           // The observerUpdate event should only be triggered
@@ -10061,6 +9852,7 @@ if (updateCategory) {
     var eventsEmitter = {
       on(events, handler, priority) {
         const self = this;
+        if (!self.eventsListeners || self.destroyed) return self;
         if (typeof handler !== 'function') return self;
         const method = priority ? 'unshift' : 'push';
         events.split(' ').forEach(event => {
@@ -10072,13 +9864,18 @@ if (updateCategory) {
 
       once(events, handler, priority) {
         const self = this;
+        if (!self.eventsListeners || self.destroyed) return self;
         if (typeof handler !== 'function') return self;
 
-        function onceHandler(...args) {
+        function onceHandler() {
           self.off(events, onceHandler);
 
           if (onceHandler.__emitterProxy) {
             delete onceHandler.__emitterProxy;
+          }
+
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
           }
 
           handler.apply(self, args);
@@ -10090,6 +9887,7 @@ if (updateCategory) {
 
       onAny(handler, priority) {
         const self = this;
+        if (!self.eventsListeners || self.destroyed) return self;
         if (typeof handler !== 'function') return self;
         const method = priority ? 'unshift' : 'push';
 
@@ -10102,6 +9900,7 @@ if (updateCategory) {
 
       offAny(handler) {
         const self = this;
+        if (!self.eventsListeners || self.destroyed) return self;
         if (!self.eventsAnyListeners) return self;
         const index = self.eventsAnyListeners.indexOf(handler);
 
@@ -10114,6 +9913,7 @@ if (updateCategory) {
 
       off(events, handler) {
         const self = this;
+        if (!self.eventsListeners || self.destroyed) return self;
         if (!self.eventsListeners) return self;
         events.split(' ').forEach(event => {
           if (typeof handler === 'undefined') {
@@ -10129,12 +9929,17 @@ if (updateCategory) {
         return self;
       },
 
-      emit(...args) {
+      emit() {
         const self = this;
+        if (!self.eventsListeners || self.destroyed) return self;
         if (!self.eventsListeners) return self;
         let events;
         let data;
         let context;
+
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
 
         if (typeof args[0] === 'string' || Array.isArray(args[0])) {
           events = args[0];
@@ -10507,6 +10312,17 @@ if (updateCategory) {
       if (params.watchSlidesProgress) {
         swiper.updateSlidesOffset();
       }
+
+      if (!isVirtual && !params.cssMode && (params.effect === 'slide' || params.effect === 'fade')) {
+        const backFaceHiddenClass = `${params.containerModifierClass}backface-hidden`;
+        const hasClassBackfaceClassAdded = swiper.$el.hasClass(backFaceHiddenClass);
+
+        if (slidesLength <= params.maxBackfaceHiddenSlides) {
+          if (!hasClassBackfaceClassAdded) swiper.$el.addClass(backFaceHiddenClass);
+        } else if (hasClassBackfaceClassAdded) {
+          swiper.$el.removeClass(backFaceHiddenClass);
+        }
+      }
     }
 
     function updateAutoHeight(speed) {
@@ -10533,7 +10349,7 @@ if (updateCategory) {
 
       if (swiper.params.slidesPerView !== 'auto' && swiper.params.slidesPerView > 1) {
         if (swiper.params.centeredSlides) {
-          swiper.visibleSlides.each(slide => {
+          (swiper.visibleSlides || $([])).each(slide => {
             activeSlides.push(slide);
           });
         } else {
@@ -10556,7 +10372,7 @@ if (updateCategory) {
       } // Update Height
 
 
-      if (newHeight) swiper.$wrapperEl.css('height', `${newHeight}px`);
+      if (newHeight || newHeight === 0) swiper.$wrapperEl.css('height', `${newHeight}px`);
     }
 
     function updateSlidesOffset() {
@@ -10568,12 +10384,17 @@ if (updateCategory) {
       }
     }
 
-    function updateSlidesProgress(translate = this && this.translate || 0) {
+    function updateSlidesProgress(translate) {
+      if (translate === void 0) {
+        translate = this && this.translate || 0;
+      }
+
       const swiper = this;
       const params = swiper.params;
       const {
         slides,
-        rtlTranslate: rtl
+        rtlTranslate: rtl,
+        snapGrid
       } = swiper;
       if (slides.length === 0) return;
       if (typeof slides[0].swiperSlideOffset === 'undefined') swiper.updateSlidesOffset();
@@ -10593,6 +10414,7 @@ if (updateCategory) {
         }
 
         const slideProgress = (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide.swiperSlideSize + params.spaceBetween);
+        const originalSlideProgress = (offsetCenter - snapGrid[0] + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide.swiperSlideSize + params.spaceBetween);
         const slideBefore = -(offsetCenter - slideOffset);
         const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
         const isVisible = slideBefore >= 0 && slideBefore < swiper.size - 1 || slideAfter > 1 && slideAfter <= swiper.size || slideBefore <= 0 && slideAfter >= swiper.size;
@@ -10604,6 +10426,7 @@ if (updateCategory) {
         }
 
         slide.progress = rtl ? -slideProgress : slideProgress;
+        slide.originalProgress = rtl ? -originalSlideProgress : originalSlideProgress;
       }
 
       swiper.visibleSlides = $(swiper.visibleSlides);
@@ -10799,7 +10622,7 @@ if (updateCategory) {
     function updateClickedSlide(e) {
       const swiper = this;
       const params = swiper.params;
-      const slide = $(e.target).closest(`.${params.slideClass}`)[0];
+      const slide = $(e).closest(`.${params.slideClass}`)[0];
       let slideFound = false;
       let slideIndex;
 
@@ -10844,7 +10667,11 @@ if (updateCategory) {
       updateClickedSlide
     };
 
-    function getSwiperTranslate(axis = this.isHorizontal() ? 'x' : 'y') {
+    function getSwiperTranslate(axis) {
+      if (axis === void 0) {
+        axis = this.isHorizontal() ? 'x' : 'y';
+      }
+
       const swiper = this;
       const {
         params,
@@ -10923,7 +10750,23 @@ if (updateCategory) {
       return -this.snapGrid[this.snapGrid.length - 1];
     }
 
-    function translateTo(translate = 0, speed = this.params.speed, runCallbacks = true, translateBounds = true, internal) {
+    function translateTo(translate, speed, runCallbacks, translateBounds, internal) {
+      if (translate === void 0) {
+        translate = 0;
+      }
+
+      if (speed === void 0) {
+        speed = this.params.speed;
+      }
+
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
+      if (translateBounds === void 0) {
+        translateBounds = true;
+      }
+
       const swiper = this;
       const {
         params,
@@ -11026,12 +10869,13 @@ if (updateCategory) {
       swiper.emit('setTransition', duration, byController);
     }
 
-    function transitionEmit({
-      swiper,
-      runCallbacks,
-      direction,
-      step
-    }) {
+    function transitionEmit(_ref) {
+      let {
+        swiper,
+        runCallbacks,
+        direction,
+        step
+      } = _ref;
       const {
         activeIndex,
         previousIndex
@@ -11060,7 +10904,11 @@ if (updateCategory) {
       }
     }
 
-    function transitionStart(runCallbacks = true, direction) {
+    function transitionStart(runCallbacks, direction) {
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
       const swiper = this;
       const {
         params
@@ -11079,7 +10927,11 @@ if (updateCategory) {
       });
     }
 
-    function transitionEnd(runCallbacks = true, direction) {
+    function transitionEnd(runCallbacks, direction) {
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
       const swiper = this;
       const {
         params
@@ -11101,7 +10953,19 @@ if (updateCategory) {
       transitionEnd
     };
 
-    function slideTo(index = 0, speed = this.params.speed, runCallbacks = true, internal, initial) {
+    function slideTo(index, speed, runCallbacks, internal, initial) {
+      if (index === void 0) {
+        index = 0;
+      }
+
+      if (speed === void 0) {
+        speed = this.params.speed;
+      }
+
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
       if (typeof index !== 'number' && typeof index !== 'string') {
         throw new Error(`The 'index' argument cannot have type other than 'number' or 'string'. [${typeof index}] given.`);
       }
@@ -11221,6 +11085,7 @@ if (updateCategory) {
 
           if (isVirtual) {
             swiper.wrapperEl.style.scrollSnapType = 'none';
+            swiper._immediateVirtual = true;
           }
 
           wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
@@ -11228,6 +11093,7 @@ if (updateCategory) {
           if (isVirtual) {
             requestAnimationFrame(() => {
               swiper.wrapperEl.style.scrollSnapType = '';
+              swiper._swiperImmediateVirtual = false;
             });
           }
         } else {
@@ -11249,46 +11115,73 @@ if (updateCategory) {
         return true;
       }
 
+      swiper.setTransition(speed);
+      swiper.setTranslate(translate);
+      swiper.updateActiveIndex(slideIndex);
+      swiper.updateSlidesClasses();
+      swiper.emit('beforeTransitionStart', speed, internal);
+      swiper.transitionStart(runCallbacks, direction);
+
       if (speed === 0) {
-        swiper.setTransition(0);
-        swiper.setTranslate(translate);
-        swiper.updateActiveIndex(slideIndex);
-        swiper.updateSlidesClasses();
-        swiper.emit('beforeTransitionStart', speed, internal);
-        swiper.transitionStart(runCallbacks, direction);
         swiper.transitionEnd(runCallbacks, direction);
-      } else {
-        swiper.setTransition(speed);
-        swiper.setTranslate(translate);
-        swiper.updateActiveIndex(slideIndex);
-        swiper.updateSlidesClasses();
-        swiper.emit('beforeTransitionStart', speed, internal);
-        swiper.transitionStart(runCallbacks, direction);
+      } else if (!swiper.animating) {
+        swiper.animating = true;
 
-        if (!swiper.animating) {
-          swiper.animating = true;
-
-          if (!swiper.onSlideToWrapperTransitionEnd) {
-            swiper.onSlideToWrapperTransitionEnd = function transitionEnd(e) {
-              if (!swiper || swiper.destroyed) return;
-              if (e.target !== this) return;
-              swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
-              swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
-              swiper.onSlideToWrapperTransitionEnd = null;
-              delete swiper.onSlideToWrapperTransitionEnd;
-              swiper.transitionEnd(runCallbacks, direction);
-            };
-          }
-
-          swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
-          swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
+        if (!swiper.onSlideToWrapperTransitionEnd) {
+          swiper.onSlideToWrapperTransitionEnd = function transitionEnd(e) {
+            if (!swiper || swiper.destroyed) return;
+            if (e.target !== this) return;
+            swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+            swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
+            swiper.onSlideToWrapperTransitionEnd = null;
+            delete swiper.onSlideToWrapperTransitionEnd;
+            swiper.transitionEnd(runCallbacks, direction);
+          };
         }
+
+        swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+        swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
       }
 
       return true;
     }
 
-    function slideToLoop(index = 0, speed = this.params.speed, runCallbacks = true, internal) {
+    function slideToLoop(index, speed, runCallbacks, internal) {
+      if (index === void 0) {
+        index = 0;
+      }
+
+      if (speed === void 0) {
+        speed = this.params.speed;
+      }
+
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
+      if (typeof index === 'string') {
+        /**
+         * The `index` argument converted from `string` to `number`.
+         * @type {number}
+         */
+        const indexAsNumber = parseInt(index, 10);
+        /**
+         * Determines whether the `index` argument is a valid `number`
+         * after being converted from the `string` type.
+         * @type {boolean}
+         */
+
+        const isValidNumber = isFinite(indexAsNumber);
+
+        if (!isValidNumber) {
+          throw new Error(`The passed-in 'index' (string) couldn't be converted to 'number'. [${index}] given.`);
+        } // Knowing that the converted `index` is a valid number,
+        // we can update the original argument's value.
+
+
+        index = indexAsNumber;
+      }
+
       const swiper = this;
       let newIndex = index;
 
@@ -11300,7 +11193,15 @@ if (updateCategory) {
     }
 
     /* eslint no-unused-vars: "off" */
-    function slideNext(speed = this.params.speed, runCallbacks = true, internal) {
+    function slideNext(speed, runCallbacks, internal) {
+      if (speed === void 0) {
+        speed = this.params.speed;
+      }
+
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
       const swiper = this;
       const {
         animating,
@@ -11323,11 +11224,23 @@ if (updateCategory) {
         swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
       }
 
+      if (params.rewind && swiper.isEnd) {
+        return swiper.slideTo(0, speed, runCallbacks, internal);
+      }
+
       return swiper.slideTo(swiper.activeIndex + increment, speed, runCallbacks, internal);
     }
 
     /* eslint no-unused-vars: "off" */
-    function slidePrev(speed = this.params.speed, runCallbacks = true, internal) {
+    function slidePrev(speed, runCallbacks, internal) {
+      if (speed === void 0) {
+        speed = this.params.speed;
+      }
+
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
       const swiper = this;
       const {
         params,
@@ -11383,17 +11296,42 @@ if (updateCategory) {
         }
       }
 
+      if (params.rewind && swiper.isBeginning) {
+        const lastIndex = swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual ? swiper.virtual.slides.length - 1 : swiper.slides.length - 1;
+        return swiper.slideTo(lastIndex, speed, runCallbacks, internal);
+      }
+
       return swiper.slideTo(prevIndex, speed, runCallbacks, internal);
     }
 
     /* eslint no-unused-vars: "off" */
-    function slideReset(speed = this.params.speed, runCallbacks = true, internal) {
+    function slideReset(speed, runCallbacks, internal) {
+      if (speed === void 0) {
+        speed = this.params.speed;
+      }
+
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
       const swiper = this;
       return swiper.slideTo(swiper.activeIndex, speed, runCallbacks, internal);
     }
 
     /* eslint no-unused-vars: "off" */
-    function slideToClosest(speed = this.params.speed, runCallbacks = true, internal, threshold = 0.5) {
+    function slideToClosest(speed, runCallbacks, internal, threshold) {
+      if (speed === void 0) {
+        speed = this.params.speed;
+      }
+
+      if (runCallbacks === void 0) {
+        runCallbacks = true;
+      }
+
+      if (threshold === void 0) {
+        threshold = 0.5;
+      }
+
       const swiper = this;
       let index = swiper.activeIndex;
       const skip = Math.min(swiper.params.slidesPerGroupSkip, index);
@@ -11481,8 +11419,9 @@ if (updateCategory) {
         $wrapperEl
       } = swiper; // Remove duplicated slides
 
-      $wrapperEl.children(`.${params.slideClass}.${params.slideDuplicateClass}`).remove();
-      let slides = $wrapperEl.children(`.${params.slideClass}`);
+      const $selector = $wrapperEl.children().length > 0 ? $($wrapperEl.children()[0].parentNode) : $wrapperEl;
+      $selector.children(`.${params.slideClass}.${params.slideDuplicateClass}`).remove();
+      let slides = $selector.children(`.${params.slideClass}`);
 
       if (params.loopFillGroupWithBlank) {
         const blankSlidesNum = params.slidesPerGroup - slides.length % params.slidesPerGroup;
@@ -11490,10 +11429,10 @@ if (updateCategory) {
         if (blankSlidesNum !== params.slidesPerGroup) {
           for (let i = 0; i < blankSlidesNum; i += 1) {
             const blankNode = $(document.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
-            $wrapperEl.append(blankNode);
+            $selector.append(blankNode);
           }
 
-          slides = $wrapperEl.children(`.${params.slideClass}`);
+          slides = $selector.children(`.${params.slideClass}`);
         }
       }
 
@@ -11501,32 +11440,28 @@ if (updateCategory) {
       swiper.loopedSlides = Math.ceil(parseFloat(params.loopedSlides || params.slidesPerView, 10));
       swiper.loopedSlides += params.loopAdditionalSlides;
 
-      if (swiper.loopedSlides > slides.length) {
+      if (swiper.loopedSlides > slides.length && swiper.params.loopedSlidesLimit) {
         swiper.loopedSlides = slides.length;
       }
 
       const prependSlides = [];
       const appendSlides = [];
       slides.each((el, index) => {
-        const slide = $(el);
-
-        if (index < swiper.loopedSlides) {
-          appendSlides.push(el);
-        }
-
-        if (index < slides.length && index >= slides.length - swiper.loopedSlides) {
-          prependSlides.push(el);
-        }
-
-        slide.attr('data-swiper-slide-index', index);
+        $(el).attr('data-swiper-slide-index', index);
       });
 
+      for (let i = 0; i < swiper.loopedSlides; i += 1) {
+        const index = i - Math.floor(i / slides.length) * slides.length;
+        appendSlides.push(slides.eq(index)[0]);
+        prependSlides.unshift(slides.eq(slides.length - index - 1)[0]);
+      }
+
       for (let i = 0; i < appendSlides.length; i += 1) {
-        $wrapperEl.append($(appendSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
+        $selector.append($(appendSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
       }
 
       for (let i = prependSlides.length - 1; i >= 0; i -= 1) {
-        $wrapperEl.prepend($(prependSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
+        $selector.prepend($(prependSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
       }
     }
 
@@ -11594,8 +11529,6 @@ if (updateCategory) {
       if (swiper.support.touch || !swiper.params.simulateTouch || swiper.params.watchOverflow && swiper.isLocked || swiper.params.cssMode) return;
       const el = swiper.params.touchEventsTarget === 'container' ? swiper.el : swiper.wrapperEl;
       el.style.cursor = 'move';
-      el.style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
-      el.style.cursor = moving ? '-moz-grabbin' : '-moz-grab';
       el.style.cursor = moving ? 'grabbing' : 'grab';
     }
 
@@ -11614,11 +11547,20 @@ if (updateCategory) {
       unsetGrabCursor
     };
 
-    function closestElement(selector, base = this) {
+    function closestElement(selector, base) {
+      if (base === void 0) {
+        base = this;
+      }
+
       function __closestFrom(el) {
         if (!el || el === getDocument() || el === getWindow()) return null;
         if (el.assignedSlot) el = el.assignedSlot;
         const found = el.closest(selector);
+
+        if (!found && !el.getRootNode) {
+          return null;
+        }
+
         return found || __closestFrom(el.getRootNode().host);
       }
 
@@ -11667,7 +11609,7 @@ if (updateCategory) {
       const noSwipingSelector = params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`;
       const isTargetShadow = !!(e.target && e.target.shadowRoot); // use closestElement for shadow root element to get the actual closest for nested shadow root element
 
-      if (params.noSwiping && (isTargetShadow ? closestElement(noSwipingSelector, e.target) : $targetEl.closest(noSwipingSelector)[0])) {
+      if (params.noSwiping && (isTargetShadow ? closestElement(noSwipingSelector, $targetEl[0]) : $targetEl.closest(noSwipingSelector)[0])) {
         swiper.allowClick = true;
         return;
       }
@@ -11709,7 +11651,14 @@ if (updateCategory) {
 
       if (e.type !== 'touchstart') {
         let preventDefault = true;
-        if ($targetEl.is(data.focusableElements)) preventDefault = false;
+
+        if ($targetEl.is(data.focusableElements)) {
+          preventDefault = false;
+
+          if ($targetEl[0].nodeName === 'SELECT') {
+            data.isTouched = false;
+          }
+        }
 
         if (document.activeElement && $(document.activeElement).is(data.focusableElements) && document.activeElement !== $targetEl[0]) {
           document.activeElement.blur();
@@ -11720,6 +11669,10 @@ if (updateCategory) {
         if ((params.touchStartForcePreventDefault || shouldPreventDefault) && !$targetEl[0].isContentEditable) {
           e.preventDefault();
         }
+      }
+
+      if (swiper.params.freeMode && swiper.params.freeMode.enabled && swiper.freeMode && swiper.animating && !params.cssMode) {
+        swiper.freeMode.onTouchStart();
       }
 
       swiper.emit('touchStart', e);
@@ -11759,8 +11712,9 @@ if (updateCategory) {
       }
 
       if (!swiper.allowTouchMove) {
-        // isMoved = true;
-        swiper.allowClick = false;
+        if (!$(e.target).is(data.focusableElements)) {
+          swiper.allowClick = false;
+        }
 
         if (data.isTouched) {
           Object.assign(touches, {
@@ -11985,7 +11939,8 @@ if (updateCategory) {
       const timeDiff = touchEndTime - data.touchStartTime; // Tap, doubleTap, Click
 
       if (swiper.allowClick) {
-        swiper.updateClickedSlide(e);
+        const pathTree = e.path || e.composedPath && e.composedPath();
+        swiper.updateClickedSlide(pathTree && pathTree[0] || e.target);
         swiper.emit('tap click', e);
 
         if (timeDiff < 300 && touchEndTime - data.lastClickTime < 300) {
@@ -12043,6 +11998,17 @@ if (updateCategory) {
           stopIndex = i;
           groupSize = slidesGrid[slidesGrid.length - 1] - slidesGrid[slidesGrid.length - 2];
         }
+      }
+
+      let rewindFirstIndex = null;
+      let rewindLastIndex = null;
+
+      if (params.rewind) {
+        if (swiper.isBeginning) {
+          rewindLastIndex = swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual ? swiper.virtual.slides.length - 1 : swiper.slides.length - 1;
+        } else if (swiper.isEnd) {
+          rewindFirstIndex = 0;
+        }
       } // Find current slide size
 
 
@@ -12057,11 +12023,17 @@ if (updateCategory) {
         }
 
         if (swiper.swipeDirection === 'next') {
-          if (ratio >= params.longSwipesRatio) swiper.slideTo(stopIndex + increment);else swiper.slideTo(stopIndex);
+          if (ratio >= params.longSwipesRatio) swiper.slideTo(params.rewind && swiper.isEnd ? rewindFirstIndex : stopIndex + increment);else swiper.slideTo(stopIndex);
         }
 
         if (swiper.swipeDirection === 'prev') {
-          if (ratio > 1 - params.longSwipesRatio) swiper.slideTo(stopIndex + increment);else swiper.slideTo(stopIndex);
+          if (ratio > 1 - params.longSwipesRatio) {
+            swiper.slideTo(stopIndex + increment);
+          } else if (rewindLastIndex !== null && ratio < 0 && Math.abs(ratio) > params.longSwipesRatio) {
+            swiper.slideTo(rewindLastIndex);
+          } else {
+            swiper.slideTo(stopIndex);
+          }
         }
       } else {
         // Short swipes
@@ -12074,11 +12046,11 @@ if (updateCategory) {
 
         if (!isNavButtonTarget) {
           if (swiper.swipeDirection === 'next') {
-            swiper.slideTo(stopIndex + increment);
+            swiper.slideTo(rewindFirstIndex !== null ? rewindFirstIndex : stopIndex + increment);
           }
 
           if (swiper.swipeDirection === 'prev') {
-            swiper.slideTo(stopIndex);
+            swiper.slideTo(rewindLastIndex !== null ? rewindLastIndex : stopIndex);
           }
         } else if (e.target === swiper.navigation.nextEl) {
           swiper.slideTo(stopIndex + increment);
@@ -12163,7 +12135,7 @@ if (updateCategory) {
       } // eslint-disable-next-line
 
 
-      if (swiper.translate === -0) swiper.translate = 0;
+      if (swiper.translate === 0) swiper.translate = 0;
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
       let newProgress;
@@ -12308,8 +12280,21 @@ if (updateCategory) {
         }
 
         swiper.emitContainerClasses();
-      }
+      } // Toggle navigation, pagination, scrollbar
 
+
+      ['navigation', 'pagination', 'scrollbar'].forEach(prop => {
+        const wasModuleEnabled = params[prop] && params[prop].enabled;
+        const isModuleEnabled = breakpointParams[prop] && breakpointParams[prop].enabled;
+
+        if (wasModuleEnabled && !isModuleEnabled) {
+          swiper[prop].disable();
+        }
+
+        if (!wasModuleEnabled && isModuleEnabled) {
+          swiper[prop].enable();
+        }
+      });
       const directionChanged = breakpointParams.direction && breakpointParams.direction !== params.direction;
       const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView || directionChanged);
 
@@ -12344,7 +12329,11 @@ if (updateCategory) {
       swiper.emit('breakpoint', breakpointParams);
     }
 
-    function getBreakpoint(breakpoints, base = 'window', containerEl) {
+    function getBreakpoint(breakpoints, base, containerEl) {
+      if (base === void 0) {
+        base = 'window';
+      }
+
       if (!breakpoints || base === 'container' && !containerEl) return undefined;
       let breakpoint = false;
       const window = getWindow();
@@ -12436,6 +12425,8 @@ if (updateCategory) {
         'css-mode': params.cssMode
       }, {
         'centered': params.cssMode && params.centeredSlides
+      }, {
+        'watch-progress': params.watchSlidesProgress
       }], params.containerModifierClass);
       classNames.push(...suffixes);
       $el.addClass([...classNames].join(' '));
@@ -12646,8 +12637,11 @@ if (updateCategory) {
       loop: false,
       loopAdditionalSlides: 0,
       loopedSlides: null,
+      loopedSlidesLimit: true,
       loopFillGroupWithBlank: false,
       loopPreventsSlide: true,
+      // rewind
+      rewind: false,
       // Swiping/no swiping
       allowSlidePrev: true,
       allowSlideNext: true,
@@ -12658,6 +12652,7 @@ if (updateCategory) {
       noSwipingSelector: null,
       // Passive Listeners
       passiveListeners: true,
+      maxBackfaceHiddenSlides: 10,
       // NS
       containerModifierClass: 'swiper-',
       // NEW
@@ -12679,7 +12674,11 @@ if (updateCategory) {
     };
 
     function moduleExtendParams(params, allModulesParams) {
-      return function extendParams(obj = {}) {
+      return function extendParams(obj) {
+        if (obj === void 0) {
+          obj = {};
+        }
+
         const moduleParamName = Object.keys(obj)[0];
         const moduleParams = obj[moduleParamName];
 
@@ -12734,9 +12733,13 @@ if (updateCategory) {
     const extendedDefaults = {};
 
     class Swiper {
-      constructor(...args) {
+      constructor() {
         let el;
         let params;
+
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
 
         if (args.length === 1 && args[0].constructor && Object.prototype.toString.call(args[0]).slice(8, -1) === 'Object') {
           params = args[0];
@@ -12949,6 +12952,7 @@ if (updateCategory) {
 
       getSlideClasses(slideEl) {
         const swiper = this;
+        if (swiper.destroyed) return '';
         return slideEl.className.split(' ').filter(className => {
           return className.indexOf('swiper-slide') === 0 || className.indexOf(swiper.params.slideClass) === 0;
         }).join(' ');
@@ -12969,7 +12973,15 @@ if (updateCategory) {
         swiper.emit('_slideClasses', updates);
       }
 
-      slidesPerViewDynamic(view = 'current', exact = false) {
+      slidesPerViewDynamic(view, exact) {
+        if (view === void 0) {
+          view = 'current';
+        }
+
+        if (exact === void 0) {
+          exact = false;
+        }
+
         const swiper = this;
         const {
           params,
@@ -13077,7 +13089,11 @@ if (updateCategory) {
         swiper.emit('update');
       }
 
-      changeDirection(newDirection, needUpdate = true) {
+      changeDirection(newDirection, needUpdate) {
+        if (needUpdate === void 0) {
+          needUpdate = true;
+        }
+
         const swiper = this;
         const currentDirection = swiper.params.direction;
 
@@ -13105,6 +13121,23 @@ if (updateCategory) {
         return swiper;
       }
 
+      changeLanguageDirection(direction) {
+        const swiper = this;
+        if (swiper.rtl && direction === 'rtl' || !swiper.rtl && direction === 'ltr') return;
+        swiper.rtl = direction === 'rtl';
+        swiper.rtlTranslate = swiper.params.direction === 'horizontal' && swiper.rtl;
+
+        if (swiper.rtl) {
+          swiper.$el.addClass(`${swiper.params.containerModifierClass}rtl`);
+          swiper.el.dir = 'rtl';
+        } else {
+          swiper.$el.removeClass(`${swiper.params.containerModifierClass}rtl`);
+          swiper.el.dir = 'ltr';
+        }
+
+        swiper.update();
+      }
+
       mount(el) {
         const swiper = this;
         if (swiper.mounted) return true; // Find el
@@ -13129,6 +13162,10 @@ if (updateCategory) {
             res.children = options => $el.children(options);
 
             return res;
+          }
+
+          if (!$el.children) {
+            return $($el).children(getWrapperSelector());
           }
 
           return $el.children(getWrapperSelector());
@@ -13215,7 +13252,15 @@ if (updateCategory) {
         return swiper;
       }
 
-      destroy(deleteInstance = true, cleanStyles = true) {
+      destroy(deleteInstance, cleanStyles) {
+        if (deleteInstance === void 0) {
+          deleteInstance = true;
+        }
+
+        if (cleanStyles === void 0) {
+          cleanStyles = true;
+        }
+
         const swiper = this;
         const {
           params,
@@ -13304,11 +13349,13 @@ if (updateCategory) {
     });
     Swiper.use([Resize, Observer]);
 
-    function Virtual({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function Virtual(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       extendParams({
         virtual: {
           enabled: false,
@@ -13321,6 +13368,7 @@ if (updateCategory) {
           addSlidesAfter: 0
         }
       });
+      let cssModeTimeout;
       swiper.virtual = {
         cache: {},
         from: undefined,
@@ -13360,7 +13408,11 @@ if (updateCategory) {
           slidesGrid: previousSlidesGrid,
           offset: previousOffset
         } = swiper.virtual;
-        swiper.updateActiveIndex();
+
+        if (!swiper.params.cssMode) {
+          swiper.updateActiveIndex();
+        }
+
         const activeIndex = swiper.activeIndex || 0;
         let offsetProp;
         if (swiper.rtlTranslate) offsetProp = 'right';else offsetProp = swiper.isHorizontal() ? 'left' : 'top';
@@ -13393,6 +13445,8 @@ if (updateCategory) {
           if (swiper.lazy && swiper.params.lazy.enabled) {
             swiper.lazy.load();
           }
+
+          emit('virtualUpdate');
         }
 
         if (previousFrom === from && previousTo === to && !force) {
@@ -13401,6 +13455,7 @@ if (updateCategory) {
           }
 
           swiper.updateProgress();
+          emit('virtualUpdate');
           return;
         }
 
@@ -13422,6 +13477,8 @@ if (updateCategory) {
 
           if (swiper.params.virtual.renderExternalUpdate) {
             onRendered();
+          } else {
+            emit('virtualUpdate');
           }
 
           return;
@@ -13497,7 +13554,7 @@ if (updateCategory) {
             const cachedElIndex = $cachedEl.attr('data-swiper-slide-index');
 
             if (cachedElIndex) {
-              $cachedEl.attr('data-swiper-slide-index', parseInt(cachedElIndex, 10) + 1);
+              $cachedEl.attr('data-swiper-slide-index', parseInt(cachedElIndex, 10) + numberOfNewSlides);
             }
 
             newCache[parseInt(cachedIndex, 10) + numberOfNewSlides] = $cachedEl;
@@ -13563,7 +13620,15 @@ if (updateCategory) {
       });
       on('setTranslate', () => {
         if (!swiper.params.virtual.enabled) return;
-        update();
+
+        if (swiper.params.cssMode && !swiper._immediateVirtual) {
+          clearTimeout(cssModeTimeout);
+          cssModeTimeout = setTimeout(() => {
+            update();
+          }, 100);
+        } else {
+          update();
+        }
       });
       on('init update resize', () => {
         if (!swiper.params.virtual.enabled) return;
@@ -13582,12 +13647,13 @@ if (updateCategory) {
     }
 
     /* eslint-disable consistent-return */
-    function Keyboard({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Keyboard(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       const document = getDocument();
       const window = getWindow();
       swiper.keyboard = {
@@ -13712,12 +13778,13 @@ if (updateCategory) {
     }
 
     /* eslint-disable consistent-return */
-    function Mousewheel({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Mousewheel(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       const window = getWindow();
       extendParams({
         mousewheel: {
@@ -14154,12 +14221,13 @@ if (updateCategory) {
       return params;
     }
 
-    function Navigation({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Navigation(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       extendParams({
         navigation: {
           nextEl: null,
@@ -14167,7 +14235,8 @@ if (updateCategory) {
           hideOnClick: false,
           disabledClass: 'swiper-button-disabled',
           hiddenClass: 'swiper-button-hidden',
-          lockClass: 'swiper-button-lock'
+          lockClass: 'swiper-button-lock',
+          navigationDisabledClass: 'swiper-navigation-disabled'
         }
       });
       swiper.navigation = {
@@ -14211,20 +14280,22 @@ if (updateCategory) {
           $nextEl,
           $prevEl
         } = swiper.navigation;
-        toggleEl($prevEl, swiper.isBeginning);
-        toggleEl($nextEl, swiper.isEnd);
+        toggleEl($prevEl, swiper.isBeginning && !swiper.params.rewind);
+        toggleEl($nextEl, swiper.isEnd && !swiper.params.rewind);
       }
 
       function onPrevClick(e) {
         e.preventDefault();
-        if (swiper.isBeginning && !swiper.params.loop) return;
+        if (swiper.isBeginning && !swiper.params.loop && !swiper.params.rewind) return;
         swiper.slidePrev();
+        emit('navigationPrev');
       }
 
       function onNextClick(e) {
         e.preventDefault();
-        if (swiper.isEnd && !swiper.params.loop) return;
+        if (swiper.isEnd && !swiper.params.loop && !swiper.params.rewind) return;
         swiper.slideNext();
+        emit('navigationNext');
       }
 
       function init() {
@@ -14276,8 +14347,13 @@ if (updateCategory) {
       }
 
       on('init', () => {
-        init();
-        update();
+        if (swiper.params.navigation.enabled === false) {
+          // eslint-disable-next-line
+          disable();
+        } else {
+          init();
+          update();
+        }
       });
       on('toEdge fromEdge lock unlock', () => {
         update();
@@ -14331,24 +14407,43 @@ if (updateCategory) {
           }
         }
       });
+
+      const enable = () => {
+        swiper.$el.removeClass(swiper.params.navigation.navigationDisabledClass);
+        init();
+        update();
+      };
+
+      const disable = () => {
+        swiper.$el.addClass(swiper.params.navigation.navigationDisabledClass);
+        destroy();
+      };
+
       Object.assign(swiper.navigation, {
+        enable,
+        disable,
         update,
         init,
         destroy
       });
     }
 
-    function classesToSelector(classes = '') {
+    function classesToSelector(classes) {
+      if (classes === void 0) {
+        classes = '';
+      }
+
       return `.${classes.trim().replace(/([\.:!\/])/g, '\\$1') // eslint-disable-line
   .replace(/ /g, '.')}`;
     }
 
-    function Pagination({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Pagination(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       const pfx = 'swiper-pagination';
       extendParams({
         pagination: {
@@ -14378,7 +14473,8 @@ if (updateCategory) {
           clickableClass: `${pfx}-clickable`,
           lockClass: `${pfx}-lock`,
           horizontalClass: `${pfx}-horizontal`,
-          verticalClass: `${pfx}-vertical`
+          verticalClass: `${pfx}-vertical`,
+          paginationDisabledClass: `${pfx}-disabled`
         }
       });
       swiper.pagination = {
@@ -14438,7 +14534,7 @@ if (updateCategory) {
             $el.css(swiper.isHorizontal() ? 'width' : 'height', `${bulletSize * (params.dynamicMainBullets + 4)}px`);
 
             if (params.dynamicMainBullets > 1 && swiper.previousIndex !== undefined) {
-              dynamicBulletIndex += current - swiper.previousIndex;
+              dynamicBulletIndex += current - (swiper.previousIndex - swiper.loopedSlides || 0);
 
               if (dynamicBulletIndex > params.dynamicMainBullets - 1) {
                 dynamicBulletIndex = params.dynamicMainBullets - 1;
@@ -14447,7 +14543,7 @@ if (updateCategory) {
               }
             }
 
-            firstIndex = current - dynamicBulletIndex;
+            firstIndex = Math.max(current - dynamicBulletIndex, 0);
             lastIndex = firstIndex + (Math.min(bullets.length, params.dynamicMainBullets) - 1);
             midIndex = (lastIndex + firstIndex) / 2;
           }
@@ -14491,7 +14587,7 @@ if (updateCategory) {
               }
 
               if (swiper.params.loop) {
-                if (bulletIndex >= bullets.length - params.dynamicMainBullets) {
+                if (bulletIndex >= bullets.length) {
                   for (let i = params.dynamicMainBullets; i >= 0; i -= 1) {
                     bullets.eq(bullets.length - i).addClass(`${params.bulletActiveClass}-main`);
                   }
@@ -14632,7 +14728,7 @@ if (updateCategory) {
         }
 
         $el.addClass(params.modifierClass + params.type);
-        $el.addClass(params.modifierClass + swiper.params.direction);
+        $el.addClass(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
 
         if (params.type === 'bullets' && params.dynamicBullets) {
           $el.addClass(`${params.modifierClass}${params.type}-dynamic`);
@@ -14672,7 +14768,7 @@ if (updateCategory) {
         const $el = swiper.pagination.$el;
         $el.removeClass(params.hiddenClass);
         $el.removeClass(params.modifierClass + params.type);
-        $el.removeClass(params.modifierClass + swiper.params.direction);
+        $el.removeClass(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
         if (swiper.pagination.bullets && swiper.pagination.bullets.removeClass) swiper.pagination.bullets.removeClass(params.bulletActiveClass);
 
         if (params.clickable) {
@@ -14681,9 +14777,14 @@ if (updateCategory) {
       }
 
       on('init', () => {
-        init();
-        render();
-        update();
+        if (swiper.params.pagination.enabled === false) {
+          // eslint-disable-next-line
+          disable();
+        } else {
+          init();
+          render();
+          update();
+        }
       });
       on('activeIndexChange', () => {
         if (swiper.params.loop) {
@@ -14730,7 +14831,7 @@ if (updateCategory) {
           $el
         } = swiper.pagination;
 
-        if (swiper.params.pagination.el && swiper.params.pagination.hideOnClick && $el.length > 0 && !$(targetEl).hasClass(swiper.params.pagination.bulletClass)) {
+        if (swiper.params.pagination.el && swiper.params.pagination.hideOnClick && $el && $el.length > 0 && !$(targetEl).hasClass(swiper.params.pagination.bulletClass)) {
           if (swiper.navigation && (swiper.navigation.nextEl && targetEl === swiper.navigation.nextEl || swiper.navigation.prevEl && targetEl === swiper.navigation.prevEl)) return;
           const isHidden = $el.hasClass(swiper.params.pagination.hiddenClass);
 
@@ -14743,7 +14844,32 @@ if (updateCategory) {
           $el.toggleClass(swiper.params.pagination.hiddenClass);
         }
       });
+
+      const enable = () => {
+        swiper.$el.removeClass(swiper.params.pagination.paginationDisabledClass);
+
+        if (swiper.pagination.$el) {
+          swiper.pagination.$el.removeClass(swiper.params.pagination.paginationDisabledClass);
+        }
+
+        init();
+        render();
+        update();
+      };
+
+      const disable = () => {
+        swiper.$el.addClass(swiper.params.pagination.paginationDisabledClass);
+
+        if (swiper.pagination.$el) {
+          swiper.pagination.$el.addClass(swiper.params.pagination.paginationDisabledClass);
+        }
+
+        destroy();
+      };
+
       Object.assign(swiper.pagination, {
+        enable,
+        disable,
         render,
         update,
         init,
@@ -14751,12 +14877,13 @@ if (updateCategory) {
       });
     }
 
-    function Scrollbar({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Scrollbar(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       const document = getDocument();
       let isTouched = false;
       let timeout = null;
@@ -14773,7 +14900,10 @@ if (updateCategory) {
           draggable: false,
           snapOnRelease: true,
           lockClass: 'swiper-scrollbar-lock',
-          dragClass: 'swiper-scrollbar-drag'
+          dragClass: 'swiper-scrollbar-drag',
+          scrollbarDisabledClass: 'swiper-scrollbar-disabled',
+          horizontalClass: `swiper-scrollbar-horizontal`,
+          verticalClass: `swiper-scrollbar-vertical`
         }
       });
       swiper.scrollbar = {
@@ -14999,6 +15129,7 @@ if (updateCategory) {
           support
         } = swiper;
         const $el = scrollbar.$el;
+        if (!$el) return;
         const target = $el[0];
         const activeListener = support.passiveListener && params.passiveListeners ? {
           passive: false,
@@ -15023,12 +15154,12 @@ if (updateCategory) {
       }
 
       function enableDraggable() {
-        if (!swiper.params.scrollbar.el) return;
+        if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
         events('on');
       }
 
       function disableDraggable() {
-        if (!swiper.params.scrollbar.el) return;
+        if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
         events('off');
       }
 
@@ -15048,6 +15179,7 @@ if (updateCategory) {
           $el = $swiperEl.find(params.el);
         }
 
+        $el.addClass(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
         let $dragEl = $el.find(`.${swiper.params.scrollbar.dragClass}`);
 
         if ($dragEl.length === 0) {
@@ -15072,13 +15204,25 @@ if (updateCategory) {
       }
 
       function destroy() {
+        const params = swiper.params.scrollbar;
+        const $el = swiper.scrollbar.$el;
+
+        if ($el) {
+          $el.removeClass(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+        }
+
         disableDraggable();
       }
 
       on('init', () => {
-        init();
-        updateSize();
-        setTranslate();
+        if (swiper.params.scrollbar.enabled === false) {
+          // eslint-disable-next-line
+          disable();
+        } else {
+          init();
+          updateSize();
+          setTranslate();
+        }
       });
       on('update resize observerUpdate lock unlock', () => {
         updateSize();
@@ -15101,7 +15245,32 @@ if (updateCategory) {
       on('destroy', () => {
         destroy();
       });
+
+      const enable = () => {
+        swiper.$el.removeClass(swiper.params.scrollbar.scrollbarDisabledClass);
+
+        if (swiper.scrollbar.$el) {
+          swiper.scrollbar.$el.removeClass(swiper.params.scrollbar.scrollbarDisabledClass);
+        }
+
+        init();
+        updateSize();
+        setTranslate();
+      };
+
+      const disable = () => {
+        swiper.$el.addClass(swiper.params.scrollbar.scrollbarDisabledClass);
+
+        if (swiper.scrollbar.$el) {
+          swiper.scrollbar.$el.addClass(swiper.params.scrollbar.scrollbarDisabledClass);
+        }
+
+        destroy();
+      };
+
       Object.assign(swiper.scrollbar, {
+        enable,
+        disable,
         updateSize,
         setTranslate,
         init,
@@ -15109,11 +15278,12 @@ if (updateCategory) {
       });
     }
 
-    function Parallax({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function Parallax(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         parallax: {
           enabled: false
@@ -15192,7 +15362,11 @@ if (updateCategory) {
         });
       };
 
-      const setTransition = (duration = swiper.params.speed) => {
+      const setTransition = function (duration) {
+        if (duration === void 0) {
+          duration = swiper.params.speed;
+        }
+
         const {
           $el
         } = swiper;
@@ -15223,12 +15397,13 @@ if (updateCategory) {
       });
     }
 
-    function Zoom({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Zoom(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       const window = getWindow();
       extendParams({
         zoom: {
@@ -15326,7 +15501,7 @@ if (updateCategory) {
         if (!gesture.$slideEl || !gesture.$slideEl.length) {
           gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}`);
           if (gesture.$slideEl.length === 0) gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
-          gesture.$imageEl = gesture.$slideEl.find(`.${params.containerClass}`).eq(0).find('img, svg, canvas, picture, .swiper-zoom-target');
+          gesture.$imageEl = gesture.$slideEl.find(`.${params.containerClass}`).eq(0).find('picture, img, svg, canvas, .swiper-zoom-target').eq(0);
           gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
           gesture.maxRatio = gesture.$imageWrapEl.attr('data-swiper-zoom') || params.maxRatio;
 
@@ -15567,7 +15742,7 @@ if (updateCategory) {
             }
           }
 
-          gesture.$imageEl = gesture.$slideEl.find(`.${params.containerClass}`).eq(0).find('img, svg, canvas, picture, .swiper-zoom-target');
+          gesture.$imageEl = gesture.$slideEl.find(`.${params.containerClass}`).eq(0).find('picture, img, svg, canvas, .swiper-zoom-target').eq(0);
           gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
         }
 
@@ -15662,7 +15837,7 @@ if (updateCategory) {
             gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
           }
 
-          gesture.$imageEl = gesture.$slideEl.find(`.${params.containerClass}`).eq(0).find('img, svg, canvas, picture, .swiper-zoom-target');
+          gesture.$imageEl = gesture.$slideEl.find(`.${params.containerClass}`).eq(0).find('picture, img, svg, canvas, .swiper-zoom-target').eq(0);
           gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
         }
 
@@ -15833,12 +16008,13 @@ if (updateCategory) {
       });
     }
 
-    function Lazy({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Lazy(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       extendParams({
         lazy: {
           checkInView: false,
@@ -15857,7 +16033,11 @@ if (updateCategory) {
       let scrollHandlerAttached = false;
       let initialImageLoaded = false;
 
-      function loadInSlide(index, loadInDuplicate = true) {
+      function loadInSlide(index, loadInDuplicate) {
+        if (loadInDuplicate === void 0) {
+          loadInDuplicate = true;
+        }
+
         const params = swiper.params.lazy;
         if (typeof index === 'undefined') return;
         if (swiper.slides.length === 0) return;
@@ -15988,11 +16168,11 @@ if (updateCategory) {
         if (params.loadPrevNext) {
           if (slidesPerView > 1 || params.loadPrevNextAmount && params.loadPrevNextAmount > 1) {
             const amount = params.loadPrevNextAmount;
-            const spv = slidesPerView;
+            const spv = Math.ceil(slidesPerView);
             const maxIndex = Math.min(activeIndex + spv + Math.max(amount, spv), slides.length);
             const minIndex = Math.max(activeIndex - Math.max(spv, amount), 0); // Next Slides
 
-            for (let i = activeIndex + slidesPerView; i < maxIndex; i += 1) {
+            for (let i = activeIndex + spv; i < maxIndex; i += 1) {
               if (slideExist(i)) loadInSlide(i);
             } // Prev Slides
 
@@ -16109,6 +16289,10 @@ if (updateCategory) {
           load();
         }
       });
+      on('destroy', () => {
+        if (!swiper.$el) return;
+        swiper.$el.find(`.${swiper.params.lazy.loadingClass}`).removeClass(swiper.params.lazy.loadingClass);
+      });
       Object.assign(swiper.lazy, {
         load,
         loadInSlide
@@ -16116,11 +16300,12 @@ if (updateCategory) {
     }
 
     /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-    function Controller({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function Controller(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         controller: {
           control: undefined,
@@ -16306,11 +16491,12 @@ if (updateCategory) {
       });
     }
 
-    function A11y({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function A11y(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         a11y: {
           enabled: true,
@@ -16324,7 +16510,8 @@ if (updateCategory) {
           containerMessage: null,
           containerRoleDescriptionMessage: null,
           itemRoleDescriptionMessage: null,
-          slideRole: 'group'
+          slideRole: 'group',
+          id: null
         }
       });
       let liveRegion = null;
@@ -16336,7 +16523,11 @@ if (updateCategory) {
         notification.html(message);
       }
 
-      function getRandomNumber(size = 16) {
+      function getRandomNumber(size) {
+        if (size === void 0) {
+          size = 16;
+        }
+
         const randomChar = () => Math.round(16 * Math.random()).toString(16);
 
         return 'x'.repeat(size).replace(/x/g, randomChar);
@@ -16417,7 +16608,7 @@ if (updateCategory) {
       }
 
       function updateNavigation() {
-        if (swiper.params.loop || !swiper.navigation) return;
+        if (swiper.params.loop || swiper.params.rewind || !swiper.navigation) return;
         const {
           $nextEl,
           $prevEl
@@ -16445,23 +16636,34 @@ if (updateCategory) {
       }
 
       function hasPagination() {
-        return swiper.pagination && swiper.params.pagination.clickable && swiper.pagination.bullets && swiper.pagination.bullets.length;
+        return swiper.pagination && swiper.pagination.bullets && swiper.pagination.bullets.length;
+      }
+
+      function hasClickablePagination() {
+        return hasPagination() && swiper.params.pagination.clickable;
       }
 
       function updatePagination() {
         const params = swiper.params.a11y;
+        if (!hasPagination()) return;
+        swiper.pagination.bullets.each(bulletEl => {
+          const $bulletEl = $(bulletEl);
 
-        if (hasPagination()) {
-          swiper.pagination.bullets.each(bulletEl => {
-            const $bulletEl = $(bulletEl);
+          if (swiper.params.pagination.clickable) {
             makeElFocusable($bulletEl);
 
             if (!swiper.params.pagination.renderBullet) {
               addElRole($bulletEl, 'button');
               addElLabel($bulletEl, params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1));
             }
-          });
-        }
+          }
+
+          if ($bulletEl.is(`.${swiper.params.pagination.bulletActiveClass}`)) {
+            $bulletEl.attr('aria-current', 'true');
+          } else {
+            $bulletEl.removeAttr('aria-current');
+          }
+        });
       }
 
       const initNavEl = ($el, wrapperId, message) => {
@@ -16476,7 +16678,46 @@ if (updateCategory) {
         addElControls($el, wrapperId);
       };
 
-      function init() {
+      const handleFocus = e => {
+        const slideEl = e.target.closest(`.${swiper.params.slideClass}`);
+        if (!slideEl || !swiper.slides.includes(slideEl)) return;
+        const isActive = swiper.slides.indexOf(slideEl) === swiper.activeIndex;
+        const isVisible = swiper.params.watchSlidesProgress && swiper.visibleSlides && swiper.visibleSlides.includes(slideEl);
+        if (isActive || isVisible) return;
+
+        if (swiper.isHorizontal()) {
+          swiper.el.scrollLeft = 0;
+        } else {
+          swiper.el.scrollTop = 0;
+        }
+
+        swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
+      };
+
+      const initSlides = () => {
+        const params = swiper.params.a11y;
+
+        if (params.itemRoleDescriptionMessage) {
+          addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
+        }
+
+        if (params.slideRole) {
+          addElRole($(swiper.slides), params.slideRole);
+        }
+
+        const slidesLength = swiper.params.loop ? swiper.slides.filter(el => !el.classList.contains(swiper.params.slideDuplicateClass)).length : swiper.slides.length;
+
+        if (params.slideLabelMessage) {
+          swiper.slides.each((slideEl, index) => {
+            const $slideEl = $(slideEl);
+            const slideIndex = swiper.params.loop ? parseInt($slideEl.attr('data-swiper-slide-index'), 10) : index;
+            const ariaLabelMessage = params.slideLabelMessage.replace(/\{\{index\}\}/, slideIndex + 1).replace(/\{\{slidesLength\}\}/, slidesLength);
+            addElLabel($slideEl, ariaLabelMessage);
+          });
+        }
+      };
+
+      const init = () => {
         const params = swiper.params.a11y;
         swiper.$el.append(liveRegion); // Container
 
@@ -16492,23 +16733,12 @@ if (updateCategory) {
 
 
         const $wrapperEl = swiper.$wrapperEl;
-        const wrapperId = $wrapperEl.attr('id') || `swiper-wrapper-${getRandomNumber(16)}`;
+        const wrapperId = params.id || $wrapperEl.attr('id') || `swiper-wrapper-${getRandomNumber(16)}`;
         const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
         addElId($wrapperEl, wrapperId);
         addElLive($wrapperEl, live); // Slide
 
-        if (params.itemRoleDescriptionMessage) {
-          addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
-        }
-
-        addElRole($(swiper.slides), params.slideRole);
-        const slidesLength = swiper.params.loop ? swiper.slides.filter(el => !el.classList.contains(swiper.params.slideDuplicateClass)).length : swiper.slides.length;
-        swiper.slides.each((slideEl, index) => {
-          const $slideEl = $(slideEl);
-          const slideIndex = swiper.params.loop ? parseInt($slideEl.attr('data-swiper-slide-index'), 10) : index;
-          const ariaLabelMessage = params.slideLabelMessage.replace(/\{\{index\}\}/, slideIndex + 1).replace(/\{\{slidesLength\}\}/, slidesLength);
-          addElLabel($slideEl, ariaLabelMessage);
-        }); // Navigation
+        initSlides(); // Navigation
 
         let $nextEl;
         let $prevEl;
@@ -16530,10 +16760,13 @@ if (updateCategory) {
         } // Pagination
 
 
-        if (hasPagination()) {
+        if (hasClickablePagination()) {
           swiper.pagination.$el.on('keydown', classesToSelector(swiper.params.pagination.bulletClass), onEnterOrSpaceKey);
-        }
-      }
+        } // Tab focus
+
+
+        swiper.$el.on('focus', handleFocus, true);
+      };
 
       function destroy() {
         if (liveRegion && liveRegion.length > 0) liveRegion.remove();
@@ -16557,9 +16790,12 @@ if (updateCategory) {
         } // Pagination
 
 
-        if (hasPagination()) {
+        if (hasClickablePagination()) {
           swiper.pagination.$el.off('keydown', classesToSelector(swiper.params.pagination.bulletClass), onEnterOrSpaceKey);
-        }
+        } // Tab focus
+
+
+        swiper.$el.off('focus', handleFocus, true);
       }
 
       on('beforeInit', () => {
@@ -16568,13 +16804,12 @@ if (updateCategory) {
       on('afterInit', () => {
         if (!swiper.params.a11y.enabled) return;
         init();
-        updateNavigation();
       });
-      on('toEdge', () => {
+      on('slidesLengthChange snapGridLengthChange slidesGridLengthChange', () => {
         if (!swiper.params.a11y.enabled) return;
-        updateNavigation();
+        initSlides();
       });
-      on('fromEdge', () => {
+      on('fromEdge toEdge afterInit lock unlock', () => {
         if (!swiper.params.a11y.enabled) return;
         updateNavigation();
       });
@@ -16588,17 +16823,19 @@ if (updateCategory) {
       });
     }
 
-    function History({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function History(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         history: {
           enabled: false,
           root: '',
           replaceState: false,
-          key: 'slides'
+          key: 'slides',
+          keepQuery: false
         }
       });
       let initialized = false;
@@ -16650,6 +16887,10 @@ if (updateCategory) {
           value = `${key}/${value}`;
         }
 
+        if (swiper.params.history.keepQuery) {
+          value += location.search;
+        }
+
         const currentState = window.history.state;
 
         if (currentState && currentState.value === value) {
@@ -16685,7 +16926,7 @@ if (updateCategory) {
 
       const setHistoryPopState = () => {
         paths = getPathValues(swiper.params.url);
-        scrollToSlide(swiper.params.speed, swiper.paths.value, false);
+        scrollToSlide(swiper.params.speed, paths.value, false);
       };
 
       const init = () => {
@@ -16738,12 +16979,13 @@ if (updateCategory) {
       });
     }
 
-    function HashNavigation({
-      swiper,
-      extendParams,
-      emit,
-      on
-    }) {
+    function HashNavigation(_ref) {
+      let {
+        swiper,
+        extendParams,
+        emit,
+        on
+      } = _ref;
       let initialized = false;
       const document = getDocument();
       const window = getWindow();
@@ -16834,12 +17076,13 @@ if (updateCategory) {
     }
 
     /* eslint no-underscore-dangle: "off" */
-    function Autoplay({
-      swiper,
-      extendParams,
-      on,
-      emit
-    }) {
+    function Autoplay(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on,
+        emit
+      } = _ref;
       let timeout;
       swiper.autoplay = {
         running: false,
@@ -16858,6 +17101,12 @@ if (updateCategory) {
       });
 
       function run() {
+        if (!swiper.size) {
+          swiper.autoplay.running = false;
+          swiper.autoplay.paused = false;
+          return;
+        }
+
         const $activeSlideEl = swiper.slides.eq(swiper.activeIndex);
         let delay = swiper.params.autoplay.delay;
 
@@ -16974,6 +17223,7 @@ if (updateCategory) {
         if (swiper.params.autoplay.disableOnInteraction) {
           stop();
         } else {
+          emit('autoplayPause');
           pause();
         }
 
@@ -16988,6 +17238,7 @@ if (updateCategory) {
         }
 
         swiper.autoplay.paused = false;
+        emit('autoplayResume');
         run();
       }
 
@@ -17052,11 +17303,12 @@ if (updateCategory) {
       });
     }
 
-    function Thumb({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function Thumb(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         thumbs: {
           swiper: null,
@@ -17074,7 +17326,7 @@ if (updateCategory) {
 
       function onThumbClick() {
         const thumbsSwiper = swiper.thumbs.swiper;
-        if (!thumbsSwiper) return;
+        if (!thumbsSwiper || thumbsSwiper.destroyed) return;
         const clickedIndex = thumbsSwiper.clickedIndex;
         const clickedSlide = thumbsSwiper.clickedSlide;
         if (clickedSlide && $(clickedSlide).hasClass(swiper.params.thumbs.slideThumbActiveClass)) return;
@@ -17140,8 +17392,33 @@ if (updateCategory) {
 
       function update(initial) {
         const thumbsSwiper = swiper.thumbs.swiper;
-        if (!thumbsSwiper) return;
-        const slidesPerView = thumbsSwiper.params.slidesPerView === 'auto' ? thumbsSwiper.slidesPerViewDynamic() : thumbsSwiper.params.slidesPerView;
+        if (!thumbsSwiper || thumbsSwiper.destroyed) return;
+        const slidesPerView = thumbsSwiper.params.slidesPerView === 'auto' ? thumbsSwiper.slidesPerViewDynamic() : thumbsSwiper.params.slidesPerView; // Activate thumbs
+
+        let thumbsToActivate = 1;
+        const thumbActiveClass = swiper.params.thumbs.slideThumbActiveClass;
+
+        if (swiper.params.slidesPerView > 1 && !swiper.params.centeredSlides) {
+          thumbsToActivate = swiper.params.slidesPerView;
+        }
+
+        if (!swiper.params.thumbs.multipleActiveThumbs) {
+          thumbsToActivate = 1;
+        }
+
+        thumbsToActivate = Math.floor(thumbsToActivate);
+        thumbsSwiper.slides.removeClass(thumbActiveClass);
+
+        if (thumbsSwiper.params.loop || thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled) {
+          for (let i = 0; i < thumbsToActivate; i += 1) {
+            thumbsSwiper.$wrapperEl.children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`).addClass(thumbActiveClass);
+          }
+        } else {
+          for (let i = 0; i < thumbsToActivate; i += 1) {
+            thumbsSwiper.slides.eq(swiper.realIndex + i).addClass(thumbActiveClass);
+          }
+        }
+
         const autoScrollOffset = swiper.params.thumbs.autoScrollOffset;
         const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;
 
@@ -17195,31 +17472,6 @@ if (updateCategory) {
 
             thumbsSwiper.slideTo(newThumbsIndex, initial ? 0 : undefined);
           }
-        } // Activate thumbs
-
-
-        let thumbsToActivate = 1;
-        const thumbActiveClass = swiper.params.thumbs.slideThumbActiveClass;
-
-        if (swiper.params.slidesPerView > 1 && !swiper.params.centeredSlides) {
-          thumbsToActivate = swiper.params.slidesPerView;
-        }
-
-        if (!swiper.params.thumbs.multipleActiveThumbs) {
-          thumbsToActivate = 1;
-        }
-
-        thumbsToActivate = Math.floor(thumbsToActivate);
-        thumbsSwiper.slides.removeClass(thumbActiveClass);
-
-        if (thumbsSwiper.params.loop || thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled) {
-          for (let i = 0; i < thumbsToActivate; i += 1) {
-            thumbsSwiper.$wrapperEl.children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`).addClass(thumbActiveClass);
-          }
-        } else {
-          for (let i = 0; i < thumbsToActivate; i += 1) {
-            thumbsSwiper.slides.eq(swiper.realIndex + i).addClass(thumbActiveClass);
-          }
         }
       }
 
@@ -17232,19 +17484,18 @@ if (updateCategory) {
         update(true);
       });
       on('slideChange update resize observerUpdate', () => {
-        if (!swiper.thumbs.swiper) return;
         update();
       });
       on('setTransition', (_s, duration) => {
         const thumbsSwiper = swiper.thumbs.swiper;
-        if (!thumbsSwiper) return;
+        if (!thumbsSwiper || thumbsSwiper.destroyed) return;
         thumbsSwiper.setTransition(duration);
       });
       on('beforeDestroy', () => {
         const thumbsSwiper = swiper.thumbs.swiper;
-        if (!thumbsSwiper) return;
+        if (!thumbsSwiper || thumbsSwiper.destroyed) return;
 
-        if (swiperCreated && thumbsSwiper) {
+        if (swiperCreated) {
           thumbsSwiper.destroy();
         }
       });
@@ -17254,12 +17505,13 @@ if (updateCategory) {
       });
     }
 
-    function freeMode({
-      swiper,
-      extendParams,
-      emit,
-      once
-    }) {
+    function freeMode(_ref) {
+      let {
+        swiper,
+        extendParams,
+        emit,
+        once
+      } = _ref;
       extendParams({
         freeMode: {
           enabled: false,
@@ -17272,6 +17524,16 @@ if (updateCategory) {
           minimumVelocity: 0.02
         }
       });
+
+      function onTouchStart() {
+        const translate = swiper.getTranslate();
+        swiper.setTranslate(translate);
+        swiper.setTransition(0);
+        swiper.touchEventsData.velocities.length = 0;
+        swiper.freeMode.onTouchEnd({
+          currentPos: swiper.rtl ? swiper.translate : -swiper.translate
+        });
+      }
 
       function onTouchMove() {
         const {
@@ -17292,9 +17554,10 @@ if (updateCategory) {
         });
       }
 
-      function onTouchEnd({
-        currentPos
-      }) {
+      function onTouchEnd(_ref2) {
+        let {
+          currentPos
+        } = _ref2;
         const {
           params,
           $wrapperEl,
@@ -17493,16 +17756,18 @@ if (updateCategory) {
 
       Object.assign(swiper, {
         freeMode: {
+          onTouchStart,
           onTouchMove,
           onTouchEnd
         }
       });
     }
 
-    function Grid({
-      swiper,
-      extendParams
-    }) {
+    function Grid(_ref) {
+      let {
+        swiper,
+        extendParams
+      } = _ref;
       extendParams({
         grid: {
           rows: 1,
@@ -17803,9 +18068,10 @@ if (updateCategory) {
       swiper.removeSlide(slidesIndexes);
     }
 
-    function Manipulation({
-      swiper
-    }) {
+    function Manipulation(_ref) {
+      let {
+        swiper
+      } = _ref;
       Object.assign(swiper, {
         appendSlide: appendSlide.bind(swiper),
         prependSlide: prependSlide.bind(swiper),
@@ -17823,7 +18089,9 @@ if (updateCategory) {
         setTranslate,
         setTransition,
         overwriteParams,
-        perspective
+        perspective,
+        recreateShadows,
+        getEffectParams
       } = params;
       on('beforeInit', () => {
         if (swiper.params.effect !== effect) return;
@@ -17845,6 +18113,35 @@ if (updateCategory) {
         if (swiper.params.effect !== effect) return;
         setTransition(duration);
       });
+      on('transitionEnd', () => {
+        if (swiper.params.effect !== effect) return;
+
+        if (recreateShadows) {
+          if (!getEffectParams || !getEffectParams().slideShadows) return; // remove shadows
+
+          swiper.slides.each(slideEl => {
+            const $slideEl = swiper.$(slideEl);
+            $slideEl.find('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').remove();
+          }); // create new one
+
+          recreateShadows();
+        }
+      });
+      let requireUpdateOnVirtual;
+      on('virtualUpdate', () => {
+        if (swiper.params.effect !== effect) return;
+
+        if (!swiper.slides.length) {
+          requireUpdateOnVirtual = true;
+        }
+
+        requestAnimationFrame(() => {
+          if (requireUpdateOnVirtual && swiper.slides && swiper.slides.length) {
+            setTranslate();
+            requireUpdateOnVirtual = false;
+          }
+        });
+      });
     }
 
     function effectTarget(effectParams, $slideEl) {
@@ -17858,12 +18155,13 @@ if (updateCategory) {
       return $slideEl;
     }
 
-    function effectVirtualTransitionEnd({
-      swiper,
-      duration,
-      transformEl,
-      allSlides
-    }) {
+    function effectVirtualTransitionEnd(_ref) {
+      let {
+        swiper,
+        duration,
+        transformEl,
+        allSlides
+      } = _ref;
       const {
         slides,
         activeIndex,
@@ -17894,11 +18192,12 @@ if (updateCategory) {
       }
     }
 
-    function EffectFade({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function EffectFade(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         fadeEffect: {
           crossFade: false,
@@ -17962,11 +18261,12 @@ if (updateCategory) {
       });
     }
 
-    function EffectCube({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function EffectCube(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         cubeEffect: {
           slideShadows: true,
@@ -17975,6 +18275,33 @@ if (updateCategory) {
           shadowScale: 0.94
         }
       });
+
+      const createSlideShadows = ($slideEl, progress, isHorizontal) => {
+        let shadowBefore = isHorizontal ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
+        let shadowAfter = isHorizontal ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
+
+        if (shadowBefore.length === 0) {
+          shadowBefore = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
+          $slideEl.append(shadowBefore);
+        }
+
+        if (shadowAfter.length === 0) {
+          shadowAfter = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
+          $slideEl.append(shadowAfter);
+        }
+
+        if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
+        if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
+      };
+
+      const recreateShadows = () => {
+        // create new ones
+        const isHorizontal = swiper.isHorizontal();
+        swiper.slides.each(slideEl => {
+          const progress = Math.max(Math.min(slideEl.progress, 1), -1);
+          createSlideShadows($(slideEl), progress, isHorizontal);
+        });
+      };
 
       const setTranslate = () => {
         const {
@@ -18069,22 +18396,7 @@ if (updateCategory) {
           $slideEl.transform(transform);
 
           if (params.slideShadows) {
-            // Set shadows
-            let shadowBefore = isHorizontal ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
-            let shadowAfter = isHorizontal ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
-
-            if (shadowBefore.length === 0) {
-              shadowBefore = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
-              $slideEl.append(shadowBefore);
-            }
-
-            if (shadowAfter.length === 0) {
-              shadowAfter = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
-              $slideEl.append(shadowAfter);
-            }
-
-            if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
-            if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
+            createSlideShadows($slideEl, progress, isHorizontal);
           }
         }
 
@@ -18108,6 +18420,7 @@ if (updateCategory) {
 
         const zFactor = browser.isSafari || browser.isWebView ? -swiperSize / 2 : 0;
         $wrapperEl.transform(`translate3d(0px,0,${zFactor}px) rotateX(${swiper.isHorizontal() ? 0 : wrapperRotate}deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`);
+        $wrapperEl[0].style.setProperty('--swiper-cube-translate-z', `${zFactor}px`);
       };
 
       const setTransition = duration => {
@@ -18128,6 +18441,8 @@ if (updateCategory) {
         on,
         setTranslate,
         setTransition,
+        recreateShadows,
+        getEffectParams: () => swiper.params.cubeEffect,
         perspective: () => true,
         overwriteParams: () => ({
           slidesPerView: 1,
@@ -18154,11 +18469,12 @@ if (updateCategory) {
       return $shadowEl;
     }
 
-    function EffectFlip({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function EffectFlip(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         flipEffect: {
           slideShadows: true,
@@ -18166,6 +18482,37 @@ if (updateCategory) {
           transformEl: null
         }
       });
+
+      const createSlideShadows = ($slideEl, progress, params) => {
+        let shadowBefore = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
+        let shadowAfter = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
+
+        if (shadowBefore.length === 0) {
+          shadowBefore = createShadow(params, $slideEl, swiper.isHorizontal() ? 'left' : 'top');
+        }
+
+        if (shadowAfter.length === 0) {
+          shadowAfter = createShadow(params, $slideEl, swiper.isHorizontal() ? 'right' : 'bottom');
+        }
+
+        if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
+        if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
+      };
+
+      const recreateShadows = () => {
+        // Set shadows
+        const params = swiper.params.flipEffect;
+        swiper.slides.each(slideEl => {
+          const $slideEl = $(slideEl);
+          let progress = $slideEl[0].progress;
+
+          if (swiper.params.flipEffect.limitRotation) {
+            progress = Math.max(Math.min(slideEl.progress, 1), -1);
+          }
+
+          createSlideShadows($slideEl, progress, params);
+        });
+      };
 
       const setTranslate = () => {
         const {
@@ -18201,20 +18548,7 @@ if (updateCategory) {
           $slideEl[0].style.zIndex = -Math.abs(Math.round(progress)) + slides.length;
 
           if (params.slideShadows) {
-            // Set shadows
-            let shadowBefore = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
-            let shadowAfter = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
-
-            if (shadowBefore.length === 0) {
-              shadowBefore = createShadow(params, $slideEl, swiper.isHorizontal() ? 'left' : 'top');
-            }
-
-            if (shadowAfter.length === 0) {
-              shadowAfter = createShadow(params, $slideEl, swiper.isHorizontal() ? 'right' : 'bottom');
-            }
-
-            if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
-            if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
+            createSlideShadows($slideEl, progress, params);
           }
 
           const transform = `translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
@@ -18242,6 +18576,8 @@ if (updateCategory) {
         on,
         setTranslate,
         setTransition,
+        recreateShadows,
+        getEffectParams: () => swiper.params.flipEffect,
         perspective: () => true,
         overwriteParams: () => ({
           slidesPerView: 1,
@@ -18253,11 +18589,12 @@ if (updateCategory) {
       });
     }
 
-    function EffectCoverflow({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function EffectCoverflow(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         coverflowEffect: {
           rotate: 50,
@@ -18288,7 +18625,8 @@ if (updateCategory) {
           const $slideEl = slides.eq(i);
           const slideSize = slidesSizesGrid[i];
           const slideOffset = $slideEl[0].swiperSlideOffset;
-          const offsetMultiplier = (center - slideOffset - slideSize / 2) / slideSize * params.modifier;
+          const centerOffset = (center - slideOffset - slideSize / 2) / slideSize;
+          const offsetMultiplier = typeof params.modifier === 'function' ? params.modifier(centerOffset) : centerOffset * params.modifier;
           let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
           let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier; // var rotateZ = 0
 
@@ -18354,11 +18692,12 @@ if (updateCategory) {
       });
     }
 
-    function EffectCreative({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function EffectCreative(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         creativeEffect: {
           transformEl: null,
@@ -18388,17 +18727,31 @@ if (updateCategory) {
 
       const setTranslate = () => {
         const {
-          slides
+          slides,
+          $wrapperEl,
+          slidesSizesGrid
         } = swiper;
         const params = swiper.params.creativeEffect;
         const {
           progressMultiplier: multiplier
         } = params;
+        const isCenteredSlides = swiper.params.centeredSlides;
+
+        if (isCenteredSlides) {
+          const margin = slidesSizesGrid[0] / 2 - swiper.params.slidesOffsetBefore || 0;
+          $wrapperEl.transform(`translateX(calc(50% - ${margin}px))`);
+        }
 
         for (let i = 0; i < slides.length; i += 1) {
           const $slideEl = slides.eq(i);
           const slideProgress = $slideEl[0].progress;
           const progress = Math.min(Math.max($slideEl[0].progress, -params.limitProgress), params.limitProgress);
+          let originalProgress = progress;
+
+          if (!isCenteredSlides) {
+            originalProgress = Math.min(Math.max($slideEl[0].originalProgress, -params.limitProgress), params.limitProgress);
+          }
+
           const offset = $slideEl[0].swiperSlideOffset;
           const t = [swiper.params.cssMode ? -offset - swiper.translate : -offset, 0, 0];
           const r = [0, 0, 0];
@@ -18435,8 +18788,8 @@ if (updateCategory) {
           $slideEl[0].style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
           const translateString = t.join(', ');
           const rotateString = `rotateX(${r[0]}deg) rotateY(${r[1]}deg) rotateZ(${r[2]}deg)`;
-          const scaleString = progress < 0 ? `scale(${1 + (1 - data.scale) * progress * multiplier})` : `scale(${1 - (1 - data.scale) * progress * multiplier})`;
-          const opacityString = progress < 0 ? 1 + (1 - data.opacity) * progress * multiplier : 1 - (1 - data.opacity) * progress * multiplier;
+          const scaleString = originalProgress < 0 ? `scale(${1 + (1 - data.scale) * originalProgress * multiplier})` : `scale(${1 - (1 - data.scale) * originalProgress * multiplier})`;
+          const opacityString = originalProgress < 0 ? 1 + (1 - data.opacity) * originalProgress * multiplier : 1 - (1 - data.opacity) * originalProgress * multiplier;
           const transform = `translate3d(${translateString}) ${rotateString} ${scaleString}`; // Set shadows
 
           if (custom && data.shadow || !custom) {
@@ -18472,7 +18825,8 @@ if (updateCategory) {
         effectVirtualTransitionEnd({
           swiper,
           duration,
-          transformEl
+          transformEl,
+          allSlides: true
         });
       };
 
@@ -18490,15 +18844,17 @@ if (updateCategory) {
       });
     }
 
-    function EffectCards({
-      swiper,
-      extendParams,
-      on
-    }) {
+    function EffectCards(_ref) {
+      let {
+        swiper,
+        extendParams,
+        on
+      } = _ref;
       extendParams({
         cardsEffect: {
           slideShadows: true,
-          transformEl: null
+          transformEl: null,
+          rotate: true
         }
       });
 
@@ -18534,8 +18890,9 @@ if (updateCategory) {
           let scale = 1;
           let rotate = -2 * progress;
           let tXAdd = 8 - Math.abs(progress) * 0.75;
-          const isSwipeToNext = (i === activeIndex || i === activeIndex - 1) && progress > 0 && progress < 1 && (isTouched || swiper.params.cssMode) && currentTranslate < startTranslate;
-          const isSwipeToPrev = (i === activeIndex || i === activeIndex + 1) && progress < 0 && progress > -1 && (isTouched || swiper.params.cssMode) && currentTranslate > startTranslate;
+          const slideIndex = swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.from + i : i;
+          const isSwipeToNext = (slideIndex === activeIndex || slideIndex === activeIndex - 1) && progress > 0 && progress < 1 && (isTouched || swiper.params.cssMode) && currentTranslate < startTranslate;
+          const isSwipeToPrev = (slideIndex === activeIndex || slideIndex === activeIndex + 1) && progress < 0 && progress > -1 && (isTouched || swiper.params.cssMode) && currentTranslate > startTranslate;
 
           if (isSwipeToNext || isSwipeToPrev) {
             const subProgress = (1 - Math.abs((Math.abs(progress) - 0.5) / 0.5)) ** 0.5;
@@ -18564,7 +18921,7 @@ if (updateCategory) {
           const scaleString = progress < 0 ? `${1 + (1 - scale) * progress}` : `${1 - (1 - scale) * progress}`;
           const transform = `
         translate3d(${tX}, ${tY}, ${tZ}px)
-        rotateZ(${rotate}deg)
+        rotateZ(${params.rotate ? rotate : 0}deg)
         scale(${scaleString})
       `;
 
@@ -18618,7 +18975,7 @@ if (updateCategory) {
 
     return Swiper;
 
-})));
+}));
 
 
-},{}]},{},[6]);
+},{}]},{},[5]);

@@ -3,53 +3,16 @@ import Swiper from 'swiper/swiper-bundle';
 import {gsap} from "./app/gsap/gsap";
 import {ScrollTrigger} from "./app/gsap/ScrollTrigger";
 import {isEven, isjQuery, Coordinates, videoResize, Breakpoints} from "./app/functions";
-import SPFormData from './app/searchParamsFormData'
 
 gsap.registerPlugin(ScrollTrigger);
-
 
 (function ($) {
 
 })(jQuery);
 
 
-let filter = document.querySelector('#filter');
-new SPFormData('#filter', {
-    delayBeforeSend: 400,
-    response: data => {
-        console.log(data)
-        /*jQuery.ajax({
-            url: wpcfajax.url,
-            data: {
-                action: 'ajax_filter',
-                query: dataFilter
-            },
-            type: 'POST',
-            beforeSend: function (xhr) {
-                jQuery('.but').text('Загрузка...');
-            },
-            success: function (data) {
-                jQuery('.but').text('');
-                jQuery('#response').html(data);
-            }
-        })*/
-    }
-});
 
-// ------------ Deleting placeholder focus ------------ //
-document.querySelectorAll('input, textarea').forEach(el => {
-    if (el.getAttribute('placeholder') !== null) {
-        el.addEventListener('focus', (elem) => {
-            elem.target.setAttribute('data-placeholder', elem.target.getAttribute('placeholder'))
-            elem.target.setAttribute('placeholder', '')
-        })
 
-        el.addEventListener('blur', (elem) => {
-            elem.target.setAttribute('placeholder', elem.target.getAttribute('data-placeholder'))
-        })
-    }
-});
-// ---------- End Deleting placeholder focus ---------- //
 
 /*
 let updateCategory = wp.blocks.updateCategory,

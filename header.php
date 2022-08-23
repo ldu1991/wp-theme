@@ -20,8 +20,7 @@ if (!defined('ABSPATH')) {
 
 
 <?php
-$field = get_field('fr', 'option');
-beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'fr', 'option')
+beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'test_field', 'option')
 ?>
 <header>
 

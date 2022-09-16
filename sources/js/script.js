@@ -3,6 +3,7 @@ import Swiper from 'swiper/swiper-bundle';
 import {gsap} from "./app/gsap/gsap";
 import {ScrollTrigger} from "./app/gsap/ScrollTrigger";
 import {isEven, isjQuery, Coordinates, videoResize, Breakpoints} from "./app/functions";
+import enquire from 'enquire.js'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,7 +11,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 })(jQuery);
 
-
+enquire.register("(hover: hover)", {
+    match : function() {
+        console.log('match')
+    },
+    unmatch : function() {
+        console.log('unmatch')
+    }
+});
 
 
 

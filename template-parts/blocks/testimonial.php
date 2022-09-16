@@ -39,7 +39,7 @@ $clor = get_field('clor');
 ?>
 
 <div id="<?php echo esc_attr($id); ?>"
-     class="<?php echo esc_attr(implode(' ', $className)) ?>"
+     class="<?php echo esc_attr(trim(implode(' ', $className))) ?>"
      style="background-color: <?php echo $clor ?>">
 
 

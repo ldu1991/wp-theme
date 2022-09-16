@@ -62,3 +62,8 @@ $browser-context: 16;
 @function aspect-ratio($one-value, $two-value, $new-value) {
 	@return round(math.div($two-value, math.div($one-value, 100)) * math.div($new-value, 100));
 }
+
+@function math-clamp($min-size, $max-size) {
+	$val: math.div(math.div($max-size, $browser-context), 1.2) * 1vw;
+	@return clamp(#{rem($min-size)}, #{$val}, #{rem($max-size)});
+}

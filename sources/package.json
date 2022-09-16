@@ -48,15 +48,12 @@
     "animate.css": "latest",
     "bootstrap": "^4.6.1",
     "bootstrap-v4-rtl": "latest",
-    "gsap": "latest",
-    "jquery-breakpoints": "latest",
+    "enquire.js": "latest",
     "lazysizes": "latest",
     "remodal": "latest",
     "selectboxit": "latest",
     "sharer.js": "latest",
-    "smooth-scrollbar": "latest",
     "sp-form-data": "latest",
-    "swiper": "latest",
-    "wow.js": "latest"
+    "swiper": "latest"
   }
 }

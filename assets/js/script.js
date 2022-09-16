@@ -8139,54 +8139,31 @@ document.addEventListener('blur', function (event) {
 },{}],4:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
 var _gsap = require("./gsap/gsap");
 
 var _ScrollTrigger = require("./gsap/ScrollTrigger");
 
 var _functions = require("./functions");
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
-var renderBlockACF = function renderBlockACF(selectors, type, initFn) {
-  if (window.acf) {
-    window.acf.addAction('render_block_preview/type=' + type, initFn);
-  } else {
-    document.querySelectorAll(selectors).forEach(initFn);
-  }
+if (window.acf) {
+  acf.add_filter('color_picker_args', function (args, field) {
+    args.palettes = ['#1697F3', '#D5ECFD', '#8BC53F', '#253F53', '#FDC554', '#F3725F', '#FCF1E1'];
+    return args;
+  });
+}
+
+var initializeBlock = function initializeBlock(block) {
+  block = (0, _functions.isjQuery)(block);
+  var elementDirectly = block.parentNode.querySelector('.CLASS-BLOCK');
 };
 
-var Gutenberg = /*#__PURE__*/function () {
-  function Gutenberg() {
-    _classCallCheck(this, Gutenberg);
-
-    renderBlockACF('.by-testimonial', 'testimonials-block-acf', this.initializeBlockHeroModule);
-  }
-
-  _createClass(Gutenberg, [{
-    key: "initializeBlockHeroModule",
-    value: function initializeBlockHeroModule(block) {
-      block = (0, _functions.isjQuery)(block);
-      console.log(block);
-    }
-  }]);
-
-  return Gutenberg;
-}();
-
-var _default = new Gutenberg();
-
-exports.default = _default;
+if (window.acf) {
+  window.acf.addAction('render_block_preview/type=TYPE-BLOCK', initializeBlock);
+} else {
+  document.querySelectorAll('.CLASS-BLOCK').forEach(initializeBlock);
+}
 
 },{"./functions":1,"./gsap/ScrollTrigger":2,"./gsap/gsap":3}],5:[function(require,module,exports){
 "use strict";

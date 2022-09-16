@@ -21,7 +21,6 @@ enquire.register("(hover: hover)", {
 });
 
 
-
 /*
 let updateCategory = wp.blocks.updateCategory,
     _wp$components = wp.components,

@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.videoResize = exports.isjQuery = exports.isEven = exports.Coordinates = void 0;
+exports.videoResize = exports.isjQuery = exports.isEven = exports.Coordinates = exports.Breakpoints = void 0;
 
 /**
  * is jQuery
@@ -124,10 +124,81 @@ var videoResize = function videoResize(elements, className) {
     fnResize();
     window.addEventListener('resize', fnResize);
   });
-}; // ------------ Deleting placeholder focus ------------ //
+};
+/**
+ * Breakpoints
+ * @param media
+ * @param options
+ * @constructor
+ */
 
 
 exports.videoResize = videoResize;
+
+var Breakpoints = function Breakpoints(media, options) {
+  var defaultsOptions = {
+    grid: {
+      sm: 576,
+      md: 768,
+      lg: 992,
+      xl: 1200,
+      xxl: 1400
+    },
+    listenerResize: false
+  };
+  var originals = Object.assign({}, defaultsOptions, options);
+  var grid = {};
+
+  for (var property in originals.grid) {
+    grid[property + ':min'] = originals.grid[property];
+    grid[property + ':max'] = originals.grid[property] - 1;
+  }
+
+  var mediaQueryString = '';
+
+  if (media.indexOf(':min') === -1 && media.indexOf(':max') === -1) {
+    mediaQueryString = media;
+  } else {
+    var mediaQueryArr = media.split(',');
+
+    if (mediaQueryArr.length) {
+      var i = 1;
+      mediaQueryArr.forEach(function (el) {
+        if (el.trim().indexOf(':min') !== -1) {
+          mediaQueryString += '(min-width: ' + grid[el.trim()] + 'px)';
+          if (i < mediaQueryArr.length) mediaQueryString += ' and ';
+        } else if (el.trim().indexOf(':max') !== -1) {
+          mediaQueryString += '(max-width: ' + grid[el.trim()] + 'px)';
+          if (i < mediaQueryArr.length) mediaQueryString += ' and ';
+        }
+
+        i++;
+      });
+    }
+  }
+
+  var handleMatchMedia = function handleMatchMedia(mediaQuery) {
+    if (typeof originals.on === 'function') {
+      originals.on(mediaQuery);
+    } else {
+      console.error('"on" must be a function!');
+    }
+  };
+
+  var mq = window.matchMedia(mediaQueryString);
+  handleMatchMedia(mq);
+
+  if (originals.listenerResize) {
+    window.addEventListener('resize', function () {
+      handleMatchMedia(mq);
+    });
+  } else {
+    mq.addEventListener('change', handleMatchMedia);
+  }
+}; // ------------ Deleting placeholder focus ------------ //
+
+
+exports.Breakpoints = Breakpoints;
 
 function focusFnInput(target, event) {
   if (target.getAttribute('placeholder') !== null) {
@@ -8178,22 +8249,11 @@ var _ScrollTrigger = require("./app/gsap/ScrollTrigger");
 
 var _functions = require("./app/functions");
 
-var _enquire = _interopRequireDefault(require("enquire.js"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
 (function ($) {})(jQuery);
-
-_enquire.default.register("(hover: hover)", {
-  match: function match() {
-    console.log('match');
-  },
-  unmatch: function unmatch() {
-    console.log('unmatch');
-  }
-});
 /*
 let updateCategory = wp.blocks.updateCategory,
     _wp$components = wp.components,
@@ -8220,317 +8280,9 @@ if (updateCategory) {
 }
 */
 
-},{"./app/functions":1,"./app/gsap/ScrollTrigger":2,"./app/gsap/gsap":3,"./app/gutenberg":4,"enquire.js":10,"swiper/swiper-bundle":11}],6:[function(require,module,exports){
-var QueryHandler = require('./QueryHandler');
-var each = require('./Util').each;
-
+},{"./app/functions":1,"./app/gsap/ScrollTrigger":2,"./app/gsap/gsap":3,"./app/gutenberg":4,"swiper/swiper-bundle":6}],6:[function(require,module,exports){
 /**
- * Represents a single media query, manages it's state and registered handlers for this query
- *
- * @constructor
- * @param {string} query the media query string
- * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
- */
-function MediaQuery(query, isUnconditional) {
-    this.query = query;
-    this.isUnconditional = isUnconditional;
-    this.handlers = [];
-    this.mql = window.matchMedia(query);
-
-    var self = this;
-    this.listener = function(mql) {
-        // Chrome passes an MediaQueryListEvent object, while other browsers pass MediaQueryList directly
-        self.mql = mql.currentTarget || mql;
-        self.assess();
-    };
-    this.mql.addListener(this.listener);
-}
-
-MediaQuery.prototype = {
-
-    constuctor : MediaQuery,
-
-    /**
-     * add a handler for this query, triggering if already active
-     *
-     * @param {object} handler
-     * @param {function} handler.match callback for when query is activated
-     * @param {function} [handler.unmatch] callback for when query is deactivated
-     * @param {function} [handler.setup] callback for immediate execution when a query handler is registered
-     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched?
-     */
-    addHandler : function(handler) {
-        var qh = new QueryHandler(handler);
-        this.handlers.push(qh);
-
-        this.matches() && qh.on();
-    },
-
-    /**
-     * removes the given handler from the collection, and calls it's destroy methods
-     *
-     * @param {object || function} handler the handler to remove
-     */
-    removeHandler : function(handler) {
-        var handlers = this.handlers;
-        each(handlers, function(h, i) {
-            if(h.equals(handler)) {
-                h.destroy();
-                return !handlers.splice(i,1); //remove from array and exit each early
-            }
-        });
-    },
-
-    /**
-     * Determine whether the media query should be considered a match
-     *
-     * @return {Boolean} true if media query can be considered a match, false otherwise
-     */
-    matches : function() {
-        return this.mql.matches || this.isUnconditional;
-    },
-
-    /**
-     * Clears all handlers and unbinds events
-     */
-    clear : function() {
-        each(this.handlers, function(handler) {
-            handler.destroy();
-        });
-        this.mql.removeListener(this.listener);
-        this.handlers.length = 0; //clear array
-    },
-
-    /*
-        * Assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
-        */
-    assess : function() {
-        var action = this.matches() ? 'on' : 'off';
-
-        each(this.handlers, function(handler) {
-            handler[action]();
-        });
-    }
-};
-
-module.exports = MediaQuery;
-
-},{"./QueryHandler":8,"./Util":9}],7:[function(require,module,exports){
-var MediaQuery = require('./MediaQuery');
-var Util = require('./Util');
-var each = Util.each;
-var isFunction = Util.isFunction;
-var isArray = Util.isArray;
-
-/**
- * Allows for registration of query handlers.
- * Manages the query handler's state and is responsible for wiring up browser events
- *
- * @constructor
- */
-function MediaQueryDispatch () {
-    if(!window.matchMedia) {
-        throw new Error('matchMedia not present, legacy browsers require a polyfill');
-    }
-
-    this.queries = {};
-    this.browserIsIncapable = !window.matchMedia('only all').matches;
-}
-
-MediaQueryDispatch.prototype = {
-
-    constructor : MediaQueryDispatch,
-
-    /**
-     * Registers a handler for the given media query
-     *
-     * @param {string} q the media query
-     * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
-     * @param {function} options.match fired when query matched
-     * @param {function} [options.unmatch] fired when a query is no longer matched
-     * @param {function} [options.setup] fired when handler first triggered
-     * @param {boolean} [options.deferSetup=false] whether setup should be run immediately or deferred until query is first matched
-     * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
-     */
-    register : function(q, options, shouldDegrade) {
-        var queries         = this.queries,
-            isUnconditional = shouldDegrade && this.browserIsIncapable;
-
-        if(!queries[q]) {
-            queries[q] = new MediaQuery(q, isUnconditional);
-        }
-
-        //normalise to object in an array
-        if(isFunction(options)) {
-            options = { match : options };
-        }
-        if(!isArray(options)) {
-            options = [options];
-        }
-        each(options, function(handler) {
-            if (isFunction(handler)) {
-                handler = { match : handler };
-            }
-            queries[q].addHandler(handler);
-        });
-
-        return this;
-    },
-
-    /**
-     * unregisters a query and all it's handlers, or a specific handler for a query
-     *
-     * @param {string} q the media query to target
-     * @param {object || function} [handler] specific handler to unregister
-     */
-    unregister : function(q, handler) {
-        var query = this.queries[q];
-
-        if(query) {
-            if(handler) {
-                query.removeHandler(handler);
-            }
-            else {
-                query.clear();
-                delete this.queries[q];
-            }
-        }
-
-        return this;
-    }
-};
-
-module.exports = MediaQueryDispatch;
-
-},{"./MediaQuery":6,"./Util":9}],8:[function(require,module,exports){
-/**
- * Delegate to handle a media query being matched and unmatched.
- *
- * @param {object} options
- * @param {function} options.match callback for when the media query is matched
- * @param {function} [options.unmatch] callback for when the media query is unmatched
- * @param {function} [options.setup] one-time callback triggered the first time a query is matched
- * @param {boolean} [options.deferSetup=false] should the setup callback be run immediately, rather than first time query is matched?
- * @constructor
- */
-function QueryHandler(options) {
-    this.options = options;
-    !options.deferSetup && this.setup();
-}
-
-QueryHandler.prototype = {
-
-    constructor : QueryHandler,
-
-    /**
-     * coordinates setup of the handler
-     *
-     * @function
-     */
-    setup : function() {
-        if(this.options.setup) {
-            this.options.setup();
-        }
-        this.initialised = true;
-    },
-
-    /**
-     * coordinates setup and triggering of the handler
-     *
-     * @function
-     */
-    on : function() {
-        !this.initialised && this.setup();
-        this.options.match && this.options.match();
-    },
-
-    /**
-     * coordinates the unmatch event for the handler
-     *
-     * @function
-     */
-    off : function() {
-        this.options.unmatch && this.options.unmatch();
-    },
-
-    /**
-     * called when a handler is to be destroyed.
-     * delegates to the destroy or unmatch callbacks, depending on availability.
-     *
-     * @function
-     */
-    destroy : function() {
-        this.options.destroy ? this.options.destroy() : this.off();
-    },
-
-    /**
-     * determines equality by reference.
-     * if object is supplied compare options, if function, compare match callback
-     *
-     * @function
-     * @param {object || function} [target] the target for comparison
-     */
-    equals : function(target) {
-        return this.options === target || this.options.match === target;
-    }
-
-};
-
-module.exports = QueryHandler;
-
-},{}],9:[function(require,module,exports){
-/**
- * Helper function for iterating over a collection
- *
- * @param collection
- * @param fn
- */
-function each(collection, fn) {
-    var i      = 0,
-        length = collection.length,
-        cont;
-
-    for(i; i < length; i++) {
-        cont = fn(collection[i], i);
-        if(cont === false) {
-            break; //allow early exit
-        }
-    }
-}
-
-/**
- * Helper function for determining whether target object is an array
- *
- * @param target the object under test
- * @return {Boolean} true if array, false otherwise
- */
-function isArray(target) {
-    return Object.prototype.toString.apply(target) === '[object Array]';
-}
-
-/**
- * Helper function for determining whether target object is a function
- *
- * @param target the object under test
- * @return {Boolean} true if function, false otherwise
- */
-function isFunction(target) {
-    return typeof target === 'function';
-}
-
-module.exports = {
-    isFunction : isFunction,
-    isArray : isArray,
-    each : each
-};
-
-},{}],10:[function(require,module,exports){
-var MediaQueryDispatch = require('./MediaQueryDispatch');
-module.exports = new MediaQueryDispatch();
-
-},{"./MediaQueryDispatch":7}],11:[function(require,module,exports){
-/**
- * Swiper 8.3.2
+ * Swiper 8.4.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * https://swiperjs.com
  *
@@ -8538,7 +8290,7 @@ module.exports = new MediaQueryDispatch();
  *
  * Released under the MIT License
  *
- * Released on: July 26, 2022
+ * Released on: September 15, 2022
  */
 
 (function (global, factory) {
@@ -11239,14 +10991,7 @@ module.exports = new MediaQueryDispatch();
       const skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
       let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
       if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
-
-      if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
-        swiper.emit('beforeSlideChangeStart');
-      }
-
-      const translate = -snapGrid[snapIndex]; // Update progress
-
-      swiper.updateProgress(translate); // Normalize slideIndex
+      const translate = -snapGrid[snapIndex]; // Normalize slideIndex
 
       if (params.normalizeSlideIndex) {
         for (let i = 0; i < slidesGrid.length; i += 1) {
@@ -11277,6 +11022,12 @@ module.exports = new MediaQueryDispatch();
         }
       }
 
+      if (slideIndex !== (previousIndex || 0) && runCallbacks) {
+        swiper.emit('beforeSlideChangeStart');
+      } // Update progress
+
+
+      swiper.updateProgress(translate);
       let direction;
       if (slideIndex > activeIndex) direction = 'next';else if (slideIndex < activeIndex) direction = 'prev';else direction = 'reset'; // Update Index
 
@@ -11672,7 +11423,8 @@ module.exports = new MediaQueryDispatch();
       const prependSlides = [];
       const appendSlides = [];
       slides.each((el, index) => {
-        $(el).attr('data-swiper-slide-index', index);
+        const slide = $(el);
+        slide.attr('data-swiper-slide-index', index);
       });
 
       for (let i = 0; i < swiper.loopedSlides; i += 1) {
@@ -11825,10 +11577,12 @@ module.exports = new MediaQueryDispatch();
       if (!data.isTouchEvent && 'button' in e && e.button > 0) return;
       if (data.isTouched && data.isMoved) return; // change target el for shadow root component
 
-      const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== '';
+      const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== ''; // eslint-disable-next-line
 
-      if (swipingClassHasValue && e.target && e.target.shadowRoot && event.path && event.path[0]) {
-        $targetEl = $(event.path[0]);
+      const eventPath = event.composedPath ? event.composedPath() : event.path;
+
+      if (swipingClassHasValue && e.target && e.target.shadowRoot && eventPath) {
+        $targetEl = $(eventPath[0]);
       }
 
       const noSwipingSelector = params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`;
@@ -12983,7 +12737,8 @@ module.exports = new MediaQueryDispatch();
               el: containerEl
             });
             swipers.push(new Swiper(newParams));
-          });
+          }); // eslint-disable-next-line no-constructor-return
+
           return swipers;
         } // Swiper Instance
 
@@ -13126,6 +12881,7 @@ module.exports = new MediaQueryDispatch();
         if (swiper.params.init) {
           swiper.init();
         } // Return app instance
+        // eslint-disable-next-line no-constructor-return
 
 
         return swiper;
@@ -16739,6 +16495,9 @@ module.exports = new MediaQueryDispatch();
           id: null
         }
       });
+      swiper.a11y = {
+        clicked: false
+      };
       let liveRegion = null;
 
       function notify(message) {
@@ -16903,7 +16662,16 @@ module.exports = new MediaQueryDispatch();
         addElControls($el, wrapperId);
       };
 
+      const handlePointerDown = () => {
+        swiper.a11y.clicked = true;
+      };
+
+      const handlePointerUp = () => {
+        swiper.a11y.clicked = false;
+      };
+
       const handleFocus = e => {
+        if (swiper.a11y.clicked) return;
         const slideEl = e.target.closest(`.${swiper.params.slideClass}`);
         if (!slideEl || !swiper.slides.includes(slideEl)) return;
         const isActive = swiper.slides.indexOf(slideEl) === swiper.activeIndex;
@@ -16991,6 +16759,8 @@ module.exports = new MediaQueryDispatch();
 
 
         swiper.$el.on('focus', handleFocus, true);
+        swiper.$el.on('pointerdown', handlePointerDown, true);
+        swiper.$el.on('pointerup', handlePointerUp, true);
       };
 
       function destroy() {
@@ -17021,6 +16791,8 @@ module.exports = new MediaQueryDispatch();
 
 
         swiper.$el.off('focus', handleFocus, true);
+        swiper.$el.off('pointerdown', handlePointerDown, true);
+        swiper.$el.off('pointerup', handlePointerUp, true);
       }
 
       on('beforeInit', () => {
@@ -19079,7 +18851,9 @@ module.exports = new MediaQueryDispatch();
         cardsEffect: {
           slideShadows: true,
           transformEl: null,
-          rotate: true
+          rotate: true,
+          perSlideRotate: 2,
+          perSlideOffset: 8
         }
       });
 
@@ -19113,8 +18887,8 @@ module.exports = new MediaQueryDispatch();
           let tY = 0;
           const tZ = -100 * Math.abs(progress);
           let scale = 1;
-          let rotate = -2 * progress;
-          let tXAdd = 8 - Math.abs(progress) * 0.75;
+          let rotate = -params.perSlideRotate * progress;
+          let tXAdd = params.perSlideOffset - Math.abs(progress) * 0.75;
           const slideIndex = swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.from + i : i;
           const isSwipeToNext = (slideIndex === activeIndex || slideIndex === activeIndex - 1) && progress > 0 && progress < 1 && (isTouched || swiper.params.cssMode) && currentTranslate < startTranslate;
           const isSwipeToPrev = (slideIndex === activeIndex || slideIndex === activeIndex + 1) && progress < 0 && progress > -1 && (isTouched || swiper.params.cssMode) && currentTranslate > startTranslate;

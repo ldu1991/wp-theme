@@ -8249,11 +8249,22 @@ var _ScrollTrigger = require("./app/gsap/ScrollTrigger");
 
 var _functions = require("./app/functions");
 
+var _spFormData = _interopRequireDefault(require("sp-form-data"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 
 (function ($) {})(jQuery);
+
+var SPFD = new _spFormData.default('#filter', {
+  init: false,
+  delayBeforeSend: 700
+});
+SPFD.init();
+SPFD.on(function (data) {
+  console.log(data);
+});
 /*
 let updateCategory = wp.blocks.updateCategory,
     _wp$components = wp.components,
@@ -8280,9 +8291,22 @@ if (updateCategory) {
 }
 */
 
-},{"./app/functions":1,"./app/gsap/ScrollTrigger":2,"./app/gsap/gsap":3,"./app/gutenberg":4,"swiper/swiper-bundle":6}],6:[function(require,module,exports){
+},{"./app/functions":1,"./app/gsap/ScrollTrigger":2,"./app/gsap/gsap":3,"./app/gutenberg":4,"sp-form-data":6,"swiper/swiper-bundle":7}],6:[function(require,module,exports){
+/*!
+ * SPFormData 2.0.0
+ * VanillaJS (pure JavaScript) plugin that reads form data with and Change URL Query Parameters
+ * https://github.com/ldu1991/sp-form-data/#readme
+ *
+ * Copyright 2022 Denis Lipatov <ldu2601@gmail.com>
+ *
+ * Released under the BSD License
+ *
+ * Released on: October 08, 2022
+ */
+!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("SPFormData",[],t):"object"==typeof exports?exports.SPFormData=t():e.SPFormData=t()}(self,(function(){return function(){"use strict";var e={d:function(t,r){for(var n in r)e.o(r,n)&&!e.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:r[n]})},o:function(e,t){return Object.prototype.hasOwnProperty.call(e,t)}},t={};function r(e){return"object"==typeof window.Node?e instanceof window.Node:null!==e&&"object"==typeof e&&"number"==typeof e.nodeType&&"string"==typeof e.nodeName}function n(e){return/^[|,]+$/.test(e)}function a(e){return e&&0===Object.keys(e).length&&Object.getPrototypeOf(e)===Object.prototype}e.d(t,{default:function(){return x}});var o=function(e){if(e instanceof Array)return e.filter(r);if(r(e))return[e];if(t=e,n=Object.prototype.toString.call(t),"object"==typeof window.NodeList?t instanceof window.NodeList:null!==t&&"object"==typeof t&&"number"==typeof t.length&&/^\[object (HTMLCollection|NodeList|Object)]$/.test(n)&&(0===t.length||r(t[0])))return Array.prototype.slice.call(e);var t,n;if("string"==typeof e)try{var a=document.querySelectorAll(e);return Array.prototype.slice.call(a)}catch(e){return[]}return[]},i=function(e){var t=new FormData(e),r=[];return t.forEach((function(e,t){r.push({name:t,value:e})})),r},s=function(e,t){var r={};return e.forEach((function(e){var n;(n=e.value)&&/[^\s]+/.test(n)&&(r.hasOwnProperty(e.name)?r[e.name]+=t+e.value:r[e.name]=e.value)})),r},c={init:!0,separator:",",delayBeforeSend:300,autoSubmit:!0,changeGetUrl:!0,formSync:!0,presetQueries:[]};function l(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function u(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?l(Object(r),!0).forEach((function(t){f(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):l(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}function f(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}function h(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function p(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function m(e,t){d(e,t),t.add(e)}function y(e,t,r){d(e,t),t.set(e,r)}function d(e,t){if(t.has(e))throw new TypeError("Cannot initialize the same private elements twice on an object")}function w(e,t){return function(e,t){if(t.get)return t.get.call(e);return t.value}(e,g(e,t,"get"))}function v(e,t,r){if(!t.has(e))throw new TypeError("attempted to get private field on non-instance");return r}function b(e,t,r){return function(e,t,r){if(t.set)t.set.call(e,r);else{if(!t.writable)throw new TypeError("attempted to set read only private field");t.value=r}}(e,g(e,t,"set"),r),r}function g(e,t,r){if(!t.has(e))throw new TypeError("attempted to "+r+" private field on non-instance");return t.get(e)}var O=new WeakMap,E=new WeakSet,j=new WeakSet,S=new WeakSet,P=new WeakSet,k=new WeakSet,D=new WeakSet,q=function(){function e(){var t,r;h(this,e),m(this,D),m(this,k),m(this,P),m(this,S),m(this,j),m(this,E),y(this,O,{writable:!0,value:void 0}),b(this,O,!0);for(var a=arguments.length,i=new Array(a),s=0;s<a;s++)i[s]=arguments[s];1===i.length&&i[0].constructor&&"Object"===Object.prototype.toString.call(i[0]).slice(8,-1)?r=i[0]:(t=i[0],r=i[1]),r||(r={}),this.elements=o(t),void 0===r.presetQueries&&this.elements.length&&(r.presetQueries=[],this.elements.forEach((function(e){e.querySelectorAll("[name]").forEach((function(e){r.presetQueries.includes(e.name)||r.presetQueries.push(e.name)}))}))),this.params=u(u({},c),r),n(this.params.separator)||(this.params.separator=c.separator),this.query=null,this.params.init&&this.init()}var t,r,a;return t=e,(r=[{key:"on",value:function(e){this.elements.length&&(this.elements.forEach((function(t){t.addEventListener("spFormData:change",(function(t){e(t.detail.query)}))})),this.params.changeGetUrl&&""!==window.location.search&&e(this.query))}},{key:"update",value:function(){var e=this;this.elements.length&&this.elements.forEach((function(t){var r=e.params.formSync?e.elements:t;if("FORM"!==t.tagName)throw new Error("SPFormData constructor must be passed a form element");v(e,P,C).call(e,r)}))}},{key:"reset",value:function(){this.elements.length&&this.elements.forEach((function(e){e.reset()})),v(this,D,N).call(this)}},{key:"init",value:function(){var e=this;this.elements.length&&(this.elements.forEach((function(t){var r=e.params.formSync?e.elements:t;if("FORM"!==t.tagName)throw new Error("SPFormData constructor must be passed a form element");t.addEventListener("submit",(function(t){t.preventDefault(),e.params.autoSubmit||v(e,P,C).call(e,r)})),e.params.autoSubmit&&t.querySelectorAll("[name]").forEach((function(t){t.addEventListener("change",(function(){w(e,O)&&clearTimeout(w(e,O)),b(e,O,setTimeout((function(){v(e,P,C).call(e,r)}),e.params.delayBeforeSend))}))}))})),this.params.changeGetUrl&&(window.addEventListener("popstate",(function(){""!==window.location.search?v(e,E,F).call(e):v(e,D,N).call(e)})),""!==window.location.search&&v(this,E,F).call(this)))}}])&&p(t.prototype,r),a&&p(t,a),Object.defineProperty(t,"prototype",{writable:!1}),e}();function F(){var e=this;if(this.params.changeGetUrl){var t=new URLSearchParams(window.location.search),r={};t.forEach((function(t,n){e.params.presetQueries.length?e.params.presetQueries.includes(n)&&""!==t&&(-1!==t.indexOf(e.params.separator)?r[n]=t.split(e.params.separator):r[n]=t):""!==t&&(-1!==t.indexOf(e.params.separator)?r[n]=t.split(e.params.separator):r[n]=t)})),this.query=a(r)?null:r}v(this,k,T).call(this,this)}function L(e){if(a(e))v(this,D,N).call(this);else{var t=new URL(window.location);Object.keys(e).forEach((function(e){t.searchParams.forEach((function(r,n){n!==e&&t.searchParams.delete(n)}))})),Object.keys(e).forEach((function(r){t.searchParams.set(r,e[r])}));var r=decodeURIComponent(t.href);window.history.pushState({},"",r),v(this,E,F).call(this)}}function U(e){var t=this;if(a(e))v(this,D,N).call(this);else{var r={};Object.keys(e).forEach((function(n){""!==e[n]&&(-1!==e[n].indexOf(t.params.separator)?r[n]=e[n].split(t.params.separator):r[n]=e[n])})),this.query=r,v(this,E,F).call(this)}}function C(e){var t=this;if(this.params.formSync){var r={};e.forEach((function(e){var n=i(e);n.length?r=u(u({},r),s(n,t.params.separator)):v(t,D,N).call(t)})),this.params.changeGetUrl?v(this,j,L).call(this,r):v(this,S,U).call(this,r)}else{var n=i(e);if(n.length){var a=s(n,this.params.separator);this.params.changeGetUrl?v(this,j,L).call(this,a):v(this,S,U).call(this,a)}else v(this,D,N).call(this)}}function T(){if(this.params.on){if("function"!=typeof this.params.on)throw new Error("SPFormData#on must be passed a plain function");this.params&&this.params.on&&this.params.on(this.query)}var e;window.CustomEvent&&"function"==typeof window.CustomEvent?e=new CustomEvent("spFormData:change",{detail:{query:this.query}}):(e=document.createEvent("CustomEvent")).initCustomEvent("spFormData:change",!0,!0,{query:this.query}),this.elements.forEach((function(t){t.dispatchEvent(e)}))}function N(){this.params.changeGetUrl&&window.history.pushState({},"","."),this.query=null,v(this,k,T).call(this,this)}var x=q;return t=t.default}()}));
+},{}],7:[function(require,module,exports){
 /**
- * Swiper 8.4.2
+ * Swiper 8.4.3
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * https://swiperjs.com
  *
@@ -8290,7 +8314,7 @@ if (updateCategory) {
  *
  * Released under the MIT License
  *
- * Released on: September 15, 2022
+ * Released on: October 6, 2022
  */
 
 (function (global, factory) {
@@ -16667,7 +16691,11 @@ if (updateCategory) {
       };
 
       const handlePointerUp = () => {
-        swiper.a11y.clicked = false;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            swiper.a11y.clicked = false;
+          });
+        });
       };
 
       const handleFocus = e => {

@@ -49,7 +49,7 @@
     "bootstrap": "^4.6.1",
     "bootstrap-v4-rtl": "latest",
     "lazysizes": "latest",
-    "mq-breakpoints": "^1.0.0",
+    "mq-breakpoints": "latest",
     "remodal": "latest",
     "selectboxit": "latest",
     "sharer.js": "latest",

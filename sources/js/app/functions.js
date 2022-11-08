@@ -109,7 +109,7 @@ export const videoResize = (elements, className) => {
 }
 
 // ------------ Deleting placeholder focus ------------ //
-function focusFnInput(target, event) {
+function focusFnInput(target) {
     if (target.getAttribute('placeholder') !== null) {
         target.setAttribute('data-placeholder', target.getAttribute('placeholder'))
         target.setAttribute('placeholder', '')
@@ -125,7 +125,7 @@ document.addEventListener('focus', function (event) {
     }
 }, true);
 
-function blurFnInput(target, event) {
+function blurFnInput(target) {
     if (target.getAttribute('data-placeholder') !== null) {
         target.setAttribute('placeholder', target.getAttribute('data-placeholder'))
     }

@@ -70,7 +70,14 @@ $index-screen: math.div(($screenWidth * 0.01), $browser-context);
 }
 
 @function math-clamp($min-size, $max-size) {
-	$val: math.div(math.div($max-size, $browser-context), $index-screen) * 1vw;
+	$val: 0;
+	
+	@if($min-size < 0) {
+		$val: math.div(math.div($min-size, $browser-context), $index-screen) * 1vw;
+	}
+	@if($min-size >= 0) {
+		$val: math.div(math.div($max-size, $browser-context), $index-screen) * 1vw;
+	}
 	@return clamp(#{rem($min-size)}, #{$val}, #{rem($max-size)});
 }
 

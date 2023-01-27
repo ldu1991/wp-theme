@@ -1,12 +1,13 @@
 {
-    "key": "group_61ebee8d50b18",
-    "title": "Test",
+    "key": "group_63d3de5fd7047",
+    "title": "Theme settings",
     "fields": [
         {
-            "key": "field_61ebee98743e3",
-            "label": "Test field",
-            "name": "test_field",
-            "type": "beyond_adaptive_numeric_values",
+            "key": "field_63d3de6ef19ab",
+            "label": "Filed",
+            "name": "filed",
+            "aria-label": "",
+            "type": "text",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -15,9 +16,9 @@
                 "class": "",
                 "id": ""
             },
-            "default_value_only": "",
-            "default_value_only_unit": "%",
-            "step": "",
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
             "prepend": "",
             "append": ""
         }
@@ -40,5 +41,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1642852022
+    "modified": 1674829446
 }

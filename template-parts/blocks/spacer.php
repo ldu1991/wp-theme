@@ -1,11 +1,11 @@
 <?php
 
 /*
- * Block Name: Testimonials block ACF
+ * Block Name: Spacer
  * Slug:
- * Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, velit.
- * Keywords: testimonials, fancybox, remodal, swiper
- * Align: true
+ * Description:
+ * Keywords: spacer
+ * Align:
  *
  * @param   array $block The block settings and attributes.
  * @param   string $content The block inner HTML (empty).
@@ -13,7 +13,7 @@
  * @param   (int|string) $post_id The post ID this block is saved to.
  */
 
-$block_name = 'by-testimonial';
+$block_name = 'wp-custom-spacer';
 
 // Create id attribute allowing for custom "anchor" value.
 $id = !empty($block['anchor']) ? $block['anchor'] : $block_name . '-' . $block['id'];
@@ -31,14 +31,31 @@ if (!empty($is_preview)) $className[] = $block_name . '-is-preview';
 
 $className[] = B_PREFIX . '-section-element';
 
-$clor = get_field('clor');
-?>
+$min_value = (float)get_field('min_value');
+$max_value = (float)get_field('max_value');
+
+/**
+ * @param float $min_size
+ * @param float $max_size
+ */
+function spacer_math_clamp(float $min_size, float $max_size)
+{
+    $browser_context = 16;
+    $screen_width = 1440;
+
+    $index_screen = ($screen_width * 0.01) / $browser_context;
+
+    $val = 0;
+    if ($min_size < 0) {
+        $val = ($min_size / $browser_context) / $index_screen . 'vw';
+    }
+    if ($min_size >= 0) {
+        $val = ($max_size / $browser_context) / $index_screen . 'vw';
+    }
+
+    echo 'height: clamp(' . ($min_size / $browser_context) . 'rem, ' . $val . ', ' . ($max_size / $browser_context) . 'rem)';
+} ?>
 
 <div id="<?php echo esc_attr($id); ?>"
      class="<?php echo esc_attr(trim(implode(' ', $className))) ?>"
-     style="background-color: <?php echo $clor ?>">
-
-
-</div>
-
-<?php get_template_part('template-parts/elements/testim'); ?>
+     style="<?php spacer_math_clamp($min_value, $max_value); ?>"></div>

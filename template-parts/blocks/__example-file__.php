@@ -1,10 +1,10 @@
 <?php
 
 /*
- * Block Name: Testimonials block ACF
+ * Block Name: __example__
  * Slug:
- * Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, velit.
- * Keywords: testimonials, fancybox, remodal, swiper
+ * Description:
+ * Keywords:
  * Align: true
  *
  * @param   array $block The block settings and attributes.
@@ -13,7 +13,7 @@
  * @param   (int|string) $post_id The post ID this block is saved to.
  */
 
-$block_name = 'by-testimonial';
+$block_name = '__class-block__';
 
 // Create id attribute allowing for custom "anchor" value.
 $id = !empty($block['anchor']) ? $block['anchor'] : $block_name . '-' . $block['id'];
@@ -31,14 +31,11 @@ if (!empty($is_preview)) $className[] = $block_name . '-is-preview';
 
 $className[] = B_PREFIX . '-section-element';
 
-$clor = get_field('clor');
+$filed = get_field('filed');
 ?>
 
 <div id="<?php echo esc_attr($id); ?>"
-     class="<?php echo esc_attr(trim(implode(' ', $className))) ?>"
-     style="background-color: <?php echo $clor ?>">
+     class="<?php echo esc_attr(trim(implode(' ', $className))) ?>">
 
 
 </div>
-
-<?php get_template_part('template-parts/elements/testim'); ?>

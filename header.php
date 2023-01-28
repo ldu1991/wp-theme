@@ -24,14 +24,4 @@ beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'test_field', 'option'
 ?>
 <header>
 
-    <div class="logo">
-
-    </div>
-
-    <nav class="nav-search">
-
-    </nav>
-
-    <?php get_search_form(); ?>
-
 </header>

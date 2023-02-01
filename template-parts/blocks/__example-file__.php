@@ -27,7 +27,7 @@ if (!empty($block['className'])) $className[] = $block['className'];
 
 if (!empty($block['align'])) $className[] = 'align-' . $block['align'];
 
-if (!empty($is_preview)) $className[] = $block_name . '-is-preview';
+if (!empty($is_preview)) $className[] = $block_name . '_is-preview';
 
 $className[] = B_PREFIX . '-section-element';
 

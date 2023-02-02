@@ -5,7 +5,7 @@
  * Slug:
  * Description:
  * Keywords:
- * Align: true
+ * Align: wide, full
  *
  * @param   array $block The block settings and attributes.
  * @param   string $content The block inner HTML (empty).

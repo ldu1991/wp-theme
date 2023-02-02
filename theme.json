@@ -62,7 +62,7 @@
         "custom": {},
         "layout": {
             "contentSize": "1200px",
-            "wideSize": ""
+            "wideSize": "1400px"
         },
         "spacing": {
             "blockGap": true,

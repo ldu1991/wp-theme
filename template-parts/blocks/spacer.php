@@ -5,7 +5,7 @@
  * Slug:
  * Description:
  * Keywords: spacer
- * Align: 1
+ * Align: full
  *
  * @param   array $block The block settings and attributes.
  * @param   string $content The block inner HTML (empty).

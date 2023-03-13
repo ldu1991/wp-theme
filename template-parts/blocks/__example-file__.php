@@ -13,7 +13,7 @@
  * @param   (int|string) $post_id The post ID this block is saved to.
  */
 
-$block_name = '__class-block__';
+$block_name = '__class_block__';
 
 // Create id attribute allowing for custom "anchor" value.
 $id = !empty($block['anchor']) ? $block['anchor'] : $block_name . '-' . $block['id'];

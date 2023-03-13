@@ -92,3 +92,29 @@ function theme_acf_init()
         ));
     }
 }
+
+
+function my_mce4_options($init)
+{
+
+    $custom_colours = '
+        "FFFFFF", "White",
+        "2C0B86", "Dark Purple",
+        "5B63F5", "Light Purple",
+        "303133", "Dark Grey",
+        "545454", "Medium Grey",
+        "F2F3F8", "Light Grey",
+        "00F197", "Vibrant Green",
+    ';
+
+    // build colour grid default+custom colors
+    $init['textcolor_map'] = '[' . $custom_colours . ']';
+
+    // change the number of rows in the grid if the number of colors changes
+    // 8 swatches per row
+    $init['textcolor_rows'] = 2;
+
+    return $init;
+}
+
+add_filter('tiny_mce_before_init', 'my_mce4_options');

@@ -19,8 +19,8 @@ $atts = [];
 
 $filed = get_field('filed');
 
-set_section_block_start($general_class, $atts, $block, $is_preview); ?>
+the_section_block_start($general_class, $atts, $block, $is_preview); ?>
 
 
 
-<?php set_section_block_end();
+<?php the_section_block_end();

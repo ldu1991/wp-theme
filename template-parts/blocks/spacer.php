@@ -6,7 +6,7 @@
  * Description:
  * Keywords: spacer
  * Align: full
- * Screenshot: true
+ * Screenshot: false
  *
  * @param   array $block The block settings and attributes.
  * @param   string $content The block inner HTML (empty).
@@ -33,5 +33,5 @@ if ($min_value < 0) {
 
 $atts['style'] = 'height: clamp(' . ($min_value / $browser_context) . 'rem, ' . $val . ', ' . ($max_value / $browser_context) . 'rem)';
 
-set_section_block_start($general_class, $atts, $block, $is_preview);
-set_section_block_end();
+the_section_block_start($general_class, $atts, $block, $is_preview);
+the_section_block_end();

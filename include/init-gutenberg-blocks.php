@@ -96,14 +96,20 @@ function beyond_register_acf_block_types()
                 $align = explode(', ', $block_data['align']);
             }
 
-            if($block_data['screenshot'] === 'true') $block_data['example']['attributes']['data']['screenshot'] = $block_data['name'];
+            if($block_data['screenshot'] !== 'false') {
+                if ($block_data['screenshot'] === 'true') {
+                    $block_data['example']['attributes']['data']['screenshot'] = $block_data['name'];
+                } else {
+                    $block_data['example']['attributes']['data']['screenshot'] = $block_data['screenshot'];
+                }
+            }
 
             acf_register_block_type(array(
                 'name'              => $block_data['name'],
                 'title'             => __($block_data['title']),
                 'description'       => __($block_data['description']),
                 'category'          => 'beyond-category',
-                'icon'              => '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 90 90"><rect x="-0.2" y="0.2" fill="#DA0F26" width="90" height="90"/><path fill="#FFFFFF" d="M68.6,57.8c0,10.7-6.6,19.6-21.1,19.6H22.6V38.8h22.1c9.4,0,12.7-4.8,12.7-10.6c0-5.8-2.6-10.6-12-10.6l-22.8,0.1v-7h23.2c13.3,0,19,7.8,19,17.4c0,5.4-2.6,10.2-7,13.1C64.7,44.5,68.6,50.5,68.6,57.8z M61.2,57.8c0-6.9-4.4-12.8-14.3-12.8H29.6v25.4l17.7,0.1C56.7,70.6,61.2,64.7,61.2,57.8z"/></svg>',
+                'icon'              => '<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="90" height="90" fill="#DA0F26"/><path d="M70 60.1956C70 71.8261 62.8261 81.5 47.0652 81.5H20V39.5435H44.0217C54.2391 39.5435 57.8261 34.3261 57.8261 28.0217C57.8261 21.7174 55 16.5 44.7826 16.5L20 16.6087V9H45.2174C59.6739 9 65.8696 17.4783 65.8696 27.913C65.8696 33.7826 63.0435 39 58.2609 42.1522C65.7609 45.7391 70 52.2609 70 60.1956ZM61.9565 60.1956C61.9565 52.6956 57.1739 46.2826 46.413 46.2826H27.6087V73.8913L46.8478 74C57.0652 74.1087 61.9565 67.6956 61.9565 60.1956Z" fill="white"/></svg>',
                 'keywords'          => explode(', ', $block_data['keywords']),
                 'render_template'   => $block_data['file_uri'],
                 'align'             => 'full',

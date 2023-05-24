@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
+</main>
+
 <footer>
 
 <span class="copyright"><?php echo date('Y'); ?></span>

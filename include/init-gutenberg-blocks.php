@@ -11,7 +11,7 @@ add_action( 'enqueue_block_editor_assets', 'set_styles_scripts_block_editor' );
 add_action('acf/init', 'beyond_register_acf_block_types');
 
 /* Filter */
-add_filter('block_categories', 'beyond_block_category', 10, 2);
+add_filter('block_categories_all', 'beyond_block_category', 10, 2);
 
 function set_styles_scripts_block_editor() {
     wp_enqueue_script(B_PREFIX . '-script-block-editor', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get( 'Version' ), true);
@@ -26,13 +26,13 @@ function set_styles_scripts_block_editor() {
 function beyond_block_category($categories, $post): array
 {
     return array_merge(
-        $categories,
         array(
             array(
                 'slug'  => 'beyond-category',
                 'title' => __('Beyond Blocks', B_PREFIX)
             )
-        )
+        ),
+        $categories
     );
 }
 
@@ -63,7 +63,8 @@ function beyond_data_list_files(): array
             'slug'          => 'Slug',
             'description'   => 'Description',
             'keywords'      => 'Keywords',
-            'align'         => 'Align'
+            'align'         => 'Align',
+            'screenshot'    => 'Screenshot'
         ));
 
         if (!empty($file_data)) {
@@ -94,6 +95,8 @@ function beyond_register_acf_block_types()
             } else {
                 $align = explode(', ', $block_data['align']);
             }
+
+            if($block_data['screenshot'] === 'true') $block_data['example']['attributes']['data']['screenshot'] = $block_data['name'];
 
             acf_register_block_type(array(
                 'name'              => $block_data['name'],

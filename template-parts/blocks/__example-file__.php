@@ -6,7 +6,6 @@
  * Description:
  * Keywords:
  * Align: wide, full
- * Screenshot: true
  *
  * @param   array $block The block settings and attributes.
  * @param   string $content The block inner HTML (empty).
@@ -15,12 +14,14 @@
  */
 
 $general_class = '__class_block__';
-$atts = [];
+$attr = get_section_options($general_class, $block, $is_preview);
+if (has_preview_screenshot($block)) return;
 
 $filed = get_field('filed');
+?>
 
-the_section_block_start($general_class, $atts, $block, $is_preview); ?>
+<section id="<?php echo esc_attr($attr['id']); ?>"
+         class="<?php echo esc_attr(trim(implode(' ', $attr['class']))) ?>">
 
 
-
-<?php the_section_block_end();
+</section>

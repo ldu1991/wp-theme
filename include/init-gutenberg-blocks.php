@@ -63,8 +63,7 @@ function beyond_data_list_files(): array
             'slug'          => 'Slug',
             'description'   => 'Description',
             'keywords'      => 'Keywords',
-            'align'         => 'Align',
-            'screenshot'    => 'Screenshot'
+            'align'         => 'Align'
         ));
 
         if (!empty($file_data)) {
@@ -96,13 +95,7 @@ function beyond_register_acf_block_types()
                 $align = explode(', ', $block_data['align']);
             }
 
-            if($block_data['screenshot'] !== 'false') {
-                if ($block_data['screenshot'] === 'true') {
-                    $block_data['example']['attributes']['data']['screenshot'] = $block_data['name'];
-                } else {
-                    $block_data['example']['attributes']['data']['screenshot'] = $block_data['screenshot'];
-                }
-            }
+            $block_data['example']['attributes']['data']['screenshot'] = true;
 
             acf_register_block_type(array(
                 'name'              => $block_data['name'],

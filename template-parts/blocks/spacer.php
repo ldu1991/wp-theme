@@ -6,7 +6,6 @@
  * Description:
  * Keywords: spacer
  * Align: full
- * Screenshot: false
  *
  * @param   array $block The block settings and attributes.
  * @param   string $content The block inner HTML (empty).
@@ -15,6 +14,7 @@
  */
 
 $general_class = 'wp-custom-spacer';
+$attr = get_section_options($general_class, $block, $is_preview);
 
 $min_value = (float)get_field('min_value');
 $max_value = (float)get_field('max_value');
@@ -29,9 +29,8 @@ if ($min_value < 0) {
     $val = ($min_value / $browser_context) / $index_screen . 'vw';
 } else {
     $val = ($max_value / $browser_context) / $index_screen . 'vw';
-}
+} ?>
 
-$atts['style'] = 'height: clamp(' . ($min_value / $browser_context) . 'rem, ' . $val . ', ' . ($max_value / $browser_context) . 'rem)';
-
-the_section_block_start($general_class, $atts, $block, $is_preview);
-the_section_block_end();
+<section id="<?php echo esc_attr($attr['id']); ?>"
+         class="<?php echo esc_attr(trim(implode(' ', $attr['class']))) ?>"
+         style="<?php echo 'height: clamp(' . ($min_value / $browser_context) . 'rem, ' . $val . ', ' . ($max_value / $browser_context) . 'rem)'; ?>"></section>

@@ -26,4 +26,4 @@ beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'test_field', 'option'
 
 </header>
 
-<main <?php main_class(); ?>>
+<main class="main-wrapper">

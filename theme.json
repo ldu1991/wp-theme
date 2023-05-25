@@ -3,6 +3,7 @@
     "$schema": "https://schemas.wp.org/trunk/theme.json",
     "settings": {
         "appearanceTools": true,
+        "useRootPaddingAwareAlignments": true,
         "border": {
             "color": true,
             "radius": true,
@@ -22,11 +23,6 @@
                     "slug": "red-linear",
                     "gradient": "linear-gradient(90deg, #E10303 9.49%, #C70202 100%)",
                     "name": "Red Linear"
-                },
-                {
-                    "slug": "blue-linear",
-                    "gradient": "linear-gradient(90deg, #304CAD 9.49%, #1F3261 100%)",
-                    "name": "Blue Linear"
                 }
             ],
             "link": true,

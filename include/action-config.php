@@ -75,6 +75,8 @@ function add_theme_supports()
     ));
 
     add_theme_support('wp-block-styles');
+
+    add_theme_support( 'disable-layout-styles' );
 }
 
 
@@ -84,7 +86,7 @@ function add_theme_supports()
 function theme_acf_init()
 {
     if (function_exists('acf_add_options_page')) {
-        $option_page = acf_add_options_page(array(
+        acf_add_options_page(array(
             'page_title' => __('Theme general settings', B_PREFIX),
             'menu_title' => __('Theme settings', B_PREFIX),
             'menu_slug' => 'theme-general-settings',

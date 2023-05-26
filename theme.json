@@ -40,9 +40,24 @@
             ],
             "text": true
         },
-        "custom": {},
+        "custom": {
+            "heading": {
+                "margin": {
+                    "bottom": "30px"
+                },
+                "padding": {
+                    "top": "20px"
+                }
+            },
+            "paragraph": {
+                "margin": {
+                    "top": "0",
+                    "bottom": "20px"
+                }
+            }
+        },
         "layout": {
-            "contentSize": "1200px",
+            "contentSize": "960px",
             "wideSize": "1400px"
         },
         "spacing": {

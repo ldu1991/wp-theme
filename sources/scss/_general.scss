@@ -1,8 +1,6 @@
 @import "variables";
 
 .main-wrapper {
-    //font-size: math-clamp(30, 100);
-    
     > *:not([class*="-section-element"]) {
         
         &:not(.alignwide):not(.alignfull) {

@@ -33,24 +33,9 @@
                     "name": "White"
                 },
                 {
-                    "slug": "off-white",
-                    "color": "#F8F8F8",
-                    "name": "Off White"
-                },
-                {
-                    "slug": "brand-blue",
-                    "color": "#1E3261",
-                    "name": "Brand Blue"
-                },
-                {
-                    "slug": "bright-blue",
-                    "color": "#304CAD",
-                    "name": "Bright Blue"
-                },
-                {
-                    "slug": "red",
-                    "color": "#E10404",
-                    "name": "Red"
+                    "slug": "black",
+                    "color": "#000000",
+                    "name": "Black"
                 }
             ],
             "text": true
@@ -153,7 +138,11 @@
         },
         "blocks": {}
     },
-    "styles": {},
+    "styles": {
+        "spacing": {
+            "blockGap": "30px"
+        }
+    },
     "customTemplates": [],
     "templateParts": []
 }

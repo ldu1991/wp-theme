@@ -9,30 +9,163 @@
     margin-bottom: 0;
 }
 
-.is-layout-flow {
-    > .wp-block {
-        &:not(.alignwide):not(.alignfull) {
-            max-width: var(--wp--style--global--content-size);
-        }
-    
-        &:not(.alignfull) {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    
-        &.alignwide {
-            max-width: var(--wp--style--global--wide-size);
-        }
-    
-        &.alignfull {
-            max-width: 100%;
-        }
-    }
-}
-
 .block-editor-block-list__layout {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.wp-site-blocks {
+    padding-top: var(--wp--style--root--padding-top);
+    padding-bottom: var(--wp--style--root--padding-bottom);
+}
+
+.has-global-padding {
+    padding-right: var(--wp--style--root--padding-right);
+    padding-left: var(--wp--style--root--padding-left);
+}
+
+.has-global-padding :where(.has-global-padding) {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.has-global-padding > .alignfull {
+    margin-right: calc(var(--wp--style--root--padding-right) * -1);
+    margin-left: calc(var(--wp--style--root--padding-left) * -1);
+}
+
+.has-global-padding :where(.has-global-padding) > .alignfull {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.has-global-padding > .alignfull:where(:not(.has-global-padding)) > :where([class*=\"wp-block-\"]:not(.alignfull):not([class*=\"__\"]),p,h1,h2,h3,h4,h5,h6,ul,ol) {
+    padding-right: var(--wp--style--root--padding-right);
+    padding-left: var(--wp--style--root--padding-left);
+}
+
+.has-global-padding :where(.has-global-padding) > .alignfull:where(:not(.has-global-padding)) > :where([class*=\"wp-block-\"]:not(.alignfull):not([class*=\"__\"]),p,h1,h2,h3,h4,h5,h6,ul,ol) {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.wp-site-blocks > .alignleft {
+    float: left;
+    margin-right: 20px;
+}
+
+.wp-site-blocks > .alignright {
+    float: right;
+    margin-left: 20px;
+}
+
+.wp-site-blocks > .aligncenter {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+body .edit-post-visual-editor__post-title-wrapper > :where(:not(.alignleft):not(.alignright):not(.alignfull)),
+body .block-editor-block-list__layout.is-root-container > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+    max-width: var(--wp--style--global--content-size);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body .edit-post-visual-editor__post-title-wrapper > .alignwide,
+body .block-editor-block-list__layout.is-root-container > .alignwide {
+    max-width: var(--wp--style--global--wide-size);
+}
+
+body .edit-post-visual-editor__post-title-wrapper > .alignfull,
+body .block-editor-block-list__layout.is-root-container > .alignfull {
+    max-width: none;
+}
+
+body .is-layout-flex {
+    gap: 24px;
+}
+
+body .is-layout-flow > .alignleft {
+    float: left;
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+body .is-layout-flow > .alignright {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+body .is-layout-flow > .aligncenter {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+body .is-layout-constrained > .alignleft {
+    float: left;
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+body .is-layout-constrained > .alignright {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+body .is-layout-constrained > .aligncenter {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+    max-width: var(--wp--style--global--content-size);
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+body .is-layout-constrained > .alignwide {
+    max-width: var(--wp--style--global--wide-size);
+}
+
+body .is-layout-flex {
+    display: flex;
+}
+
+body .is-layout-flex {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+body .is-layout-flex > * {
+    margin: 0;
+}
+
+a:where(:not(.wp-element-button)) {
+    text-decoration: underline;
+}
+
+.wp-element-button, .wp-block-button__link {
+    background-color: #32373c;
+    border-width: 0;
+    color: #fff;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    padding: calc(0.667em + 2px) calc(1.333em + 2px);
+    text-decoration: none;
+}
+
+.wp-block-navigation a:where(:not(.wp-element-button)) {
+    color: inherit;
+}
+
+.wp-block-pullquote {
+    font-size: 1.5em;
+    line-height: 1.6;
 }
 
 @import "style";

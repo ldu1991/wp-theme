@@ -17,8 +17,8 @@ body {
     font-size: rem($base-font-size);
     line-height: $base-line-height;
     font-weight: 400;
-    color: #000;
-    background-color: #fff;
+    color: var(--wp--preset--color--black);
+    background-color: var(--wp--preset--color--white);
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

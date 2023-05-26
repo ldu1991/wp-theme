@@ -24,7 +24,7 @@ function get_section_options(string $general_class = '', array $block = array(),
 
     if (!empty($is_preview)) $result['class'][] = $general_class . '_is-preview';
 
-    $result['class'][] = 'acf-block-section-element';
+    $result['class'][] = B_PREFIX . '-section-element';
 
     return $result;
 }

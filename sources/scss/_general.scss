@@ -1,7 +1,9 @@
 @import "variables";
 
 .main-wrapper {
-    > *:not(.acf-block-section-element) {
+    //font-size: math-clamp(30, 100);
+    
+    > *:not([class*="-section-element"]) {
         
         &:not(.alignwide):not(.alignfull) {
             max-width: var(--wp--style--global--content-size);
@@ -17,7 +19,7 @@
         }
     
         &.alignfull {
-            max-width: 100%;
+            max-width: none;
         }
     }
 }

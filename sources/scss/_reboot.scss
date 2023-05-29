@@ -14,11 +14,6 @@
 
 body {
     font-family: "#{$base-font-family}", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: rem($base-font-size);
-    line-height: $base-line-height;
-    font-weight: 400;
-    color: var(--wp--preset--color--black);
-    background-color: var(--wp--preset--color--white);
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -38,33 +33,13 @@ hr:not([size]) {
     height: 1px;
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-    @extend %h
-}
-
-h1, .h1 {
-    @extend %h1
-}
-
-h2, .h2 {
-    @extend %h2
-}
-
-h3, .h3 {
-    @extend %h3
-}
-
-h4, .h4 {
-    @extend %h4
-}
-
-h5, .h5 {
-    @extend %h5
-}
-
-h6, .h6 {
-    @extend %h6
+h1, h2, h3, h4, h5, h6 {
+    &:first-child {
+        padding-top: 0;
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 p {
@@ -126,17 +101,6 @@ blockquote, q {
     padding: 0 0 0 40px;
     position: relative;
     display: block;
-    
-    &:before {
-        content: '\201d';
-        position: absolute;
-        left: 0;
-        top: 0;
-        font-size: rem($base-font-size * 2.25);
-        line-height: 1.1;
-        font-weight: 700;
-        color: #007bff;
-    }
 }
 
 b,
@@ -170,7 +134,8 @@ sup {
 }
 
 a {
-    color: #2775ff;
+    transition: all .4s;
+    /*color: #2775ff;
     text-decoration: none;
     
     &:focus {
@@ -181,7 +146,7 @@ a {
     &:focus {
         color: #2775ff;
         text-decoration: underline;
-    }
+    }*/
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -192,7 +157,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 pre {
     background-color: #eee;
     font-size: rem(17);
-    line-height: $base-line-height;
+    line-height: 1.5;
     margin-bottom: 20px;
     max-width: 100%;
     overflow: auto;

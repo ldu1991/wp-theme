@@ -42,7 +42,20 @@
         },
         "custom": {
             "heading": {
+                "typography": {
+                    "fontWeight": 700,
+                    "lineHeight": 1.25,
+                    "fontSize": {
+                        "h1": "clamp(2.5rem, 7vw, 5.25rem)",
+                        "h2": "clamp(1.875rem, 4vw, 2.5rem)",
+                        "h3": "1.5rem",
+                        "h4": "1.125rem",
+                        "h5": "1.125rem",
+                        "h6": "1.125rem"
+                    }
+                },
                 "margin": {
+                    "top": "0",
                     "bottom": "30px"
                 },
                 "padding": {
@@ -74,6 +87,7 @@
             ]
         },
         "typography": {
+            "fluid": false,
             "customFontSize": true,
             "dropCap": true,
             "fontFamilies": [],
@@ -104,8 +118,8 @@
                     "slug": "18"
                 },
                 {
+                    "size": "clamp(0.625rem, 0.625rem + ((1vw - 5.76px) * 1.2136), 1.25rem)",
                     "name": "20px",
-                    "size": "1.25rem",
                     "slug": "20"
                 },
                 {
@@ -154,8 +168,86 @@
         "blocks": {}
     },
     "styles": {
+        "typography": {
+            "fontSize": "1rem",
+            "lineHeight": "1.5",
+            "fontWeight": "400"
+        },
+        "color": {
+            "text": "var(--wp--preset--color--black)",
+            "background": "var(--wp--preset--color--white)"
+        },
         "spacing": {
             "blockGap": "30px"
+        },
+        "elements": {
+            "link": {
+                "typography": {
+                    "fontSize": "25px",
+                    "letterSpacing": "0.3em",
+                    "lineHeight": "1.8",
+                    "textDecoration": "none",
+                    "textTransform": "uppercase"
+                },
+                "color": {
+                    "text": "#3700ff"
+                },
+                ":hover": {
+                    "color": {
+                        "text": "#ff0000"
+                    }
+                },
+                ":focus": {
+                    "outline": {
+                        "width": "0"
+                    }
+                }
+            },
+            "heading": {
+                "spacing": {
+                    "margin": {
+                        "top": "var(--wp--custom--heading--margin--top)",
+                        "bottom": "var(--wp--custom--heading--margin--bottom)"
+                    },
+                    "padding": {
+                        "top": "var(--wp--custom--heading--padding--top)"
+                    }
+                },
+                "typography": {
+                    "lineHeight": "var(--wp--custom--heading--typography--line-height)",
+                    "fontWeight": "var(--wp--custom--heading--typography--font-weight)"
+                }
+            },
+            "h1": {
+                "typography": {
+                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-1)"
+                }
+            },
+            "h2": {
+                "typography": {
+                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-2)"
+                }
+            },
+            "h3": {
+                "typography": {
+                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-3)"
+                }
+            },
+            "h4": {
+                "typography": {
+                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-4)"
+                }
+            },
+            "h5": {
+                "typography": {
+                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-5)"
+                }
+            },
+            "h6": {
+                "typography": {
+                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-6)"
+                }
+            }
         }
     },
     "customTemplates": [],

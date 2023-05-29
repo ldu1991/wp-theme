@@ -7,10 +7,8 @@
 $font-family-open-sans: 'Open Sans';
 
 // Base typography style
-$base-font-size: 16px; // Sets the base font size
-$base-line-height: 1.5; // Sets the base line height
 $base-font-family: $font-family-open-sans; // Sets the base font family
 
 // Colors
-$brand-primary: #0f1d2b;
-$brand-secondary: #fff4ec;
+$white: var(--wp--preset--color--white);
+$black: var(--wp--preset--color--black);

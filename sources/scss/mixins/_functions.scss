@@ -2,7 +2,8 @@
 
 // Common variables
 $browser-context: 16;
-$screenWidth: 1920;
+$minViewport: 576;
+$maxViewport: 1400;
 
 // font-size
 @function em($pixels, $context: $browser-context) {
@@ -29,10 +30,8 @@ $screenWidth: 1920;
 	@return math.div($pixels, $context) * 1rem;
 }
 
-$index-screen: math.div(($screenWidth * 0.01), $browser-context);
-
 @function vw($target) {
-	@return math.div($target * 100, $screenWidth) * 1vw;
+	@return math.div($target * 100, $maxViewport) * 1vw;
 }
 
 @function aspect-ratio($one-value, $two-value, $new-value) {
@@ -40,18 +39,11 @@ $index-screen: math.div(($screenWidth * 0.01), $browser-context);
 }
 
 @function math-clamp($min-size, $max-size) {
-	$val: 0;
+	$view_port_width_offset: rem(math.div($minViewport, 100));
+	$size_difference: $max-size - $min-size;
+	$viewport_difference: $maxViewport - $minViewport;
+	$linear_factor: math.div(math.round((100 * math.div($size_difference, $viewport_difference)) * 10000), 10000);
 	
-	@if($min-size < 0) {
-		$val: math.div(math.div($min-size, $browser-context), $index-screen) * 1vw;
-	}
-	@if($min-size >= 0) {
-		$val: math.div(math.div($max-size, $browser-context), $index-screen) * 1vw;
-	}
-	@return clamp(#{rem($min-size)}, #{$val}, #{rem($max-size)});
-}
-
-@function math-max($min-size, $size) {
-	$val: math.div(math.div($size, $browser-context), $index-screen) * 1vw;
-	@return max(#{rem($min-size)}, #{$val});
+	$fluid_target_size: "#{rem($min-size)} + ((1vw - #{$view_port_width_offset}) * #{$linear_factor})";
+	@return clamp(#{rem($min-size)}, #{$fluid_target_size}, #{rem($max-size)});
 }

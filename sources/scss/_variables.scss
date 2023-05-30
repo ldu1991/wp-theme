@@ -9,6 +9,9 @@ $font-family-open-sans: 'Open Sans';
 // Base typography style
 $base-font-family: $font-family-open-sans; // Sets the base font family
 
+$content-size: min(100% - 60px, var(--wp--style--global--content-size));
+$wide-size: min(100% - 60px, var(--wp--style--global--wide-size));
+
 // Colors
 $white: var(--wp--preset--color--white);
 $black: var(--wp--preset--color--black);

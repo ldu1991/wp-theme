@@ -46,8 +46,8 @@
                     "fontWeight": 700,
                     "lineHeight": 1.25,
                     "fontSize": {
-                        "h1": "clamp(2.5rem, 7vw, 5.25rem)",
-                        "h2": "clamp(1.875rem, 4vw, 2.5rem)",
+                        "h1": "clamp(2.5rem, 2.5rem + ((1vw - 0.36rem) * 5.3398), 5.25rem)",
+                        "h2": "clamp(1.875rem, 1.875rem + ((1vw - 0.36rem) * 1.2136), 2.5rem)",
                         "h3": "1.5rem",
                         "h4": "1.125rem",
                         "h5": "1.125rem",
@@ -118,44 +118,19 @@
                     "slug": "18"
                 },
                 {
-                    "size": "clamp(0.625rem, 0.625rem + ((1vw - 5.76px) * 1.2136), 1.25rem)",
                     "name": "20px",
+                    "size": "clamp(1.125rem, 1.125rem + ((1vw - 0.36rem) * 0.2427), 1.25rem)",
                     "slug": "20"
                 },
                 {
                     "name": "22px",
-                    "size": "clamp(1.25rem, 1.1458333333vw, 1.375rem)",
+                    "size": "clamp(1.25rem, 1.25rem + ((1vw - 0.36rem) * 0.2427), 1.375rem)",
                     "slug": "22"
                 },
                 {
                     "name": "24px",
-                    "size": "clamp(1.375rem, 1.25vw, 1.5rem)",
+                    "size": "clamp(1.375rem, 1.375rem + ((1vw - 0.36rem) * 0.2427), 1.5rem)",
                     "slug": "24"
-                },
-                {
-                    "name": "25px",
-                    "size": "clamp(1.125rem, 1.302083333vw, 1.5625rem)",
-                    "slug": "25"
-                },
-                {
-                    "name": "27px",
-                    "size": "clamp(1.5rem, 1.40625vw, 1.6875rem)",
-                    "slug": "27"
-                },
-                {
-                    "name": "35px",
-                    "size": "clamp(1.625rem, 1.82291666666vw, 2.1875rem)",
-                    "slug": "35"
-                },
-                {
-                    "name": "40px",
-                    "size": "clamp(1.75rem, 2.0833333333vw, 2.5rem)",
-                    "slug": "40"
-                },
-                {
-                    "name": "48px",
-                    "size": "clamp(2rem, 2.5vw, 3rem)",
-                    "slug": "48"
                 }
             ],
             "fontStyle": true,
@@ -183,9 +158,9 @@
         "elements": {
             "link": {
                 "typography": {
-                    "fontSize": "25px",
-                    "letterSpacing": "0.3em",
-                    "lineHeight": "1.8",
+                    "fontSize": "1rem",
+                    "letterSpacing": "",
+                    "lineHeight": "1.5",
                     "textDecoration": "none",
                     "textTransform": "uppercase"
                 },
@@ -198,6 +173,9 @@
                     }
                 },
                 ":focus": {
+                    "color": {
+                        "text": "#ff0000"
+                    },
                     "outline": {
                         "width": "0"
                     }

@@ -45,5 +45,14 @@ $maxViewport: 1400;
 	$linear_factor: math.div(math.round((100 * math.div($size_difference, $viewport_difference)) * 10000), 10000);
 	
 	$fluid_target_size: "#{rem($min-size)} + ((1vw - #{$view_port_width_offset}) * #{$linear_factor})";
-	@return clamp(#{rem($min-size)}, #{$fluid_target_size}, #{rem($max-size)});
+	
+	$result: "";
+	
+	@if($min-size >= $max-size) {
+		$result: clamp(#{rem($max-size)}, #{$fluid_target_size}, #{rem($min-size)});
+	} @else {
+		$result: clamp(#{rem($min-size)}, #{$fluid_target_size}, #{rem($max-size)});
+	}
+	
+	@return $result;
 }

@@ -51,6 +51,7 @@ gulp.task('browser-sync', function () {
     })
 
     gulp.watch([
+        dist.main + '**/*.json',
         dist.main + '**/*.php',
         dist.css + '/**/*.css',
         dist.js + '/**/*.js'

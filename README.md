@@ -1,1 +1,1 @@
-# WP-Theme Documentation
+# WP-Theme

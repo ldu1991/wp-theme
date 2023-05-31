@@ -4,7 +4,7 @@
     > *:not([class*="-section-element"]) {
         
         &:not(.alignwide):not(.alignfull) {
-            max-width: $content-size;
+            max-width: var(--wp--style--global--content-size);
         }
     
         &:not(.alignfull) {
@@ -13,7 +13,7 @@
         }
         
         &.alignwide {
-            max-width: $wide-size;
+            max-width: var(--wp--style--global--wide-size);
         }
     
         &.alignfull {

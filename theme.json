@@ -70,8 +70,8 @@
             }
         },
         "layout": {
-            "contentSize": "960px",
-            "wideSize": "1400px"
+            "contentSize": "min(100% - 60px, 800px)",
+            "wideSize": "min(100% - 60px, 1200px)"
         },
         "spacing": {
             "blockGap": true,

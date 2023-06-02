@@ -14,6 +14,11 @@
 
 body {
     font-family: "#{$base-font-family}", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: rem($base-font-size);
+    line-height: $base-line-height;
+    font-weight: 400;
+    color: #000;
+    background-color: #fff;
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -33,18 +38,38 @@ hr:not([size]) {
     height: 1px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    &:first-child {
-        padding-top: 0;
-    }
-    &:last-child {
-        margin-bottom: 0;
-    }
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    @extend %h
+}
+
+h1, .h1 {
+    @extend %h1
+}
+
+h2, .h2 {
+    @extend %h2
+}
+
+h3, .h3 {
+    @extend %h3
+}
+
+h4, .h4 {
+    @extend %h4
+}
+
+h5, .h5 {
+    @extend %h5
+}
+
+h6, .h6 {
+    @extend %h6
 }
 
 p {
-    margin-top: var(--wp--custom--paragraph--margin--top);
-    margin-bottom: var(--wp--custom--paragraph--margin--bottom);
+    margin-top: 0;
+    margin-bottom: 40px;
     
     &:last-child {
         margin-bottom: 0;
@@ -134,8 +159,7 @@ sup {
 }
 
 a {
-    transition: all .4s;
-    /*color: #2775ff;
+    color: #2775ff;
     text-decoration: none;
     
     &:focus {
@@ -146,7 +170,7 @@ a {
     &:focus {
         color: #2775ff;
         text-decoration: underline;
-    }*/
+    }
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {

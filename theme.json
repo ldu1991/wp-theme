@@ -40,35 +40,7 @@
             ],
             "text": true
         },
-        "custom": {
-            "heading": {
-                "typography": {
-                    "fontWeight": 700,
-                    "lineHeight": 1.25,
-                    "fontSize": {
-                        "h1": "clamp(2.5rem, 2.5rem + ((1vw - 0.36rem) * 5.3398), 5.25rem)",
-                        "h2": "clamp(1.875rem, 1.875rem + ((1vw - 0.36rem) * 1.2136), 2.5rem)",
-                        "h3": "1.5rem",
-                        "h4": "1.125rem",
-                        "h5": "1.125rem",
-                        "h6": "1.125rem"
-                    }
-                },
-                "margin": {
-                    "top": "0",
-                    "bottom": "30px"
-                },
-                "padding": {
-                    "top": "20px"
-                }
-            },
-            "paragraph": {
-                "margin": {
-                    "top": "0",
-                    "bottom": "20px"
-                }
-            }
-        },
+        "custom": {},
         "layout": {
             "contentSize": "min(100% - 60px, 800px)",
             "wideSize": "min(100% - 60px, 1200px)"
@@ -143,89 +115,8 @@
         "blocks": {}
     },
     "styles": {
-        "typography": {
-            "fontSize": "1rem",
-            "lineHeight": "1.5",
-            "fontWeight": "400"
-        },
-        "color": {
-            "text": "var(--wp--preset--color--black)",
-            "background": "var(--wp--preset--color--white)"
-        },
         "spacing": {
             "blockGap": "30px"
-        },
-        "elements": {
-            "link": {
-                "typography": {
-                    "fontSize": "1rem",
-                    "letterSpacing": "",
-                    "lineHeight": "1.5",
-                    "textDecoration": "none",
-                    "textTransform": "uppercase"
-                },
-                "color": {
-                    "text": "#3700ff"
-                },
-                ":hover": {
-                    "color": {
-                        "text": "#ff0000"
-                    }
-                },
-                ":focus": {
-                    "color": {
-                        "text": "#ff0000"
-                    },
-                    "outline": {
-                        "width": "0"
-                    }
-                }
-            },
-            "heading": {
-                "spacing": {
-                    "margin": {
-                        "top": "var(--wp--custom--heading--margin--top)",
-                        "bottom": "var(--wp--custom--heading--margin--bottom)"
-                    },
-                    "padding": {
-                        "top": "var(--wp--custom--heading--padding--top)"
-                    }
-                },
-                "typography": {
-                    "lineHeight": "var(--wp--custom--heading--typography--line-height)",
-                    "fontWeight": "var(--wp--custom--heading--typography--font-weight)"
-                }
-            },
-            "h1": {
-                "typography": {
-                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-1)"
-                }
-            },
-            "h2": {
-                "typography": {
-                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-2)"
-                }
-            },
-            "h3": {
-                "typography": {
-                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-3)"
-                }
-            },
-            "h4": {
-                "typography": {
-                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-4)"
-                }
-            },
-            "h5": {
-                "typography": {
-                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-5)"
-                }
-            },
-            "h6": {
-                "typography": {
-                    "fontSize": "var(--wp--custom--heading--typography--font-size--h-6)"
-                }
-            }
         }
     },
     "customTemplates": [],

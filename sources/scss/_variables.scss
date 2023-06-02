@@ -1,14 +1,28 @@
 @use "sass:math";
 
-@import "mixins/functions";
-@import "mixins/mixins";
+@import "helpers/functions";
+@import "helpers/mixins";
 
 // Base custom typography style set
 $font-family-open-sans: 'Open Sans';
 
 // Base typography style
+$base-font-size: 16;
+$base-line-height: 1.5;
 $base-font-family: $font-family-open-sans; // Sets the base font family
+
+$content-size: var(--wp--style--global--content-size);
+$wide-size: var(--wp--style--global--wide-size);
 
 // Colors
 $white: var(--wp--preset--color--white);
 $black: var(--wp--preset--color--black);
+
+// General styles
+// --- Do not delete! ---
+:root {
+    --heading-padding-top: 30px;
+    --heading-margin-bottom: 30px;
+    --paragraph-margin-top: 0;
+    --paragraph-margin-bottom: 40px;
+}

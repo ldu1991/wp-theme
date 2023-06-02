@@ -3,6 +3,7 @@
 .editor-post-title {
     padding: 0 30px;
     margin-bottom: 0;
+    margin-block-end: 0 !important;
     font-size: rem(42);
 }
 
@@ -18,8 +19,8 @@ body .is-layout-flow {
     }
     
     > p {
-        margin-block-start: var(--wp--custom--paragraph--margin--top);
-        margin-block-end: var(--wp--custom--paragraph--margin--bottom);
+        margin-block-start: var(--paragraph-margin-top);
+        margin-block-end: var(--paragraph-margin-bottom);
         
         &:last-child {
             margin-block-end: 0;
@@ -27,8 +28,8 @@ body .is-layout-flow {
     }
     
     > p + p {
-        margin-block-start: var(--wp--custom--paragraph--margin--top);
-        margin-block-end: var(--wp--custom--paragraph--margin--bottom);
+        margin-block-start: var(--paragraph-margin-top);
+        margin-block-end: var(--paragraph-margin-bottom);
     }
     
     > h1,
@@ -44,7 +45,7 @@ body .is-layout-flow {
     > h5 + h5,
     > h6 + h6 {
         margin-block-start: 0;
-        margin-block-end: var(--wp--custom--heading--margin--bottom);
+        margin-block-end: var(--heading-margin-bottom);
     }
 }
 

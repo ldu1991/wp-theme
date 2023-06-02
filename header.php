@@ -27,4 +27,3 @@ beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'test_field', 'option'
 </header>
 
 <main class="main-wrapper">
-

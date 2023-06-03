@@ -26,4 +26,3 @@ if (!defined('B_STYLE_URL')) define('B_STYLE_URL', get_stylesheet_directory_uri(
 include_once('include/helper-functions.php');
 include_once('include/init-gutenberg-blocks.php');
 include_once('include/action-config.php');
-//include_once('include/post-type-1.php');

@@ -8,11 +8,11 @@
 </head>
 
 <body>
-<div class="container pt-5">
-    <h1>WP-Theme Documentation</h1>
-    <h3>1. Fluid-responsive property calculator</h3>
+<div class="container pt-5 pb-5">
+    <h1 class="mb-3">WP-Theme Documentation</h1>
+    <h2>Fluid-responsive property calculator</h2>
 
-    <div class="row pt-3">
+    <div class="row pt-3 mb-5">
         <div class="col-xxl-6 col-xl-7 col-md-10">
             <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
                 <form class="js-fluid-calculator mb-5">
@@ -72,6 +72,39 @@
         </div>
     </div>
 
+    <h4>1. Настройка стилей</h4>
+    <p>Данный старт-шаблон использует блочную систему построения, по этому для начала нам нужно настроить style guide
+        будущей темы сайта.</p>
+    <p class="text-danger"><strong>P.S.</strong> Такой способ настройки темы, позволяет нам одинаково отображать контент как на фронтенде, так и в бекенде (Gutenberg)</p>
+    <p>1. Настройка файла <a href="https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-json/" target="_blank">theme.json</a></p>
+    <p>1.1 Настройки ширины блоков <span class="text-danger">settings.layout</span></p>
+    <p>-- <span class="text-danger">settings.layout.contentSize</span> <span class="text-success">var(--wp--style--global--content-size)</span></p>
+    <p>-- <span class="text-danger">settings.layout.wideSize</span> <span class="text-success">var(--wp--style--global--wide-size)</span></p>
+    <img src="img/layout.png" alt="Docs">
+    <p class="mt-3"><strong>Например:</strong> Переменные можно использовать для построения глобального контейнера для блоков <span class="text-danger">settings.layout.wideSize</span>, и для дефолтного контента постов <span class="text-danger">settings.layout.contentSize</span></p>
+    <p><strong>P.S.</strong> в файле <span class="text-danger">scss/_variables.scss</span> переменные уже объявлены для большего удобства!</p>
+
+    <hr>
+
+    <p class="mt-5">1.2 Настройки цвета <span class="text-danger">settings.color.palette</span>, <span class="text-danger">settings.color.gradients</span></p>
+    <img src="img/palette-1.png" alt="">
+
+    <p class="mt-3">Эти настройки позволяют изменять/пользоваться палитрой цветов сразу на фронтенде и бекенде!</p>
+    <img src="img/palette.png" alt="">
+
+    <p class="mt-4">Для получение переменной цвета <span class="text-danger">--wp--preset--color--{slug}</span><br>
+        Для получение переменной градиента <span class="text-danger">--wp--preset--gradient--{slug}</span></p>
+
+    <p><strong>P.S.</strong> в файле <span class="text-danger">scss/_variables.scss</span> для удобства использования переменных CSS, можно их объявить в переменные SCSS!</p>
+    <strong>Например:</strong><br>
+
+    <code>
+        <pre>
+// Colors
+$white: var(--wp--preset--color--white); // #FFFFFF
+$black: var(--wp--preset--color--black); // #000000
+        </pre>
+    </code>
 </div>
 
 <script src="js/script.js"></script>

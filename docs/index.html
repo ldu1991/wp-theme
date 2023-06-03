@@ -88,7 +88,7 @@
 
 
     <!-- Documentation -->
-    <h4>1. Настройка стилей</h4>
+    <h4>Настройка стилей</h4>
     <p>Данный старт-шаблон использует блочную систему построения, по этому для начала нам нужно настроить style guide
         будущей темы сайта.</p>
     <p class="text-danger"><strong>P.S.</strong> Такой способ настройки темы, позволяет нам одинаково отображать контент как на фронтенде, так и в бекенде (Gutenberg)</p>
@@ -121,6 +121,26 @@ $white: var(--wp--preset--color--white); // #FFFFFF
 $black: var(--wp--preset--color--black); // #000000
         </pre>
     </code>
+
+    <hr>
+
+    <p class="mt-4">1.3 Установка дефолтных стилей темы</p>
+    <p>В файлах <span class="text-danger">sources/scss/_extend.scss</span> и <span class="text-danger">sources/scss/_reboot.scss</span> нужно определить стили заголовков, параграфов, ссылок, списков и т.п., которые будут действовать по дефолту</p>
+    <hr>
+
+    <h4 class="mt-5">Построение блоков Gutenberg</h4>
+    <ol>
+        <li>Если есть техническое задание с названиями блоков, или при его отсутствии, то при создании блока, его файл разметки и стиля должен соответствовать названию в тех. задании! (<strong>Например:</strong> название блока <span class="text-danger">Image and content</span>, его файлы разметки и стилей будет <span class="text-danger">sources/scss/blocks/_image-content.scss</span> и <span class="text-danger">template-parts/blocks/image-content.php</span>)</li>
+        <li>Всегда использовать префиксы в классах блоков!</li>
+        <li>При написании JS для блока Gutenberg, все скрипты для него писать в <span class="text-danger">sources/js/app/gutenberg.js</span><br>
+            <ol>
+                <li>Название блока (<strong>Например:</strong> название блока <span class="text-danger">Image and content</span>, функция будет <span class="text-danger">const imageContent = block => {})</span></li>
+                <li>Slug блока (<strong>Например:</strong> название блока <span class="text-danger">Image and content</span>, его slug, если не установлен другой будет <span class="text-danger">image-and-content</span>)</li>
+            </ol>
+            <img src="img/js-file.png" alt=""></li>
+    </ol>
+
+
 </div>
 
 <script src="js/script.js"></script>

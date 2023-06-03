@@ -158,7 +158,7 @@ sup {
     top: -8px;
 }
 
-a {
+a:where(:not(.wp-element-button)) {
     color: #2775ff;
     text-decoration: none;
     

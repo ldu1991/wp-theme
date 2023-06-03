@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WP-Theme Documentation</title>
+
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container pt-5">
+    <h1>WP-Theme Documentation</h1>
+    <h3>1. Fluid-responsive property calculator</h3>
+
+    <div class="row pt-3">
+        <div class="col-xxl-6 col-xl-7 col-md-10">
+            <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+                <form class="js-fluid-calculator mb-5">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4>Viewport:</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-text">min:</span>
+                                <input type="number" name="viewport_min" class="form-control" value="576">
+                                <span class="input-group-text">max:</span>
+                                <input type="number" name="viewport_max" class="form-control" value="1400">
+                                <span class="input-group-text">px</span>
+                            </div>
+                        </div>
+
+                        <div class="offset-3 col-md-9">
+                            <div class="row">
+                                <div class="col text-center">@</div>
+                                <div class="col text-center">@</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <h4>Range:</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-text">min:</span>
+                                <input type="number" name="min" class="form-control" value="20">
+                                <span class="input-group-text">max:</span>
+                                <input type="number" name="max" class="form-control" value="50">
+                                <span class="input-group-text">px</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mt-4">
+                            <h4>Units:</h4>
+                        </div>
+                        <div class="col-md-9 mt-4">
+                            <input type="radio" class="btn-check" name="unit" id="success-outlined-rem" value="rem" autocomplete="off" checked>
+                            <label class="btn btn-outline-success" for="success-outlined-rem">REM</label>
+
+                            <input type="radio" class="btn-check" name="unit" id="success-outlined-em" value="em" autocomplete="off">
+                            <label class="btn btn-outline-success" for="success-outlined-em">EM</label>
+
+                            <input type="radio" class="btn-check" name="unit" id="success-outlined-px" value="px" autocomplete="off">
+                            <label class="btn btn-outline-success" for="success-outlined-px">PX</label>
+                        </div>
+                    </div>
+
+                </form>
+
+                <input class="form-control js-fluid-calculator-result" type="text" value="Result" readonly>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/script.js"></script>
+</body>
+
+</html>

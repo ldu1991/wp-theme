@@ -1,4 +1,4 @@
 # WP-Theme
 
 ## Documentation:
-https://ldu1991.github.io/wp-theme-documentation/
+https://ldu1991.github.io/wp-theme/

@@ -12,48 +12,49 @@
     <h1 class="mb-3">WP-Theme Documentation</h1>
     <h2>Fluid-responsive property calculator</h2>
 
+    <!-- Calculator -->
     <div class="row pt-3 mb-5">
-        <div class="col-xxl-6 col-xl-7 col-md-10">
+        <div class="col-xxl-7 col-xl-8 col-md-11">
             <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
                 <form class="js-fluid-calculator mb-5">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <h4>Viewport:</h4>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <div class="input-group">
                                 <span class="input-group-text">min:</span>
-                                <input type="number" name="viewport_min" class="form-control" value="576">
+                                <input type="number" name="viewport_min" class="form-control text-center" value="576">
                                 <span class="input-group-text">max:</span>
-                                <input type="number" name="viewport_max" class="form-control" value="1400">
+                                <input type="number" name="viewport_max" class="form-control text-center" value="1400">
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
 
-                        <div class="offset-3 col-md-9">
+                        <div class="offset-4 col-md-8">
                             <div class="row">
                                 <div class="col text-center">@</div>
                                 <div class="col text-center">@</div>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <h4>Range:</h4>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <div class="input-group">
                                 <span class="input-group-text">min:</span>
-                                <input type="number" name="min" class="form-control" value="20">
+                                <input type="number" name="min" class="form-control text-center" value="20">
                                 <span class="input-group-text">max:</span>
-                                <input type="number" name="max" class="form-control" value="50">
+                                <input type="number" name="max" class="form-control text-center" value="50">
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
 
-                        <div class="col-md-3 mt-4">
+                        <div class="col-md-4 mt-4">
                             <h4>Units:</h4>
                         </div>
-                        <div class="col-md-9 mt-4">
+                        <div class="col-md-8 mt-4">
                             <input type="radio" class="btn-check" name="unit" id="success-outlined-rem" value="rem" autocomplete="off" checked>
                             <label class="btn btn-outline-success" for="success-outlined-rem">REM</label>
 
@@ -62,6 +63,17 @@
 
                             <input type="radio" class="btn-check" name="unit" id="success-outlined-px" value="px" autocomplete="off">
                             <label class="btn btn-outline-success" for="success-outlined-px">PX</label>
+                        </div>
+
+                        <div class="col-md-4 mt-4">
+                            <h4>CSS method:</h4>
+                        </div>
+                        <div class="col-md-8 mt-4">
+                            <input type="radio" class="btn-check" name="method" id="method-clamp" value="clamp" autocomplete="off" checked>
+                            <label class="btn btn-outline-success" for="method-clamp">Clamp</label>
+
+                            <input type="radio" class="btn-check" name="method" id="method-min-max" value="min-max" autocomplete="off">
+                            <label class="btn btn-outline-success" for="method-min-max">Min-Max</label>
                         </div>
                     </div>
 
@@ -72,6 +84,8 @@
         </div>
     </div>
 
+
+    <!-- Documentation -->
     <h4>1. Настройка стилей</h4>
     <p>Данный старт-шаблон использует блочную систему построения, по этому для начала нам нужно настроить style guide
         будущей темы сайта.</p>

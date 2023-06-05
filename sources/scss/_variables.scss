@@ -3,17 +3,6 @@
 @import "helpers/functions";
 @import "helpers/mixins";
 
-// Base custom typography style set
-$font-family-open-sans: 'Open Sans';
-
-// Base typography style
-$base-font-size: 16;
-$base-line-height: 1.5;
-$base-font-family: $font-family-open-sans; // Sets the base font family
-// --- Needed for gutenberg and frontend! ---
-$heading-padding-top: 30px;
-$heading-margin-bottom: 30px;
-$paragraph-margin-bottom: 40px;
 
 $content-size: var(--wp--style--global--content-size);
 $wide-size: var(--wp--style--global--wide-size);

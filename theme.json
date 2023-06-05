@@ -41,12 +41,30 @@
                     "slug": "red",
                     "color": "#ff0000",
                     "name": "Red"
+                },
+                {
+                    "slug": "Blue",
+                    "color": "#00209b",
+                    "name": "Blue"
                 }
             ],
             "text": true
         },
         "custom": {
-            "prefix": "DEMO"
+            "prefix": "DEMO",
+            "heading": {
+                "margin": {
+                    "bottom": "40px"
+                },
+                "padding": {
+                    "top": "20px"
+                }
+            },
+            "paragraph": {
+                "margin": {
+                    "bottom": "20px"
+                }
+            }
         },
         "layout": {
             "contentSize": "min(100% - clamp(1.875rem, 1.875rem + ((1vw - 0.3rem) * 33.2031), 12.5rem), 800px)",
@@ -69,7 +87,13 @@
             "fluid": false,
             "customFontSize": true,
             "dropCap": true,
-            "fontFamilies": [],
+            "fontFamilies": [
+                {
+                    "fontFamily": "'Roboto Condensed', sans-serif",
+                    "name": "Roboto Condensed",
+                    "slug": "roboto-condensed"
+                }
+            ],
             "fontSizes": [
                 {
                     "name": "12px",
@@ -110,6 +134,11 @@
                     "name": "24px",
                     "size": "clamp(1.375rem, 1.375rem + ((1vw - 0.36rem) * 0.2427), 1.5rem)",
                     "slug": "24"
+                },
+                {
+                    "name": "26px",
+                    "size": "clamp(1.5rem, 1.5rem + ((1vw - 0.36rem) * 0.2427), 1.625rem)",
+                    "slug": "26"
                 }
             ],
             "fontStyle": true,
@@ -122,9 +151,110 @@
         "blocks": {}
     },
     "styles": {
-
+        "blocks": {
+            "core/paragraph": {
+                "spacing": {
+                    "margin": {
+                        "top": "0",
+                        "bottom": "var(--wp--custom--paragraph--margin--bottom)"
+                    }
+                }
+            }
+        },
         "spacing": {
-            "blockGap": "30px"
+            "blockGap": "30px",
+            "margin": {
+                "top": "0",
+                "right": "0",
+                "bottom": "0",
+                "left": "0"
+            }
+        },
+        "color": {
+            "background": "var(--wp--preset--color--white)",
+            "text": "var(--wp--preset--color--black)"
+        },
+        "typography": {
+            "fontFamily": "var(--wp--preset--font-family--roboto-condensed)",
+            "fontSize": "1rem",
+            "lineHeight": "1.5",
+            "fontWeight": "400"
+        },
+        "elements": {
+            "link": {
+                "typography": {
+                    "fontStyle": "",
+                    "fontFamily": "",
+                    "fontWeight": "",
+                    "fontSize": "1rem",
+                    "letterSpacing": "",
+                    "textTransform": "uppercase",
+                    "lineHeight": "1.5",
+                    "textDecoration": "none"
+                },
+                "color": {
+                    "text": "#3700ff"
+                },
+                ":hover": {
+                    "color": {
+                        "text": "#ff0000"
+                    }
+                },
+                ":focus": {
+                    "outline": {
+                        "width": "0"
+                    }
+                }
+            },
+            "heading": {
+                "spacing": {
+                    "margin": {
+                        "top": "0",
+                        "bottom": "var(--wp--custom--heading--margin--bottom)"
+                    },
+                    "padding": {
+                        "top": "var(--wp--custom--heading--padding--top)"
+                    }
+                },
+                "typography": {
+                    "fontStyle": "",
+                    "fontFamily": "",
+                    "fontWeight": "700",
+                    "letterSpacing": "",
+                    "textTransform": "",
+                    "lineHeight": "1.5"
+                }
+            },
+            "h1": {
+                "typography": {
+                    "fontSize": "clamp(2.625rem, 2.625rem + ((1vw - 0.36rem) * 1.2136), 3.25rem)"
+                }
+            },
+            "h2": {
+                "typography": {
+                    "fontSize": "clamp(2.375rem, 2.375rem + ((1vw - 0.36rem) * 0.7282), 2.75rem)"
+                }
+            },
+            "h3": {
+                "typography": {
+                    "fontSize": "clamp(2rem, 2rem + ((1vw - 0.36rem) * 0.7282), 2.375rem)"
+                }
+            },
+            "h4": {
+                "typography": {
+                    "fontSize": "clamp(1.75rem, 1.75rem + ((1vw - 0.36rem) * 0.4854), 2rem)"
+                }
+            },
+            "h5": {
+                "typography": {
+                    "fontSize": "clamp(1.25rem, 1.25rem + ((1vw - 0.36rem) * 0.7282), 1.625rem)"
+                }
+            },
+            "h6": {
+                "typography": {
+                    "fontSize": "clamp(1.125rem, 1.125rem + ((1vw - 0.36rem) * 0.4854), 1.375rem)"
+                }
+            }
         }
     },
     "customTemplates": [],

@@ -13,13 +13,6 @@
 }
 
 body {
-    font-family: "#{$base-font-family}", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: rem($base-font-size);
-    line-height: $base-line-height;
-    font-weight: 400;
-    color: $black;
-    background-color: $white;
-    margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
@@ -38,39 +31,13 @@ hr:not([size]) {
     height: 1px;
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-    @extend %h
-}
-
-h1, .h1 {
-    @extend %h1
-}
-
-h2, .h2 {
-    @extend %h2
-}
-
-h3, .h3 {
-    @extend %h3
-}
-
-h4, .h4 {
-    @extend %h4
-}
-
-h5, .h5 {
-    @extend %h5
-}
-
-h6, .h6 {
-    @extend %h6
+h1, h2, h3, h4, h5, h6 {
+    &:first-child {
+        padding-top: 0;
+    }
 }
 
 p {
-    margin-top: 0;
-    margin-bottom: $paragraph-margin-bottom;
-    
     &:last-child {
         margin-bottom: 0;
     }
@@ -134,11 +101,10 @@ strong {
 }
 
 small {
-    font-size: rem(14);
+    font-size: 80%;
 }
 
 mark {
-    padding: 0.2em;
     background-color: #fcf8e3;
 }
 
@@ -156,21 +122,6 @@ sub {
 
 sup {
     top: -8px;
-}
-
-a:where(:not(.wp-element-button)) {
-    color: #2775ff;
-    text-decoration: none;
-    
-    &:focus {
-        outline: none;
-    }
-    
-    &:hover,
-    &:focus {
-        color: #2775ff;
-        text-decoration: underline;
-    }
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {

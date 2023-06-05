@@ -92,6 +92,11 @@
                     "fontFamily": "'Roboto Condensed', sans-serif",
                     "name": "Roboto Condensed",
                     "slug": "roboto-condensed"
+                },
+                {
+                    "fontFamily": "'Kanit', sans-serif",
+                    "name": "Kanit",
+                    "slug": "kanit"
                 }
             ],
             "fontSizes": [

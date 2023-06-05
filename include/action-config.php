@@ -25,6 +25,7 @@ function set_styles_scripts()
 {
     /* *** STYLES *** */
     wp_enqueue_style(B_PREFIX . '-roboto-condensed', '//fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap', array());
+    wp_enqueue_style(B_PREFIX . '-kanit', '//fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap', array());
     wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array());
 
     /* *** SCRIPTS *** */
@@ -81,6 +82,7 @@ function add_theme_supports()
 
     add_editor_style(array(
         'https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap',
+        'https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
         'assets/css/style-editor.css'
     ));
 

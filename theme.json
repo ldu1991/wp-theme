@@ -36,14 +36,21 @@
                     "slug": "black",
                     "color": "#000000",
                     "name": "Black"
+                },
+                {
+                    "slug": "red",
+                    "color": "#ff0000",
+                    "name": "Red"
                 }
             ],
             "text": true
         },
-        "custom": {},
+        "custom": {
+            "prefix": "DEMO"
+        },
         "layout": {
-            "contentSize": "min(100% - 60px, 800px)",
-            "wideSize": "min(100% - 60px, 1200px)"
+            "contentSize": "min(100% - clamp(1.875rem, 1.875rem + ((1vw - 0.3rem) * 33.2031), 12.5rem), 800px)",
+            "wideSize": "min(100% - clamp(1.875rem, 1.875rem + ((1vw - 0.3rem) * 33.2031), 12.5rem), 1200px)"
         },
         "spacing": {
             "blockGap": true,
@@ -115,6 +122,7 @@
         "blocks": {}
     },
     "styles": {
+
         "spacing": {
             "blockGap": "30px"
         }

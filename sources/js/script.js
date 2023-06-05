@@ -11,7 +11,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 })(jQuery);
 
+if (!window.acf) {
 
+}
 
 /*
 let updateCategory = wp.blocks.updateCategory,

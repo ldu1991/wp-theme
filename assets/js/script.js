@@ -6843,7 +6843,6 @@ var _gsap = require("./gsap/gsap");
 var _ScrollTrigger = require("./gsap/ScrollTrigger");
 var _functions = require("./functions");
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
-var prefix = 'pref';
 
 /**
  * Render blocks
@@ -6856,12 +6855,12 @@ function renderBlocks() {
   if (window.acf) {
     window.acf.addAction('render_block_preview/type=' + type, fn);
   } else {
-    document.querySelectorAll('.' + prefix + '-' + type).forEach(fn);
+    document.querySelectorAll('.' + wp_ajax.prefix + '-' + type).forEach(fn);
   }
 }
 if (window.acf) {
   acf.add_filter('color_picker_args', function (args, field) {
-    args.palettes = ['#1697F3', '#D5ECFD', '#8BC53F', '#253F53', '#FDC554', '#F3725F', '#FCF1E1'];
+    args.palettes = wp_ajax.color_palettes;
     return args;
   });
 }
@@ -6882,6 +6881,7 @@ var _functions = require("./app/functions");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 _gsap.gsap.registerPlugin(_ScrollTrigger.ScrollTrigger);
 (function ($) {})(jQuery);
+if (!window.acf) {}
 
 /*
 let updateCategory = wp.blocks.updateCategory,

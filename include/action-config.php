@@ -16,8 +16,6 @@ add_action('acf/init', 'theme_acf_init');
 //add_filter('use_block_editor_for_post', '__return_false', 5);
 add_filter('big_image_size_threshold', '__return_false');
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
-//add_filter('wpcf7_autop_or_not', '__return_false');
-//add_filter('wpcf7_load_css', '__return_false');
 
 
 /**
@@ -30,6 +28,22 @@ function set_styles_scripts()
 
     /* *** SCRIPTS *** */
     wp_enqueue_script(B_PREFIX . '-script', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get('Version'), true);
+
+    /* *** LOCAL SCRIPTS *** */
+    $theme_json = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_data();
+    $color_palettes = [];
+    foreach ($theme_json['settings']['color']['palette'] as $color) {
+        $color_palettes[] = $color['color'];
+    }
+    wp_localize_script(B_PREFIX . '-script', 'wp_ajax',
+        array(
+            'url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('wpajax-noncecode'),
+            'url_theme' => B_TEMP_URL,
+            'prefix' => B_PREFIX,
+            'color_palettes' => $color_palettes
+        )
+    );
 }
 
 
@@ -93,28 +107,23 @@ function theme_acf_init()
     }
 }
 
-
-function my_mce4_options($init)
+/**
+ * @param $init
+ * @return mixed
+ */
+function color_palettes_tiny_mce($init)
 {
+    $theme_json = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_data();
+    $color_palettes = '';
+    foreach ($theme_json['settings']['color']['palette'] as $color) {
+        $color_palettes .= '"' . preg_replace("/#/", "", $color['color']) . '","' . $color['name'] . '",';
+    }
 
-    $custom_colours = '
-        "FFFFFF", "White",
-        "2C0B86", "Dark Purple",
-        "5B63F5", "Light Purple",
-        "303133", "Dark Grey",
-        "545454", "Medium Grey",
-        "F2F3F8", "Light Grey",
-        "00F197", "Vibrant Green",
-    ';
+    $init['textcolor_map'] = '[' . $color_palettes . ']';
 
-    // build colour grid default+custom colors
-    $init['textcolor_map'] = '[' . $custom_colours . ']';
-
-    // change the number of rows in the grid if the number of colors changes
-    // 8 swatches per row
-    $init['textcolor_rows'] = 2;
+    $init['textcolor_rows'] = ceil(count($theme_json['settings']['color']['palette']) / 8);
 
     return $init;
 }
 
-add_filter('tiny_mce_before_init', 'my_mce4_options');
+add_filter('tiny_mce_before_init', 'color_palettes_tiny_mce');

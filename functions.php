@@ -5,15 +5,12 @@ if (!defined('ABSPATH')) {
   exit('Direct script access denied.');
 }
 
-/**
- * Project prefix
- */
-$prefix = 'beyond';
+$theme_json = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_data();
 
 /**
  * Define constants.
  */
-if (!defined('B_PREFIX')) define('B_PREFIX', $prefix);
+if (!defined('B_PREFIX')) define('B_PREFIX', $theme_json['settings']['custom']['prefix']);
 if (!defined('B_TEMP_PATH')) define('B_TEMP_PATH', get_template_directory());
 if (!defined('B_TEMP_URL')) define('B_TEMP_URL', get_template_directory_uri());
 if (!defined('B_STYLE_PATH')) define('B_STYLE_PATH', get_stylesheet_directory());

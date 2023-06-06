@@ -17,15 +17,6 @@ function renderBlocks(type = '', fn) {
     }
 }
 
-if (window.acf) {
-    acf.add_filter('color_picker_args', function (args, field) {
-        args.palettes = wp_ajax.color_palettes
-
-        return args;
-    })
-}
-
-
 const initializeBlock = block => {
     block = isjQuery(block)
 

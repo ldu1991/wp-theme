@@ -45,24 +45,6 @@
             "step": "",
             "prepend": "",
             "append": "px"
-        },
-        {
-            "key": "field_647e020967d1c",
-            "label": "cld",
-            "name": "cld",
-            "aria-label": "",
-            "type": "color_picker",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "enable_opacity": 0,
-            "return_format": "string"
         }
     ],
     "location": [
@@ -83,5 +65,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1685979671
+    "modified": 1686065648
 }

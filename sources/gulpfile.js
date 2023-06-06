@@ -5,6 +5,7 @@ const browserSync   = require('browser-sync').create(),
     plugins         = require('gulp-load-plugins')(),
     sass            = require('gulp-sass')(require('sass'))
 
+plugins.fs          = require('fs');
 plugins.merge       = require('merge-stream')
 plugins.browserify  = require('browserify')
 plugins.babelify    = require('babelify')
@@ -51,7 +52,6 @@ gulp.task('browser-sync', function () {
     })
 
     gulp.watch([
-        dist.main + '**/*.json',
         dist.main + '**/*.php',
         dist.css + '/**/*.css',
         dist.js + '/**/*.js'
@@ -62,6 +62,7 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('watch', function () {
+    gulp.watch(dist.main + 'theme.json', {cwd: './'}, gulp.series('scss', 'js'));
     gulp.watch(src.scss + '/**/*.scss', {cwd: './'}, gulp.series('scss'));
     gulp.watch(src.js + '/**/*.js', {cwd: './'}, gulp.series('js'));
 });

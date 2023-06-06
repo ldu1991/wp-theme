@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) {
 }
 
 /* Action */
+add_action('admin_enqueue_scripts', 'set_admin_styles_scripts');
 add_action('wp_enqueue_scripts', 'set_styles_scripts');
 add_action('after_setup_theme', 'add_theme_supports');
 add_action('acf/init', 'theme_acf_init');
@@ -16,6 +17,32 @@ add_action('acf/init', 'theme_acf_init');
 //add_filter('use_block_editor_for_post', '__return_false', 5);
 add_filter('big_image_size_threshold', '__return_false');
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
+
+
+/**
+ * Connection admin styles/scripts
+ */
+function set_admin_styles_scripts()
+{
+    /* *** SCRIPTS *** */
+    wp_enqueue_script(B_PREFIX . '-script-admin', B_TEMP_URL . '/assets/js/admin.js', array('jquery'), wp_get_theme()->get('Version'), true);
+
+    /* *** LOCAL SCRIPTS *** */
+    $theme_json = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_data();
+    $color_palettes = [];
+    foreach ($theme_json['settings']['color']['palette'] as $color) {
+        $color_palettes[] = $color['color'];
+    }
+    wp_localize_script(B_PREFIX . '-script-admin', 'wp_ajax',
+        array(
+            'url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('wpajax-noncecode'),
+            'url_theme' => B_TEMP_URL,
+            'prefix' => B_PREFIX,
+            'color_palettes' => $color_palettes
+        )
+    );
+}
 
 
 /**

@@ -51,20 +51,7 @@
             "text": true
         },
         "custom": {
-            "prefix": "DEMO",
-            "heading": {
-                "margin": {
-                    "bottom": "40px"
-                },
-                "padding": {
-                    "top": "20px"
-                }
-            },
-            "paragraph": {
-                "margin": {
-                    "bottom": "20px"
-                }
-            }
+            "prefix": "DEMO"
         },
         "layout": {
             "contentSize": "min(100% - clamp(1.875rem, 1.875rem + ((1vw - 0.3rem) * 33.2031), 12.5rem), 800px)",
@@ -161,7 +148,7 @@
                 "spacing": {
                     "margin": {
                         "top": "0",
-                        "bottom": "var(--wp--custom--paragraph--margin--bottom)"
+                        "bottom": "20px"
                     }
                 }
             }
@@ -215,10 +202,10 @@
                 "spacing": {
                     "margin": {
                         "top": "0",
-                        "bottom": "var(--wp--custom--heading--margin--bottom)"
+                        "bottom": "30px"
                     },
                     "padding": {
-                        "top": "var(--wp--custom--heading--padding--top)"
+                        "top": "20px"
                     }
                 },
                 "typography": {

@@ -28,6 +28,7 @@
     "gulp-csso": "latest",
     "gulp-debug": "latest",
     "gulp-if": "latest",
+    "gulp-insert": "latest",
     "gulp-load-plugins": "latest",
     "gulp-plumber": "latest",
     "gulp-sass": "latest",

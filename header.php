@@ -18,10 +18,6 @@ if (!defined('ABSPATH')) {
 
 <body <?php body_class(); ?>>
 
-
-<?php
-beyond_generate_adaptive_numeric('.rtttttttttt', 'width', 'test_field', 'option')
-?>
 <header>
 
 </header>

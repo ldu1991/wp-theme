@@ -24,24 +24,13 @@ add_filter('woocommerce_enqueue_styles', '__return_empty_array');
  */
 function set_admin_styles_scripts()
 {
-    /* *** SCRIPTS *** */
-    wp_enqueue_script(B_PREFIX . '-script-admin', B_TEMP_URL . '/assets/js/admin.js', array('jquery'), wp_get_theme()->get('Version'), true);
-
-    /* *** LOCAL SCRIPTS *** */
     $theme_json = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_data();
-    $color_palettes = [];
+    $color_palettes = '';
     foreach ($theme_json['settings']['color']['palette'] as $color) {
-        $color_palettes[] = $color['color'];
+        $color_palettes .= '"' . $color['color'] . '",';
     }
-    wp_localize_script(B_PREFIX . '-script-admin', 'wp_ajax',
-        array(
-            'url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('wpajax-noncecode'),
-            'url_theme' => B_TEMP_URL,
-            'prefix' => B_PREFIX,
-            'color_palettes' => $color_palettes
-        )
-    );
+
+    wp_add_inline_script('acf-input', "acf.add_filter('color_picker_args', function (args, field) {args.palettes = [" . trim($color_palettes, ',') . "]; return args;})");
 }
 
 
@@ -112,8 +101,6 @@ function add_theme_supports()
         'https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
         'assets/css/style-editor.css'
     ));
-
-    add_theme_support('wp-block-styles');
 }
 
 

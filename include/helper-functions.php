@@ -51,16 +51,16 @@ function has_preview_screenshot(array $block = array(), string $src = ''): bool
 
 /**
  * @param $link_arr
- * @param array $class
+ * @param array $classes
  * @param string $teg
  * @param array $atts
  * @param bool $return
  * @return string|void
  */
-function the_btn($link_arr, array $class = array(), string $teg = 'a', array $atts = array(), bool $return = false)
+function the_btn($link_arr, array $classes = array(), string $teg = 'a', array $atts = array(), bool $return = false)
 {
     $class_link = ['fl-btn'];
-    $class_link = array_merge($class_link, $class);
+    $class_link = array_merge($class_link, $classes);
 
     if (!empty($link_arr)) {
         $html = '';

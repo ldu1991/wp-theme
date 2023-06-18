@@ -15,6 +15,16 @@ add_filter('block_categories_all', 'beyond_block_category', 10, 2);
 
 function set_styles_scripts_block_editor() {
     wp_enqueue_script(B_PREFIX . '-script-block-editor', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get( 'Version' ), true);
+
+    /* *** LOCAL SCRIPTS *** */
+    wp_localize_script(B_PREFIX . '-script-block-editor', 'wp_ajax',
+        array(
+            'url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('wpajax-noncecode'),
+            'url_theme' => B_TEMP_URL,
+            'prefix' => B_PREFIX
+        )
+    );
 }
 
 

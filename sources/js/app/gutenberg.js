@@ -11,16 +11,13 @@ gsap.registerPlugin(ScrollTrigger);
  */
 function renderBlocks(type = '', fn) {
     if (window.acf) {
-        window.acf.addAction('render_block_preview/type=' + type, fn)
+        window.acf.addAction('render_block_preview/type=' + type, el => fn(isjQuery(el).querySelector('.' + wp_ajax.prefix + '-' + type)))
     } else {
         document.querySelectorAll('.' + wp_ajax.prefix + '-' + type).forEach(fn)
     }
 }
 
 const initializeBlock = block => {
-    block = isjQuery(block)
-
-    let elementDirectly = block.parentNode.querySelector('.CLASS-BLOCK')
 
 }
 

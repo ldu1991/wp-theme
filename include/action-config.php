@@ -24,9 +24,9 @@ add_filter('woocommerce_enqueue_styles', '__return_empty_array');
  */
 function set_admin_styles_scripts()
 {
-    $theme_json = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_data();
+    $theme_json = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
     $color_palettes = '';
-    foreach ($theme_json['settings']['color']['palette'] as $color) {
+    foreach ($theme_json['color']['palette']['theme'] as $color) {
         $color_palettes .= '"' . $color['color'] . '",';
     }
 
@@ -40,8 +40,7 @@ function set_admin_styles_scripts()
 function set_styles_scripts()
 {
     /* *** STYLES *** */
-    wp_enqueue_style(B_PREFIX . '-roboto-condensed', '//fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap', array());
-    wp_enqueue_style(B_PREFIX . '-kanit', '//fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap', array());
+    wp_enqueue_style( B_PREFIX . '-fonts', get_google_fonts(), array(), null );
     wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array());
 
     /* *** SCRIPTS *** */
@@ -96,11 +95,7 @@ function add_theme_supports()
     // Editor styles.
     add_theme_support('editor-styles');
 
-    add_editor_style(array(
-        'https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap',
-        'https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
-        'assets/css/style-editor.css'
-    ));
+    add_editor_style(array('assets/css/style-editor.css', get_google_fonts()));
 }
 
 
@@ -125,17 +120,51 @@ function theme_acf_init()
  */
 function color_palettes_tiny_mce($init)
 {
-    $theme_json = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_data();
+    $theme_json = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
     $color_palettes = '';
-    foreach ($theme_json['settings']['color']['palette'] as $color) {
+    foreach ($theme_json['color']['palette']['theme'] as $color) {
         $color_palettes .= '"' . preg_replace("/#/", "", $color['color']) . '","' . $color['name'] . '",';
     }
 
     $init['textcolor_map'] = '[' . $color_palettes . ']';
 
-    $init['textcolor_rows'] = ceil(count($theme_json['settings']['color']['palette']) / 8);
+    $init['textcolor_rows'] = ceil(count($theme_json['color']['palette']['theme']) / 8);
 
     return $init;
 }
 
 add_filter('tiny_mce_before_init', 'color_palettes_tiny_mce');
+
+
+/**
+ * @return string|null
+ */
+function get_google_fonts() {
+
+    $global_styles = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
+
+    if ( empty( $global_styles['typography']['fontFamilies'] ) ) {
+        return '';
+    }
+
+    $theme_fonts = ! empty( $global_styles['typography']['fontFamilies']['theme'] ) ? $global_styles['typography']['fontFamilies']['theme'] : array();
+
+    if ( !$theme_fonts ) {
+        return '';
+    }
+
+    $font_vars = array();
+
+    foreach ( $theme_fonts as $font ) {
+        if ( !empty( $font['google'] ) ) {
+            $font_vars[] = $font['google'];
+        }
+    }
+
+    if ( !$font_vars ) {
+        return '';
+    }
+
+    return esc_url_raw( 'https://fonts.googleapis.com/css2?' . implode( '&', $font_vars ) . '&display=swap' );
+
+}

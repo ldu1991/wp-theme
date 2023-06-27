@@ -40,7 +40,7 @@ function set_admin_styles_scripts()
 function set_styles_scripts()
 {
     /* *** STYLES *** */
-    wp_enqueue_style( B_PREFIX . '-fonts', get_google_fonts(), array(), null );
+    if (!empty(get_google_fonts())) wp_enqueue_style(B_PREFIX . '-fonts', get_google_fonts(), array(), null);
     wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array());
 
     /* *** SCRIPTS *** */
@@ -95,7 +95,9 @@ function add_theme_supports()
     // Editor styles.
     add_theme_support('editor-styles');
 
-    add_editor_style(array('assets/css/style-editor.css', get_google_fonts()));
+    $editor_style = ['assets/css/style-editor.css'];
+    if (!empty(get_google_fonts())) $editor_style[] = get_google_fonts();
+    add_editor_style($editor_style);
 }
 
 
@@ -139,32 +141,33 @@ add_filter('tiny_mce_before_init', 'color_palettes_tiny_mce');
 /**
  * @return string|null
  */
-function get_google_fonts() {
+function get_google_fonts()
+{
 
     $global_styles = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
 
-    if ( empty( $global_styles['typography']['fontFamilies'] ) ) {
+    if (empty($global_styles['typography']['fontFamilies'])) {
         return '';
     }
 
-    $theme_fonts = ! empty( $global_styles['typography']['fontFamilies']['theme'] ) ? $global_styles['typography']['fontFamilies']['theme'] : array();
+    $theme_fonts = !empty($global_styles['typography']['fontFamilies']['theme']) ? $global_styles['typography']['fontFamilies']['theme'] : array();
 
-    if ( !$theme_fonts ) {
+    if (!$theme_fonts) {
         return '';
     }
 
     $font_vars = array();
 
-    foreach ( $theme_fonts as $font ) {
-        if ( !empty( $font['google'] ) ) {
+    foreach ($theme_fonts as $font) {
+        if (!empty($font['google'])) {
             $font_vars[] = $font['google'];
         }
     }
 
-    if ( !$font_vars ) {
+    if (!$font_vars) {
         return '';
     }
 
-    return esc_url_raw( 'https://fonts.googleapis.com/css2?' . implode( '&', $font_vars ) . '&display=swap' );
+    return esc_url_raw('https://fonts.googleapis.com/css2?' . implode('&', $font_vars) . '&display=swap');
 
 }

@@ -2,15 +2,15 @@
 
 @function _unit($size, $unit) {
     @if ($unit == 'rem') {
-        @return rem($size);
+        @return _rem($size);
     } @else if ($unit == 'em') {
-        @return em($size);
+        @return _em($size);
     } @else if ($unit == 'px' or ($unit != 'rem' or $unit != 'em')) {
         @return #{$size}px;
     }
 }
 
-@function em($pixels, $context: 16) {
+@function _em($pixels, $context: 16) {
     @if (unitless($pixels)) {
         $pixels: $pixels * 1px;
     }
@@ -22,7 +22,7 @@
     @return math.div($pixels, $context) * 1em;
 }
 
-@function rem($pixels, $context: 16) {
+@function _rem($pixels, $context: 16) {
     @if (unitless($pixels)) {
         $pixels: $pixels * 1px;
     }
@@ -34,15 +34,15 @@
     @return math.div($pixels, $context) * 1rem;
 }
 
-@function vw($target, $viewport: 1400) {
+@function _vw($target, $viewport: 1400) {
     @return math.div($target * 100, $viewport) * 1vw;
 }
 
-@function aspect-ratio($one-value, $two-value, $new-value) {
+@function _aspect-ratio($one-value, $two-value, $new-value) {
     @return round(math.div($two-value, math.div($one-value, 100)) * math.div($new-value, 100));
 }
 
-@function math-clamp($min-size, $max-size, $min_viewport: 576, $max_viewport: 1400, $unit: 'rem') {
+@function _clamp($min-size, $max-size, $min_viewport: 576, $max_viewport: 1400, $unit: 'rem') {
     $view_port_width_offset: _unit(math.div($min_viewport, 100), $unit);
     $size_difference: $max-size - $min-size;
     $viewport_difference: $max_viewport - $min_viewport;
@@ -64,7 +64,7 @@
 }
 
 // Support for older browsers
-@function math-min-max($min-size, $max-size, $min_viewport: 576, $max_viewport: 1400, $unit: 'rem') {
+@function _min-max($min-size, $max-size, $min_viewport: 576, $max_viewport: 1400, $unit: 'rem') {
     $view_port_width_offset: _unit(math.div($min_viewport, 100), $unit);
     $size_difference: $max-size - $min-size;
     $viewport_difference: $max_viewport - $min_viewport;

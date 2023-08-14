@@ -111,7 +111,7 @@ mark {
 sub,
 sup {
     position: relative;
-    font-size: rem(12);
+    font-size: _rem(12);
     line-height: 0;
     vertical-align: baseline;
 }
@@ -131,7 +131,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
 pre {
     background-color: #eee;
-    font-size: rem(17);
+    font-size: _rem(17);
     line-height: 1.5;
     margin-bottom: 20px;
     max-width: 100%;
@@ -149,7 +149,7 @@ code,
 kbd,
 samp {
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: rem(16);
+    font-size: _rem(16);
     direction: ltr /* rtl:ignore */;
     unicode-bidi: bidi-override;
 }
@@ -159,7 +159,7 @@ pre {
     margin-top: 0;
     margin-bottom: 15px;
     overflow: auto;
-    font-size: rem(14);
+    font-size: _rem(14);
 }
 pre code {
     font-size: inherit;
@@ -168,7 +168,7 @@ pre code {
 }
 
 code {
-    font-size: rem(14);
+    font-size: _rem(14);
     color: #d63384;
     word-wrap: break-word;
 }

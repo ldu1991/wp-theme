@@ -1,15 +1,5 @@
 @use "sass:math";
 
-@function _unit($size, $unit) {
-    @if ($unit == 'rem') {
-        @return _rem($size);
-    } @else if ($unit == 'em') {
-        @return _em($size);
-    } @else if ($unit == 'px' or ($unit != 'rem' or $unit != 'em')) {
-        @return #{$size}px;
-    }
-}
-
 @function _em($pixels, $context: 16) {
     @if (unitless($pixels)) {
         $pixels: $pixels * 1px;
@@ -40,6 +30,16 @@
 
 @function _aspect-ratio($one-value, $two-value, $new-value) {
     @return round(math.div($two-value, math.div($one-value, 100)) * math.div($new-value, 100));
+}
+
+@function _unit($size, $unit) {
+    @if ($unit == 'rem') {
+        @return _rem($size);
+    } @else if ($unit == 'em') {
+        @return _em($size);
+    } @else if ($unit == 'px' or ($unit != 'rem' or $unit != 'em')) {
+        @return #{$size}px;
+    }
 }
 
 @function _clamp($min-size, $max-size, $min_viewport: 576, $max_viewport: 1400, $unit: 'rem') {

@@ -1,6 +1,34 @@
 <?php
 
 /**
+ * @param $min_size
+ * @param $max_size
+ * @param int $min_viewport
+ * @param int $max_viewport
+ * @return string
+ */
+function clamp($min_size, $max_size, int $min_viewport = 576, int $max_viewport = 1400) {
+    $view_port_width_offset = ($min_viewport / 100) / 16 . 'rem';
+    $size_difference = $max_size - $min_size;
+    $viewport_difference = $max_viewport - $min_viewport;
+    $linear_factor = round(($size_difference / $viewport_difference) * 100, 4);
+
+    $fluid_target_size = ($min_size / 16) . "rem + ((1vw - {$view_port_width_offset}) * {$linear_factor})";
+
+    $result = "";
+
+    if ($min_size == $max_size) {
+        $result = ($min_size / 16) . 'rem';
+    } else if ($min_size > $max_size) {
+        $result = "clamp(" . $max_size / 16 . "rem, {$fluid_target_size}, " . $min_size / 16 . "rem)";
+    } else if ($min_size < $max_size) {
+        $result = "clamp(" . $min_size / 16 . "rem, {$fluid_target_size}, " . $max_size / 16 . "rem)";
+    }
+
+    return $result;
+}
+
+/**
  * @param string $general_class
  * @param array $block
  * @param bool $is_preview
@@ -59,7 +87,7 @@ function has_preview_screenshot(array $block = array(), string $src = ''): bool
  */
 function the_btn($link_arr, array $classes = array(), string $teg = 'a', array $atts = array(), bool $return = false)
 {
-    $class_link = ['fl-btn'];
+    $class_link = array('fl-btn');
     $class_link = array_merge($class_link, $classes);
 
     if (!empty($link_arr)) {

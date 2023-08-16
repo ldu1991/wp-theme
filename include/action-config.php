@@ -95,7 +95,7 @@ function add_theme_supports()
     // Editor styles.
     add_theme_support('editor-styles');
 
-    $editor_style = ['assets/css/style-editor.css'];
+    $editor_style = array('assets/css/style-editor.css');
     if (!empty(get_google_fonts())) $editor_style[] = get_google_fonts();
     add_editor_style($editor_style);
 }

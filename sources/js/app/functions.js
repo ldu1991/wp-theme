@@ -51,6 +51,11 @@ export const videoResize = (elements, className) => {
     })
 }
 
+/**
+ * Render Block
+ * @param type
+ * @param fn
+ */
 export const renderBlock = (type = '', fn) => {
     if (window.acf) {
         let blockElement = el => {
@@ -62,6 +67,36 @@ export const renderBlock = (type = '', fn) => {
         document.querySelectorAll('.' + wp_ajax.prefix + '-' + type).forEach(fn)
     }
 }
+
+/**
+ * Fluid-responsive
+ * @param min_size
+ * @param max_size
+ * @param min_viewport
+ * @param max_viewport
+ * @returns {string}
+ */
+export const clamp = (min_size, max_size, min_viewport = 576, max_viewport = 1400) => {
+    const view_port_width_offset = (min_viewport / 100) / 16 + 'rem';
+    const size_difference = max_size - min_size;
+    const viewport_difference = max_viewport - min_viewport;
+    const linear_factor = ((size_difference / viewport_difference) * 100).toFixed(4);
+
+    const fluid_target_size = (min_size / 16) + "rem + ((1vw - " + view_port_width_offset + ") * " + linear_factor + ")";
+
+    let result = "";
+
+    if (min_size === max_size) {
+        result = (min_size / 16) + 'rem';
+    } else if (min_size > max_size) {
+        result = "clamp(" + (max_size / 16) + "rem, " + fluid_target_size + ", " + (min_size / 16) + "rem)";
+    } else if (min_size < max_size) {
+        result = "clamp(" + (min_size / 16) + "rem, " + fluid_target_size + ", " + (max_size / 16) + "rem)";
+    }
+
+    return result;
+}
+
 
 // ------------ Deleting placeholder focus ------------ //
 function focusFnInput(target) {

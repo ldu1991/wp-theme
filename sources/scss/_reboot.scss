@@ -59,9 +59,9 @@ address {
 }
 
 ul {
-    padding: 0;
+    padding: 0 0 0 10px;
     margin: 0 0 25px 20px;
-    list-style: disc;
+    list-style: disc inside;
     
     & & {
         list-style-type: circle;
@@ -73,8 +73,9 @@ ul {
 }
 
 ol {
-    padding: 0;
+    padding: 0 0 0 10px;
     margin: 0 0 25px 25px;
+    list-style-position: inside;
 }
 
 dl {

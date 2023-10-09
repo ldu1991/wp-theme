@@ -31,7 +31,12 @@ hr:not([size]) {
     height: 1px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
     &:first-child {
         padding-top: 0;
     }
@@ -151,7 +156,8 @@ kbd,
 samp {
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: _rem(16);
-    direction: ltr /* rtl:ignore */;
+    direction: ltr /* rtl:ignore */
+;
     unicode-bidi: bidi-override;
 }
 
@@ -162,6 +168,7 @@ pre {
     overflow: auto;
     font-size: _rem(14);
 }
+
 pre code {
     font-size: inherit;
     color: inherit;
@@ -173,6 +180,7 @@ code {
     color: #d63384;
     word-wrap: break-word;
 }
+
 a > code {
     color: inherit;
 }
@@ -184,6 +192,7 @@ kbd {
     background-color: #212529;
     border-radius: 0.2rem;
 }
+
 kbd kbd {
     padding: 0;
     font-size: 1em;
@@ -211,7 +220,7 @@ table {
     border-collapse: collapse;
     width: 100%;
     border: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
     margin: 15px 0 25px;
     
     caption {
@@ -286,6 +295,7 @@ select {
 select {
     word-wrap: normal;
 }
+
 select:disabled {
     opacity: 1;
 }
@@ -300,6 +310,7 @@ button,
 [type=submit] {
     -webkit-appearance: button;
 }
+
 button:not(:disabled),
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),

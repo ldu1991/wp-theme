@@ -216,7 +216,9 @@
                     "fontWeight": "700",
                     "letterSpacing": "",
                     "textTransform": "",
-                    "lineHeight": "1.5"
+                    "lineHeight": "1.5",
+                    "textDecoration": "",
+                    "fontSize": ""
                 }
             },
             "h1": {

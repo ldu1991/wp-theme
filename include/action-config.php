@@ -18,6 +18,16 @@ add_action('acf/init', 'theme_acf_init');
 add_filter('big_image_size_threshold', '__return_false');
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
 
+function custom_inline_menu_styles()
+{
+    global $pagenow;
+
+    if ($pagenow === 'nav-menus.php') {
+        echo '<style>#wpbody-content #menu-settings-column{display: block;position:sticky;top: 32px;}</style>';
+    }
+}
+
+add_action('admin_head', 'custom_inline_menu_styles');
 
 /**
  * Connection admin styles/scripts
@@ -169,7 +179,7 @@ function get_google_fonts(bool $return_url = false)
         return '';
     }
 
-    if ($return_url) {
+    if (!empty($return_url)) {
         return esc_url_raw('https://fonts.googleapis.com/css2?' . implode('&', $font_vars) . '&display=swap');
     } else {
         wp_enqueue_style(B_PREFIX . '-google-fonts', 'https://fonts.googleapis.com/css2?' . implode('&', $font_vars) . '&display=swap', array(), null);

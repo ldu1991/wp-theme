@@ -35,8 +35,7 @@ function cleanCssMaps(cb) {
 
 /* CSS */
 const themeData = JSON.parse(fs.readFileSync('../theme.json'));
-let style_editor_default = `
-body .is-layout-flow {
+let style_editor_default = `body .is-layout-flow {
     > * + * {
         margin-block-start: 0;
         margin-block-end: 0;
@@ -65,13 +64,96 @@ body .is-layout-flow {
         margin-block-start: ${themeData['styles']['elements']['heading']['spacing']['margin']['top']};
         margin-block-end: ${themeData['styles']['elements']['heading']['spacing']['margin']['bottom']};
     }
+}`
+
+
+let elements = {
+    'heading': '.h1, .h2, .h3, .h4, .h5, .h6',
+    'h1': '.h1',
+    'h2': '.h2',
+    'h3': '.h3',
+    'h4': '.h4',
+    'h5': '.h5',
+    'h6': '.h6'
 }
-    `
+
+function generateSpacing(json, prefix = "") {
+    let css = "";
+
+    for (const key in json) {
+        const value = json[key];
+        if (value !== "") {
+            if (typeof value === "object") {
+                css += generateSpacing(value, `${prefix}${key}-`);
+            } else {
+                const kebabCaseKey = `${prefix}${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
+                css += `${kebabCaseKey}: ${value}; `;
+            }
+        }
+    }
+
+    return css;
+}
+
+function generateTypography(json) {
+    let css = "";
+
+    for (const key in json) {
+        const value = json[key];
+        if (value) {
+            css += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value}; `;
+        }
+    }
+
+    return css;
+}
+
+function generateColor(json) {
+    let css = "";
+
+    for (const key in json) {
+        const value = json[key];
+        if (value !== "") {
+            if(key === 'gradient') {
+                css += 'background:' + value + ';'
+            } else if(key === 'background') {
+                css += 'background-color:' + value + ';'
+            } else if(key === 'text') {
+                css += 'color:' + value + ';'
+            }
+        }
+    }
+
+    return css;
+}
+
+let additional_header_classes = ''
+for (let elementsKey in elements) {
+    let elementValue = themeData.styles.elements[elementsKey]
+
+    if(elementValue !== undefined) {
+        additional_header_classes += elements[elementsKey] + '{'
+        for (let elementKey in elementValue) {
+
+            if (elementKey === 'spacing') {
+                additional_header_classes += generateSpacing(elementValue[elementKey])
+            } else if (elementKey === 'typography') {
+                additional_header_classes += generateTypography(elementValue[elementKey])
+            } else if (elementKey === 'color') {
+                additional_header_classes += generateColor(elementValue[elementKey])
+            }
+        }
+
+        additional_header_classes += '}'
+    }
+}
+
 
 function scss(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
+        .pipe(insert.append(additional_header_classes))
         .pipe(sourcemaps.init())
         .pipe(sass.sync({includePaths: ['./scss/']}))
         .pipe(autoprefixer())
@@ -85,6 +167,7 @@ function scssRelease(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
+        .pipe(insert.append(additional_header_classes))
         .pipe(sass.sync({includePaths: ['./scss/']}))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))

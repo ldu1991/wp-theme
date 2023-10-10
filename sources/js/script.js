@@ -14,3 +14,4 @@ gsap.registerPlugin(ScrollTrigger);
 if (!window.acf) {
 
 }
+

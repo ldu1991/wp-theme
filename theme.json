@@ -218,7 +218,9 @@
                     "textTransform": "",
                     "lineHeight": "1.5",
                     "textDecoration": "",
-                    "fontSize": ""
+                    "fontSize": "",
+                    "textColumns": "",
+                    "writingMode": ""
                 }
             },
             "h1": {

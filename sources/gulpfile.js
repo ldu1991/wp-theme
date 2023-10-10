@@ -66,7 +66,7 @@ let style_editor_default = `body .is-layout-flow {
     }
 }`
 
-
+// Generate Heading
 let elements = {
     'heading': '.h1, .h2, .h3, .h4, .h5, .h6',
     'h1': '.h1',
@@ -101,7 +101,11 @@ function generateTypography(json) {
     for (const key in json) {
         const value = json[key];
         if (value) {
-            css += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value}; `;
+            if(key === 'textColumns') {
+                css += `column-count: ${value};`;
+            } else {
+                css += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value};`;
+            }
         }
     }
 
@@ -127,6 +131,50 @@ function generateColor(json) {
     return css;
 }
 
+function generateBorder(json, prefix = "") {
+    let css = "";
+
+    for (const key in json) {
+        const value = json[key];
+
+        if (typeof value === "object") {
+            css += generateBorder(value, `${prefix}${key}-`);
+        } else if (value) {
+            const cssProperty = `${prefix}${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
+            const propertyName = `border-${cssProperty}`;
+            css += `${propertyName}: ${value};\n`;
+        }
+    }
+
+    return css;
+}
+
+function generateOutline(json) {
+    let css = "";
+
+    for (const key in json) {
+        const value = json[key];
+        if (value !== "") {
+            css += `outline-${key}: ${value};`
+        }
+    }
+
+    return css;
+}
+
+function generateDimensions(json) {
+    let css = "";
+
+    for (const key in json) {
+        const value = json[key];
+        if (value !== "") {
+            css += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value};`
+        }
+    }
+
+    return css;
+}
+
 let additional_header_classes = ''
 for (let elementsKey in elements) {
     let elementValue = themeData.styles.elements[elementsKey]
@@ -141,13 +189,21 @@ for (let elementsKey in elements) {
                 additional_header_classes += generateTypography(elementValue[elementKey])
             } else if (elementKey === 'color') {
                 additional_header_classes += generateColor(elementValue[elementKey])
+            } else if (elementKey === 'border') {
+                additional_header_classes += generateBorder(elementValue[elementKey])
+            } else if (elementKey === 'outline') {
+                additional_header_classes += generateOutline(elementValue[elementKey])
+            } else if (elementKey === 'dimensions') {
+                additional_header_classes += generateDimensions(elementValue[elementKey])
+            } else if (elementKey === 'shadow') {
+                additional_header_classes += `box-shadow: ${elementValue[elementKey]};`
             }
         }
 
         additional_header_classes += '}'
     }
 }
-
+// End Generate Heading
 
 function scss(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})

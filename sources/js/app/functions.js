@@ -97,6 +97,51 @@ export const clamp = (min_size, max_size, min_viewport = 576, max_viewport = 140
     return result;
 }
 
+/**
+ * Paginate Links
+ * @param paginateWrap
+ * @param total
+ * @param current
+ */
+export const paginateLinks = (paginateWrap, total, current) => {
+    if (total > 1) {
+        let page_links = '';
+
+        let prev_class = current && 1 < current ? 'prev' : 'paginate-none';
+        page_links += '<button class="' + prev_class + '" data-page="' + (current - 1) + '">Previous</button>'
+
+
+        let dots = false;
+        page_links += '<div class="paginate-wrap">'
+        for (let n = 1; n <= total; n++) {
+            if (n === current) {
+                page_links += '<div class="current">' + n + '</div>'
+
+                dots = true
+            } else {
+                if (n <= 1 || (current && n >= current - 1 && n <= current + 1) || n > total - 1) {
+                    page_links += '<button class="page-numbers" data-page="' + n + '">' + n + '</button>'
+
+                    dots = true
+                } else if (dots) {
+                    page_links += '<div class="dots">&hellip;</div>'
+
+                    dots = false
+                }
+            }
+        }
+        page_links += '</div>'
+
+        let next_class = current && current < total ? 'next' : 'paginate-none';
+        page_links += '<button class="' + next_class + '" data-page="' + (current + 1) + '">Next</button>'
+
+        paginateWrap.style.display = ''
+        paginateWrap.innerHTML = page_links
+    } else {
+        paginateWrap.style.display = 'none'
+        paginateWrap.innerHTML = ''
+    }
+}
 
 // ------------ Deleting placeholder focus ------------ //
 function focusFnInput(target) {

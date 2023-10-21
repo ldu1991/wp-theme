@@ -40,6 +40,9 @@ h6, .h6 {
     &:first-child {
         padding-top: 0;
     }
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 p {

@@ -115,3 +115,63 @@ function the_btn($link_arr, array $classes = array(), string $teg = 'a', array $
         }
     }
 }
+
+/**
+ * @param $block_name
+ * @return bool
+ */
+function has_first_block($block_name): bool
+{
+    $first_block_name = '';
+    $content = get_the_content();
+    if (has_blocks($content)) {
+        $blocks = parse_blocks($content);
+
+        if (!empty($blocks)) {
+            $first_block = reset($blocks);
+            $first_block_name = !empty($first_block['blockName']) ? $first_block['blockName'] : '';
+        }
+    }
+
+    if (is_array($block_name)) {
+        foreach ($block_name as $name) {
+            if ($first_block_name === $name) {
+                return true;
+            }
+        }
+    } else {
+        return $first_block_name === $block_name;
+    }
+
+    return false;
+}
+
+/**
+ * @param $block_name
+ * @return bool
+ */
+function has_last_block($block_name): bool
+{
+    $last_block_name = '';
+    $content = get_the_content();
+    if (has_blocks($content)) {
+        $blocks = parse_blocks($content);
+
+        if (!empty($blocks)) {
+            $last_block = end($blocks);
+            $last_block_name = !empty($last_block['blockName']) ? $last_block['blockName'] : '';
+        }
+    }
+
+    if (is_array($block_name)) {
+        foreach ($block_name as $name) {
+            if ($last_block_name === $name) {
+                return true;
+            }
+        }
+    } else {
+        return $last_block_name === $block_name;
+    }
+
+    return false;
+}

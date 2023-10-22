@@ -134,16 +134,10 @@ function has_first_block($block_name): bool
     }
 
     if (is_array($block_name)) {
-        foreach ($block_name as $name) {
-            if ($first_block_name === $name) {
-                return true;
-            }
-        }
+        return in_array($first_block_name, $block_name);
     } else {
         return $first_block_name === $block_name;
     }
-
-    return false;
 }
 
 /**
@@ -164,14 +158,8 @@ function has_last_block($block_name): bool
     }
 
     if (is_array($block_name)) {
-        foreach ($block_name as $name) {
-            if ($last_block_name === $name) {
-                return true;
-            }
-        }
+        return in_array($last_block_name, $block_name);
     } else {
         return $last_block_name === $block_name;
     }
-
-    return false;
 }

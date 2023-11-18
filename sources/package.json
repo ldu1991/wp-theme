@@ -21,7 +21,7 @@
         "browser-sync": "latest",
         "fs": "latest",
         "gulp": "latest",
-        "gulp-autoprefixer": "latest",
+        "gulp-autoprefixer": "^8.0.0",
         "gulp-changed-in-place": "latest",
         "gulp-clean": "latest",
         "gulp-csso": "latest",

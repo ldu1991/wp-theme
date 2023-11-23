@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
 add_action('admin_enqueue_scripts', 'set_admin_styles_scripts');
 add_action('wp_enqueue_scripts', 'set_styles_scripts');
 add_action('after_setup_theme', 'add_theme_supports');
-add_action('acf/init', 'theme_acf_init');
 
 
 /* Filter */
@@ -108,22 +107,6 @@ function add_theme_supports()
     $editor_style = array('assets/css/style-editor.css');
     if (!empty(get_google_fonts())) $editor_style[] = get_google_fonts(true);
     add_editor_style($editor_style);
-}
-
-
-/**
- * ACF Init
- */
-function theme_acf_init()
-{
-    if (function_exists('acf_add_options_page')) {
-        acf_add_options_page(array(
-            'page_title' => __('Theme general settings', B_PREFIX),
-            'menu_title' => __('Theme settings', B_PREFIX),
-            'menu_slug' => 'theme-general-settings',
-            'position' => 1.1
-        ));
-    }
 }
 
 /**

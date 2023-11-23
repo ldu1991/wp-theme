@@ -244,10 +244,10 @@
 	_getGSAP() && gsap.registerPlugin(VelocityTracker);
 
 	/*!
-	 * InertiaPlugin 3.10.4
+	 * InertiaPlugin 3.12.2
 	 * https://greensock.com
 	 *
-	 * @license Copyright 2008-2022, GreenSock. All rights reserved.
+	 * @license Copyright 2008-2023, GreenSock. All rights reserved.
 	 * Subject to the terms at https://greensock.com/standard-license or for
 	 * Club GreenSock members, the agreement issued with that membership.
 	 * @author: Jack Doyle, jack@greensock.com
@@ -265,6 +265,8 @@
 	    _checkPointRatio,
 	    _clamp,
 	    _processingVars,
+	    _getStyleSaver,
+	    _reverting,
 	    _getTracker = VelocityTracker.getByTarget,
 	    _getGSAP$1 = function _getGSAP() {
 	  return gsap$1 || typeof window !== "undefined" && (gsap$1 = window.gsap) && gsap$1.registerPlugin && gsap$1;
@@ -561,6 +563,10 @@
 	    _getUnit$1 = gsap$1.utils.getUnit;
 	    _getCache$1 = gsap$1.core.getCache;
 	    _clamp = gsap$1.utils.clamp;
+	    _getStyleSaver = gsap$1.core.getStyleSaver;
+
+	    _reverting = gsap$1.core.reverting || function () {};
+
 	    _power3 = _parseEase("power3");
 	    _checkPointRatio = _power3(0.05);
 	    PropTween = gsap$1.core.PropTween;
@@ -580,7 +586,7 @@
 	};
 
 	var InertiaPlugin = {
-	  version: "3.10.4",
+	  version: "3.12.2",
 	  name: "inertia",
 	  register: function register(core) {
 	    gsap$1 = core;
@@ -601,6 +607,7 @@
 	      vars = tracker.getAll();
 	    }
 
+	    this.styles = _getStyleSaver && typeof target.style === "object" && _getStyleSaver(target);
 	    this.target = target;
 	    this.tween = tween;
 	    _processingVars = vars;
@@ -673,6 +680,7 @@
 
 	        this._props.push(p);
 
+	        this.styles && this.styles.save(p);
 	        this._pt = new PropTween(this._pt, target, p, curVal, 0, _emptyFunc, 0, cache.set(target, p, this));
 	        this._pt.u = unit || 0;
 	        this._pt.c1 = change1;
@@ -687,9 +695,13 @@
 	    var pt = data._pt;
 	    ratio = _power3(data.tween._time / data.tween._dur);
 
-	    while (pt) {
-	      pt.set(pt.t, pt.p, _round$1(pt.s + pt.c1 * ratio + pt.c2 * ratio * ratio) + pt.u, pt.d, ratio);
-	      pt = pt._next;
+	    if (ratio || !_reverting()) {
+	      while (pt) {
+	        pt.set(pt.t, pt.p, _round$1(pt.s + pt.c1 * ratio + pt.c2 * ratio * ratio) + pt.u, pt.d, ratio);
+	        pt = pt._next;
+	      }
+	    } else {
+	      data.styles.revert();
 	    }
 	  }
 	};

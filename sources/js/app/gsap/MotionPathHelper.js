@@ -1029,6 +1029,8 @@
 	    _supportsPointer,
 	    _win$1,
 	    _body$1,
+	    gsap,
+	    _context,
 	    _selectionColor = "#4e7fff",
 	    _minimumMovement = 1,
 	    _DEG2RAD$1 = Math.PI / 180,
@@ -1220,10 +1222,14 @@
 	  _copyElement.style.display = "none";
 	},
 	    _coreInitted,
-	    _initCore = function _initCore() {
+	    _initCore = function _initCore(core) {
 	  _doc$1 = document;
 	  _win$1 = window;
 	  _body$1 = _doc$1.body;
+	  gsap = gsap || core || _win$1.gsap || console.warn("Please gsap.registerPlugin(PathEditor)");
+
+	  _context = gsap && gsap.core.context || function () {};
+
 	  _tempDiv = _createElement("div");
 	  _copyElement = _createElement("textarea");
 	  _copyElement.style.display = "none";
@@ -1752,11 +1758,7 @@
 	var PathEditor = function () {
 	  function PathEditor(target, vars) {
 	    vars = vars || {};
-
-	    if (!_coreInitted) {
-	      _initCore();
-	    }
-
+	    _coreInitted || _initCore();
 	    this.vars = vars;
 	    this.path = typeof target === "string" ? _doc$1.querySelectorAll(target)[0] : target;
 	    this._g = _createSVG("g", this.path.ownerSVGElement, {
@@ -1862,6 +1864,8 @@
 	    _addListener(this._selectionHittest, "touchstart", _bind(this._onClickSelectionPath, this));
 
 	    _addListener(this._selectionHittest, "touchend", _bind(this._onRelease, this));
+
+	    _context(this);
 	  }
 
 	  var _proto3 = PathEditor.prototype;
@@ -2050,7 +2054,7 @@
 	  };
 
 	  _proto3.isSelected = function isSelected() {
-	    return this._selectedAnchors.length > 0;
+	    return this._selectedAnchors.length > 0 || this._selection.style.visibility === "visible";
 	  };
 
 	  _proto3.select = function select(allAnchors) {
@@ -2478,8 +2482,8 @@
 
 	    if (!_enabled2) {
 	      this.deselect();
-	      this.path.ownerSVGElement.removeChild(this._selectionHittest);
-	      this.path.ownerSVGElement.removeChild(this._selection);
+	      this._selectionHittest.parentNode && this._selectionHittest.parentNode.removeChild(this._selectionHittest);
+	      this._selection.parentNode && this._selection.parentNode.removeChild(this._selection);
 	    } else if (!this._selection.parentNode) {
 	      this.path.ownerSVGElement.appendChild(this._selectionHittest);
 	      this.path.ownerSVGElement.appendChild(this._selection);
@@ -2641,6 +2645,15 @@
 	    return "M" + _temp.join(",");
 	  };
 
+	  _proto3.kill = function kill() {
+	    this.enabled(false);
+	    this._g.parentNode && this._g.parentNode.removeChild(this._g);
+	  };
+
+	  _proto3.revert = function revert() {
+	    this.kill();
+	  };
+
 	  return PathEditor;
 	}();
 	PathEditor.simplifyPoints = simplifyPoints;
@@ -2765,19 +2778,20 @@
 	  };
 	};
 
-	PathEditor.version = "3.10.4";
+	PathEditor.version = "3.12.2";
+	PathEditor.register = _initCore;
 
 	/*!
-	 * MotionPathHelper 3.10.4
+	 * MotionPathHelper 3.12.2
 	 * https://greensock.com
 	 *
-	 * @license Copyright 2008-2022, GreenSock. All rights reserved.
+	 * @license Copyright 2008-2023, GreenSock. All rights reserved.
 	 * Subject to the terms at https://greensock.com/standard-license or for
 	 * Club GreenSock members, the agreement issued with that membership.
 	 * @author: Jack Doyle, jack@greensock.com
 	*/
 
-	var gsap,
+	var gsap$1,
 	    _win$2,
 	    _doc$2,
 	    _docEl,
@@ -2785,6 +2799,7 @@
 	    MotionPathPlugin,
 	    _arrayToRawPath,
 	    _rawPathToString,
+	    _context$1,
 	    _selectorExp = /(^[#\.][a-z]|[a-y][a-z])/i,
 	    _isString = function _isString(value) {
 	  return typeof value === "string";
@@ -2834,8 +2849,8 @@
 	},
 	    _parsePath = function _parsePath(path, target, vars) {
 	  return _isString(path) && _selectorExp.test(path) ? _doc$2.querySelector(path) : Array.isArray(path) ? _rawPathToString(_arrayToRawPath([{
-	    x: gsap.getProperty(target, "x"),
-	    y: gsap.getProperty(target, "y")
+	    x: gsap$1.getProperty(target, "x"),
+	    y: gsap$1.getProperty(target, "y")
 	  }].concat(path), vars)) : _isString(path) || path && (path.tagName + "").toLowerCase() === "path" ? path : 0;
 	},
 	    _addCopyToClipboard = function _addCopyToClipboard(target, getter, onComplete) {
@@ -2879,7 +2894,7 @@
 	  return (target.transform.baseVal.consolidate() || _identityMatrixObject$1).matrix;
 	},
 	    _findMotionPathTween = function _findMotionPathTween(target) {
-	  var tweens = gsap.getTweensOf(target),
+	  var tweens = gsap$1.getTweensOf(target),
 	      i = 0;
 
 	  for (; i < tweens.length; i++) {
@@ -2893,11 +2908,18 @@
 	    _initCore$1 = function _initCore(core, required) {
 	  var message = "Please gsap.registerPlugin(MotionPathPlugin)";
 	  _win$2 = window;
-	  gsap = gsap || core || _win$2.gsap || console.warn(message);
+	  gsap$1 = gsap$1 || core || _win$2.gsap || console.warn(message);
+	  gsap$1 && PathEditor.register(gsap$1);
 	  _doc$2 = document;
 	  _body$2 = _doc$2.body;
 	  _docEl = _doc$2.documentElement;
-	  MotionPathPlugin = gsap && gsap.plugins.motionPath;
+
+	  if (gsap$1) {
+	    MotionPathPlugin = gsap$1.plugins.motionPath;
+	    MotionPathHelper.PathEditor = PathEditor;
+
+	    _context$1 = gsap$1.core.context || function () {};
+	  }
 
 	  if (!MotionPathPlugin) {
 	    required === true && console.warn(message);
@@ -2911,6 +2933,8 @@
 
 	var MotionPathHelper = function () {
 	  function MotionPathHelper(targetOrTween, vars) {
+	    var _this = this;
+
 	    if (vars === void 0) {
 	      vars = {};
 	    }
@@ -2939,19 +2963,19 @@
 	        refreshPath,
 	        animationToScrub;
 
-	    if (targetOrTween instanceof gsap.core.Tween) {
+	    if (targetOrTween instanceof gsap$1.core.Tween) {
 	      animation = targetOrTween;
 	      target = animation.targets()[0];
 	    } else {
-	      target = gsap.utils.toArray(targetOrTween)[0];
+	      target = gsap$1.utils.toArray(targetOrTween)[0];
 	      animation = _findMotionPathTween(target);
 	    }
 
 	    path = _parsePath(vars.path, target, vars);
 	    this.offset = offset;
 	    position = _getPositionOnPage(target);
-	    startX = parseFloat(gsap.getProperty(target, "x", "px"));
-	    startY = parseFloat(gsap.getProperty(target, "y", "px"));
+	    startX = parseFloat(gsap$1.getProperty(target, "x", "px"));
+	    startY = parseFloat(gsap$1.getProperty(target, "y", "px"));
 	    isSVG = target.getCTM && target.tagName.toLowerCase() !== "svg";
 
 	    if (animation && !path) {
@@ -2963,12 +2987,12 @@
 	    copyButton.innerText = "COPY MOTION PATH";
 	    copyButton._gsHelper = self;
 
-	    (gsap.utils.toArray(vars.container)[0] || _body$2).appendChild(copyButton);
+	    (gsap$1.utils.toArray(vars.container)[0] || _body$2).appendChild(copyButton);
 
 	    _addCopyToClipboard(copyButton, function () {
 	      return self.getString();
 	    }, function () {
-	      return gsap.fromTo(copyButton, {
+	      return gsap$1.fromTo(copyButton, {
 	        backgroundColor: "white"
 	      }, {
 	        duration: 0.5,
@@ -3005,13 +3029,23 @@
 	      path.setAttribute("vector-effect", "non-scaling-stroke");
 	      path.style.cssText = "fill:transparent; stroke-width:" + (vars.pathWidth || 3) + "; stroke:" + (vars.pathColor || "#555") + "; opacity:" + (vars.pathOpacity || 0.6);
 	      svg.appendChild(path);
+	    } else {
+	      vars.pathColor && gsap$1.set(path, {
+	        stroke: vars.pathColor
+	      });
+	      vars.pathWidth && gsap$1.set(path, {
+	        strokeWidth: vars.pathWidth
+	      });
+	      vars.pathOpacity && gsap$1.set(path, {
+	        opacity: vars.pathOpacity
+	      });
+	    }
 
-	      if (offset.x || offset.y) {
-	        gsap.set(path, {
-	          x: offset.x,
-	          y: offset.y
-	        });
-	      }
+	    if (offset.x || offset.y) {
+	      gsap$1.set(path, {
+	        x: offset.x,
+	        y: offset.y
+	      });
 	    }
 
 	    if (!("selected" in vars)) {
@@ -3041,7 +3075,7 @@
 	    this.editor = PathEditor.create(path, vars);
 
 	    if (vars.center) {
-	      gsap.set(target, {
+	      gsap$1.set(target, {
 	        transformOrigin: "50% 50%",
 	        xPercent: -50,
 	        yPercent: -50
@@ -3057,13 +3091,13 @@
 	        };
 	      }
 
-	      if (animationToScrub.parent !== gsap.globalTimeline) {
-	        gsap.globalTimeline.add(animationToScrub, _getGlobalTime(animationToScrub) - animationToScrub.delay());
+	      if (animationToScrub.parent !== gsap$1.globalTimeline) {
+	        gsap$1.globalTimeline.add(animationToScrub, _getGlobalTime(animationToScrub) - animationToScrub.delay());
 	      }
 
 	      animationToScrub.repeat(-1).repeatDelay(1);
 	    } else {
-	      animation = animationToScrub = gsap.to(target, {
+	      animation = animationToScrub = gsap$1.to(target, {
 	        motionPath: {
 	          path: path,
 	          start: vars.start || 0,
@@ -3081,6 +3115,16 @@
 	    }
 
 	    this.animation = animation;
+
+	    _context$1(this);
+
+	    this.kill = this.revert = function () {
+	      _this.editor.kill();
+
+	      copyButton.parentNode && copyButton.parentNode.removeChild(copyButton);
+	      isSVG || svg.parentNode && svg.parentNode.removeChild(svg);
+	      animationToScrub && animationToScrub.revert();
+	    };
 	  }
 
 	  var _proto = MotionPathHelper.prototype;
@@ -3101,7 +3145,7 @@
 	  return PathEditor.create(path, vars);
 	};
 
-	MotionPathHelper.version = "3.10.4";
+	MotionPathHelper.version = "3.12.2";
 
 	exports.MotionPathHelper = MotionPathHelper;
 	exports.default = MotionPathHelper;

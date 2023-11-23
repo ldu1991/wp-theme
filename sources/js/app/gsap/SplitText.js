@@ -25,10 +25,10 @@
 	}
 
 	/*!
-	 * SplitText: 3.10.4
+	 * SplitText: 3.12.2
 	 * https://greensock.com
 	 *
-	 * @license Copyright 2008-2022, GreenSock. All rights reserved.
+	 * @license Copyright 2008-2023, GreenSock. All rights reserved.
 	 * Subject to the terms at https://greensock.com/standard-license or for
 	 * Club GreenSock members, the agreement issued with that membership.
 	 * @author: Jack Doyle, jack@greensock.com
@@ -37,21 +37,26 @@
 	var _doc,
 	    _win,
 	    _coreInitted,
+	    gsap,
+	    _context,
+	    _toArray,
 	    _stripExp = /(?:\r|\n|\t\t)/g,
 	    _multipleSpacesExp = /(?:\s\s+)/g,
-	    _initCore = function _initCore() {
+	    _initCore = function _initCore(core) {
 	  _doc = document;
 	  _win = window;
-	  _coreInitted = 1;
+	  gsap = gsap || core || _win.gsap || console.warn("Please gsap.registerPlugin(SplitText)");
+
+	  if (gsap) {
+	    _toArray = gsap.utils.toArray;
+
+	    _context = gsap.core.context || function () {};
+
+	    _coreInitted = 1;
+	  }
 	},
 	    _getComputedStyle = function _getComputedStyle(element) {
 	  return _win.getComputedStyle(element);
-	},
-	    _isArray = Array.isArray,
-	    _slice = [].slice,
-	    _toArray = function _toArray(value, leaveStrings) {
-	  var type;
-	  return _isArray(value) ? value : (type = typeof value) === "string" && !leaveStrings && value ? _slice.call(_doc.querySelectorAll(value), 0) : value && type === "object" && "length" in value ? _slice.call(value, 0) : value ? [value] : [];
 	},
 	    _isAbsolute = function _isAbsolute(vars) {
 	  return vars.position === "absolute" || vars.absolute === true;
@@ -528,6 +533,9 @@
 	    this.lines = [];
 	    this._originals = [];
 	    this.vars = vars || {};
+
+	    _context(this);
+
 	     this.split(vars);
 	  }
 
@@ -587,7 +595,8 @@
 
 	  return SplitText;
 	}();
-	SplitText.version = "3.10.4";
+	SplitText.version = "3.12.2";
+	SplitText.register = _initCore;
 
 	exports.SplitText = SplitText;
 	exports.default = SplitText;

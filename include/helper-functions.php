@@ -95,6 +95,7 @@ function the_btn($link_arr, array $classes = array(), string $teg = 'a', array $
         $atts['class'] = esc_attr(trim(implode(' ', $class_link), " "));
         $atts['href'] = (!empty($link_arr['url']) && $teg === 'a') ? esc_url($link_arr['url']) : '';
         $atts['target'] = (!empty($link_arr['target']) && $link_arr['target'] === '_blank') ? '_blank' : '';
+        $atts['aria-label'] = !empty($link_arr['title']) ? esc_attr($link_arr['title']) : 'Button';
 
         $attributes = '';
         foreach ($atts as $attr => $value) {
@@ -161,5 +162,35 @@ function has_last_block($block_name): bool
         return in_array($last_block_name, $block_name);
     } else {
         return $last_block_name === $block_name;
+    }
+}
+
+/**
+ * @param $post_id
+ * @param int $excerpt_length
+ * @param string $more
+ * @return string
+ */
+function custom_wp_trim_excerpt($post_id = null, int $excerpt_length = 55, string $more = ''): string
+{
+    if ($post_id === null) {
+        global $post;
+        $post_id = $post->ID;
+    }
+
+    if (has_excerpt($post_id)) {
+        return get_the_excerpt($post_id);
+    } else {
+        $post = get_post($post_id);
+        $text = get_the_content('', false, $post);
+
+        $text = strip_shortcodes($text);
+        $text = excerpt_remove_blocks($text);
+        $text = excerpt_remove_footnotes($text);
+
+        $text = apply_filters('the_content', $text);
+        $text = str_replace(']]>', ']]&gt;', $text);
+
+        return wp_trim_words($text, $excerpt_length, $more);
     }
 }

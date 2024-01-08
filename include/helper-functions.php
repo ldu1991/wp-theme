@@ -96,6 +96,7 @@ function the_btn($link_arr, array $classes = array(), string $teg = 'a', array $
         $atts['href'] = (!empty($link_arr['url']) && $teg === 'a') ? esc_url($link_arr['url']) : '';
         $atts['target'] = (!empty($link_arr['target']) && $link_arr['target'] === '_blank') ? '_blank' : '';
         $atts['aria-label'] = !empty($link_arr['title']) ? esc_attr($link_arr['title']) : 'Button';
+        if($teg === 'span') $atts['role'] = 'button';
 
         $attributes = '';
         foreach ($atts as $attr => $value) {
